@@ -2,12 +2,12 @@ package com.develhope.spring;
 
 public class Acquirente {
 
-    String AcNome;
-    String AcCognome;
-    String AcTelefono;
-    String AcEmail;
-    String Acpassword;
-    String AcIndirizzo;
+    private String AcNome;
+    private String AcCognome;
+   private String AcTelefono;
+    private String AcEmail;
+   private String Acpassword;
+   private String AcIndirizzo;
 
     public Acquirente(String acNome, String acCognome, String acTelefono, String acEmail, String acpassword) {
         AcNome = acNome;
