@@ -14,6 +14,7 @@ import java.time.OffsetDateTime;
 @AllArgsConstructor
 @Getter
 @Setter
+
 public class Vehicle {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
