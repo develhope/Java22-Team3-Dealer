@@ -1,4 +1,4 @@
-package com.develhope.spring.User;
+package com.develhope.spring.Entities.User;
 
 public enum UserTypeEnum {
     ADMIN,
