@@ -1,6 +1,7 @@
 package com.develhope.spring.User.controller;
 
-import com.develhope.spring.User.dto.UsersDTO;
+import com.develhope.spring.User.DTOs.CreateUserRequest;
+import com.develhope.spring.User.DTOs.UsersDTO;
 import com.develhope.spring.User.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -21,8 +22,8 @@ public class UsersController {
             @ApiResponse(responseCode = "200", description = "Created!"),
             @ApiResponse(responseCode = "400", description = "Bad Request!")})
     @PostMapping("/createUser")
-    public ResponseEntity<UsersDTO> createUsers(@RequestBody UsersDTO usersDTO){
-        UsersDTO saveUsers = userService.createUsers(usersDTO);
+    public ResponseEntity<UsersDTO> createUsers(@RequestBody CreateUserRequest request){
+        UsersDTO saveUsers = userService.createUsers(request);
         return new ResponseEntity<>(saveUsers, HttpStatus.CREATED);
     }
     @Operation(summary = "Delete Users by ID")

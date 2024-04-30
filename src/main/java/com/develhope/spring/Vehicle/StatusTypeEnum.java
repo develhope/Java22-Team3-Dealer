@@ -1,4 +1,4 @@
-package com.develhope.spring.Entities.Vehicle;
+package com.develhope.spring.Vehicle;
 
 public enum StatusTypeEnum {
     AVAILABLE,

@@ -2,6 +2,16 @@ package com.develhope.spring.User.entity;
 
 public enum Role {
     ADMIN,
-    SELLER,
-    CUSTOMER
+    CUSTOMER,
+    SALESMAN,
+    NOT_SET;
+
+    public static Role convertStringToRole(String role) {
+        return switch (role.toLowerCase()) {
+            case "admin" -> Role.ADMIN;
+            case "salesman" -> Role.SALESMAN;
+            case "customer" -> Role.CUSTOMER;
+            default -> Role.NOT_SET;
+        };
+    }
 }
