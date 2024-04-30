@@ -1,4 +1,4 @@
-package com.develhope.spring.Entities.User.entity;
+package com.develhope.spring.User.entity;
 
 import jakarta.persistence.*;
 import lombok.*;

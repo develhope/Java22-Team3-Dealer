@@ -1,8 +1,8 @@
-package com.develhope.spring.Entities.User.service;
+package com.develhope.spring.User.service;
 
-import com.develhope.spring.Entities.User.dto.UsersDTO;
-import com.develhope.spring.Entities.User.entity.Users;
-import com.develhope.spring.Entities.User.repository.UsersRepository;
+import com.develhope.spring.User.dto.UsersDTO;
+import com.develhope.spring.User.entity.Users;
+import com.develhope.spring.User.repository.UsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

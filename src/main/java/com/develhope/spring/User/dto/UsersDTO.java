@@ -1,6 +1,6 @@
-package com.develhope.spring.Entities.User.dto;
+package com.develhope.spring.User.dto;
 
-import com.develhope.spring.Entities.User.entity.Role;
+import com.develhope.spring.User.entity.Role;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
