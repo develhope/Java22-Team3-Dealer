@@ -3,8 +3,7 @@ package com.develhope.spring.User.service;
 import com.develhope.spring.User.DTOs.CreateUserRequest;
 import com.develhope.spring.User.DTOs.UserModel;
 import com.develhope.spring.User.DTOs.UsersDTO;
-import com.develhope.spring.User.entity.UserEntity;
-import com.develhope.spring.User.entity.UserEntity;
+import com.develhope.spring.User.entity.Users;
 import com.develhope.spring.User.repository.UsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -18,15 +17,15 @@ public class UserService {
     UsersRepository usersRepository;
     public UsersDTO createUsers(CreateUserRequest request) {
         UserModel model = UserModel.dtoToModel(request);
-        UserEntity entity = UserModel.modelToEntity(model);
-        UserEntity savedEntity = usersRepository.saveAndFlush(entity);
+        Users entity = UserModel.modelToEntity(model);
+        Users savedEntity = usersRepository.saveAndFlush(entity);
         UserModel savedModel = UserModel.entityToModel(savedEntity);
         UsersDTO savedUser = UserModel.modelToDto(savedModel);
         return savedUser;
     }
 
     public void deleteUsersByID(Long userId) {
-        UserEntity user = usersRepository.findById(userId).orElse(null);
+        Users user = usersRepository.findById(userId).orElse(null);
         if (user == null) {
             throw new IllegalArgumentException("Buyer not found by ID : " + userId);
         } else {
@@ -35,7 +34,7 @@ public class UserService {
     }
 
     public UsersDTO findById(Long userId) {
-        UserEntity user = usersRepository.findById(userId).orElse(null);
+        Users user = usersRepository.findById(userId).orElse(null);
         if (user == null) {
             throw new IllegalArgumentException("Buyer not found by ID : " + userId);
         }
@@ -43,11 +42,11 @@ public class UserService {
     }
 
     public UsersDTO updateUser(Long userId, UsersDTO usersDTO) {
-        UserEntity usersUpdate = usersRepository.findById(userId).orElse(null);
+        Users usersUpdate = usersRepository.findById(userId).orElse(null);
         if (usersUpdate == null) {
             throw new IllegalArgumentException("Unable to update buyer with this ID : " + userId);
         }
-        UserEntity saveUsersDTO = convertToEntity(usersDTO);
+        Users saveUsersDTO = convertToEntity(usersDTO);
         usersUpdate.setFirstName(saveUsersDTO.getFirstName());
         usersUpdate.setLastName(saveUsersDTO.getLastName());
         usersUpdate.setEmail(saveUsersDTO.getEmail());
