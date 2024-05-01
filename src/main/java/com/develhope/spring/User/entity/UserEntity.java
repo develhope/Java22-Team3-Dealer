@@ -16,7 +16,7 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @RequiredArgsConstructor
-public class Users implements UserDetails {
+public class UserEntity implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;
@@ -46,7 +46,6 @@ public class Users implements UserDetails {
 
     @Override
     public String getUsername() {
-        // email in our case
         return email;
     }
 

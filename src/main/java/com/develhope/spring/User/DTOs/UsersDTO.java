@@ -1,4 +1,4 @@
-package com.develhope.spring.User.dto;
+package com.develhope.spring.User.DTOs;
 
 import com.develhope.spring.User.entity.Role;
 import lombok.AllArgsConstructor;
@@ -11,6 +11,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UsersDTO {
+    private Long id;
     private String firstName;
     private String lastName;
     private Integer telephoneNumber;

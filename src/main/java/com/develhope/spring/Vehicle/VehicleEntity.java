@@ -1,4 +1,4 @@
-package com.develhope.spring.Entities.Vehicle;
+package com.develhope.spring.Vehicle;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -15,7 +15,7 @@ import java.time.OffsetDateTime;
 @Getter
 @Setter
 
-public class Vehicle {
+public class VehicleEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
