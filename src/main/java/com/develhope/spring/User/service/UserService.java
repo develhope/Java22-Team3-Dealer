@@ -15,18 +15,15 @@ import org.springframework.stereotype.Service;
 public class UserService {
     @Autowired
     UsersRepository usersRepository;
-    public UsersDTO createUsers(CreateUserRequest request) {
-        UserModel model = UserModel.dtoToModel(request);
-        Users entity = UserModel.modelToEntity(model);
-        Users savedEntity = usersRepository.saveAndFlush(entity);
-        UserModel savedModel = UserModel.entityToModel(savedEntity);
-        UsersDTO savedUser = UserModel.modelToDto(savedModel);
-        return savedUser;
+    public UsersDTO createUsers(UsersDTO usersDTO) {
+        Users saveDTO = convertToEntity(usersDTO);
+        usersRepository.save(saveDTO);
+        return usersDTO;
     }
 
     public void deleteUsersByID(Long userId) {
-        Users user = usersRepository.findById(userId).orElse(null);
-        if (user == null) {
+        Users users = usersRepository.findById(userId).orElse(null);
+        if (users == null) {
             throw new IllegalArgumentException("Buyer not found by ID : " + userId);
         } else {
             usersRepository.deleteById(userId);
@@ -34,11 +31,11 @@ public class UserService {
     }
 
     public UsersDTO findById(Long userId) {
-        Users user = usersRepository.findById(userId).orElse(null);
-        if (user == null) {
+        Users users = usersRepository.findById(userId).orElse(null);
+        if (users == null) {
             throw new IllegalArgumentException("Buyer not found by ID : " + userId);
         }
-        return convertToDTO(user);
+        return convertToDTO(users);
     }
 
     public UsersDTO updateUser(Long userId, UsersDTO usersDTO) {
@@ -56,6 +53,27 @@ public class UserService {
         return usersDTO;
     }
 
+    private Users convertToEntity(UsersDTO usersDTO) {
+        Users users = new Users();
+        users.setFirstName(usersDTO.getFirstName());
+        users.setLastName(usersDTO.getLastName());
+        users.setEmail(usersDTO.getEmail());
+        users.setPassword(usersDTO.getPassword());
+        users.setTelephoneNumber(usersDTO.getTelephoneNumber());
+        users.setRole(usersDTO.getRole());
+        return users;
+    }
+
+    private UsersDTO convertToDTO(Users users) {
+        UsersDTO usersDTO = new UsersDTO();
+        usersDTO.setFirstName(users.getFirstName());
+        usersDTO.setLastName(users.getLastName());
+        usersDTO.setEmail(users.getEmail());
+        usersDTO.setPassword(users.getEmail());
+        usersDTO.setTelephoneNumber(users.getTelephoneNumber());
+        usersDTO.setRole(users.getRole());
+        return usersDTO;
+    }
 
     public UserDetailsService userDetailsService() {
         return new UserDetailsService() {
