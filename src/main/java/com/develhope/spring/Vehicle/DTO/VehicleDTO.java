@@ -14,6 +14,7 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @NoArgsConstructor
 public class VehicleDTO {
+    private Long id;
     private String brand;
     private String model;
     private int displacement;

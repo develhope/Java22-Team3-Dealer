@@ -1,6 +1,6 @@
 package com.develhope.spring.Vehicle.controller;
 
-import com.develhope.spring.User.entity.Users;
+import com.develhope.spring.User.entity.UserEntity;
 import com.develhope.spring.Vehicle.DTO.VehicleDTO;
 import com.develhope.spring.Vehicle.DTO.VehicleStatusDTO;
 import com.develhope.spring.Vehicle.entity.VehicleStatus;
@@ -30,7 +30,7 @@ public class VehicleController {
     @ApiResponses(value = {@ApiResponse(responseCode = "201", description = "created"),
             @ApiResponse(responseCode = "403", description = "Forbidden")})
     @PostMapping("/add")
-    public ResponseEntity<?> createVehicle(@AuthenticationPrincipal Users user, @RequestBody VehicleDTO vehicleDTO) {
+    public ResponseEntity<?> createVehicle(@AuthenticationPrincipal UserEntity user, @RequestBody VehicleDTO vehicleDTO) {
         try {
             vehicleService.createVehicle(user, vehicleDTO);
             return new ResponseEntity<>(vehicleDTO, HttpStatus.CREATED);
@@ -43,7 +43,7 @@ public class VehicleController {
 
     @Operation(summary = "Get a vehicle by Id")
     @GetMapping("/{id}")
-    public ResponseEntity<?> getVehicleById(@PathVariable Long id, @AuthenticationPrincipal Users user) {
+    public ResponseEntity<?> getVehicleById(@PathVariable Long id, @AuthenticationPrincipal UserEntity user) {
         try {
             VehicleDTO vehicleDTO = vehicleService.getVehicleById(id, user);
             return new ResponseEntity<>(vehicleDTO, HttpStatus.OK);
@@ -72,7 +72,7 @@ public class VehicleController {
 
     @Operation(summary = "Get vehicles by price")
     @GetMapping("/byPrice")
-    public ResponseEntity<?> getVehicleByPrice(@AuthenticationPrincipal Users user, @RequestParam(defaultValue = "0") BigDecimal minPrice, @RequestParam(defaultValue = "1000000000000") BigDecimal maxPrice) {
+    public ResponseEntity<?> getVehicleByPrice(@AuthenticationPrincipal UserEntity user, @RequestParam(defaultValue = "0") BigDecimal minPrice, @RequestParam(defaultValue = "1000000000000") BigDecimal maxPrice) {
         try {
             List<VehicleDTO> vehicleDTOList = vehicleService.getVehicleByPrice(user, minPrice, maxPrice);
             return new ResponseEntity<>(vehicleDTOList, HttpStatus.OK);
@@ -86,7 +86,7 @@ public class VehicleController {
 
     @Operation(summary = "Get vehicles by color")
     @GetMapping("/byColor")
-    public ResponseEntity<?> getVehicleByColor(@AuthenticationPrincipal Users user, @RequestParam String color) {
+    public ResponseEntity<?> getVehicleByColor(@AuthenticationPrincipal UserEntity user, @RequestParam String color) {
         try {
             List<VehicleDTO> vehicleDTOList = vehicleService.getVehicleByColor(user, color);
             return new ResponseEntity<>(vehicleDTOList, HttpStatus.OK);
@@ -100,7 +100,7 @@ public class VehicleController {
 
     @Operation(summary = "Get vehicles by brand")
     @GetMapping("/byBrand")
-    public ResponseEntity<?> getVehicleByBrand(@AuthenticationPrincipal Users user, @RequestParam String brand) {
+    public ResponseEntity<?> getVehicleByBrand(@AuthenticationPrincipal UserEntity user, @RequestParam String brand) {
         try {
             List<VehicleDTO> vehicleDTOList = vehicleService.getVehicleByBrand(user, brand);
             return new ResponseEntity<>(vehicleDTOList, HttpStatus.OK);
@@ -113,7 +113,7 @@ public class VehicleController {
 
     @Operation(summary = "Get vehicles by model")
     @GetMapping("/byModel")
-    public ResponseEntity<?> getVehicleByModel(@AuthenticationPrincipal Users user, @RequestParam String model) {
+    public ResponseEntity<?> getVehicleByModel(@AuthenticationPrincipal UserEntity user, @RequestParam String model) {
         try {
             List<VehicleDTO> vehicleDTOList = vehicleService.getVehicleByModel(user, model);
             return new ResponseEntity<>(vehicleDTOList, HttpStatus.OK);
@@ -126,7 +126,7 @@ public class VehicleController {
 
     @Operation(summary = "Get vehicles by type")
     @GetMapping("/byType")
-    public ResponseEntity<?> getVehicleByType(@AuthenticationPrincipal Users user, @RequestParam VehicleType vehicleType) {
+    public ResponseEntity<?> getVehicleByType(@AuthenticationPrincipal UserEntity user, @RequestParam VehicleType vehicleType) {
         try {
             List<VehicleDTO> vehicleDTOList = vehicleService.getVehicleByType(user, vehicleType);
             return new ResponseEntity<>(vehicleDTOList, HttpStatus.OK);
@@ -139,7 +139,7 @@ public class VehicleController {
 
     @Operation(summary = "Get vehicles by status")
     @GetMapping("/byStatus")
-    public ResponseEntity<?> getVehicleByStatus(@AuthenticationPrincipal Users user, @RequestParam VehicleStatus vehicleStatus) {
+    public ResponseEntity<?> getVehicleByStatus(@AuthenticationPrincipal UserEntity user, @RequestParam VehicleStatus vehicleStatus) {
         try {
             List<VehicleDTO> vehicleDTOList = vehicleService.getVehicleByStatus(user, vehicleStatus);
             return new ResponseEntity<>(vehicleDTOList, HttpStatus.OK);
@@ -152,7 +152,7 @@ public class VehicleController {
 
     @Operation(summary = "Get vehicles new")
     @GetMapping("/isNew")
-    public ResponseEntity<?> getVehicleNew(@AuthenticationPrincipal Users user, @RequestParam Boolean isNew) {
+    public ResponseEntity<?> getVehicleNew(@AuthenticationPrincipal UserEntity user, @RequestParam Boolean isNew) {
         try {
             List<VehicleDTO> vehicleDTOList = vehicleService.getVehicleNew(user, isNew);
             return new ResponseEntity<>(vehicleDTOList, HttpStatus.OK);
@@ -165,7 +165,7 @@ public class VehicleController {
 
     @Operation(summary = "update a vehicle")
     @PutMapping("/update/{id}")
-    public ResponseEntity<?> updateVehicle(@PathVariable Long id, @AuthenticationPrincipal Users user, @RequestBody VehicleDTO updateVehicleDTO) {
+    public ResponseEntity<?> updateVehicle(@PathVariable Long id, @AuthenticationPrincipal UserEntity user, @RequestBody VehicleDTO updateVehicleDTO) {
         try {
             vehicleService.updateVehicle(id, user, updateVehicleDTO);
             return new ResponseEntity<>(updateVehicleDTO, HttpStatus.OK);
@@ -178,7 +178,7 @@ public class VehicleController {
 
     @Operation(summary = "Change a vehicle status")
     @PutMapping("/status/{id}")
-    public ResponseEntity<?> changeStatus(@PathVariable Long id, @AuthenticationPrincipal Users user, @RequestBody VehicleStatusDTO vehicleStatusDTO) {
+    public ResponseEntity<?> changeStatus(@PathVariable Long id, @AuthenticationPrincipal UserEntity user, @RequestBody VehicleStatusDTO vehicleStatusDTO) {
         try {
             VehicleDTO vehicleDTO = vehicleService.chanceStatus(id, user, vehicleStatusDTO);
             return new ResponseEntity<>(vehicleDTO, HttpStatus.OK);
@@ -193,7 +193,7 @@ public class VehicleController {
 
     @Operation(summary = "Delete a vehicle by Id")
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<?> deleteVehicle(@PathVariable Long id, @AuthenticationPrincipal Users user) {
+    public ResponseEntity<?> deleteVehicle(@PathVariable Long id, @AuthenticationPrincipal UserEntity user) {
         try {
             vehicleService.deleteVehicle(id, user);
             return new ResponseEntity<>(HttpStatus.OK);
