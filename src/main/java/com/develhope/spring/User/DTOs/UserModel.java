@@ -1,10 +1,8 @@
 package com.develhope.spring.User.DTOs;
 
 import com.develhope.spring.User.entity.Role;
-import com.develhope.spring.User.entity.UserEntity;
+import com.develhope.spring.User.entity.Users;
 import lombok.Data;
-
-import java.time.OffsetDateTime;
 
 @Data
 
@@ -43,10 +41,10 @@ public class UserModel {
     public static UserModel dtoToModel(CreateUserRequest request){
         return new UserModel(request.getFirstName(), request.getLastName(), request.getTelephoneNumber(), request.getEmail(), request.getPassword(), request.getRole());
     }
-    public static UserEntity modelToEntity(UserModel userModel){
-        return new UserEntity(userModel.getId(), userModel.getFirstName(), userModel.getLastName(), userModel.getTelephoneNumber(), userModel.getEmail(), userModel.getPassword(), userModel.getRole());
+    public static Users modelToEntity(UserModel userModel){
+        return new Users(userModel.getId(), userModel.getFirstName(), userModel.getLastName(), userModel.getTelephoneNumber(), userModel.getEmail(), userModel.getPassword(), userModel.getRole());
     }
-    public static UserModel entityToModel(UserEntity userEntity){
+    public static UserModel entityToModel(Users userEntity){
         return new UserModel(userEntity.getUserId(), userEntity.getFirstName(), userEntity.getLastName(), userEntity.getTelephoneNumber(), userEntity.getEmail(), userEntity.getPassword(), userEntity.getRole());
     }
 }
