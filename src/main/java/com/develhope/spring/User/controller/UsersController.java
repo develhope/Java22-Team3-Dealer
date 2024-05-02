@@ -17,7 +17,7 @@ public class UsersController {
     @Autowired
     UserService userService;
 
-    @Operation(summary = "Create Users")
+    @Operation(summary = "Create UserEntity")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Created!"),
             @ApiResponse(responseCode = "400", description = "Bad Request!")})
@@ -26,7 +26,7 @@ public class UsersController {
         UsersDTO saveUsers = userService.createUsers(request);
         return new ResponseEntity<>(saveUsers, HttpStatus.CREATED);
     }
-    @Operation(summary = "Delete Users by ID")
+    @Operation(summary = "Delete UserEntity by ID")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Delete!"),
             @ApiResponse(responseCode = "400", description = "Bad Request!")})
@@ -35,7 +35,7 @@ public class UsersController {
         userService.deleteUsersByID(userId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
-    @Operation(summary = "Update Users by ID")
+    @Operation(summary = "Update UserEntity by ID")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Update!"),
             @ApiResponse(responseCode = "400", description = "Bad Request!")})
@@ -43,7 +43,7 @@ public class UsersController {
     public UsersDTO updateUser(@PathVariable Long userId, @RequestBody UsersDTO usersDTO){
         return userService.updateUser(userId, usersDTO);
     }
-    @Operation(summary = "Find Users by ID")
+    @Operation(summary = "Find UserEntity by ID")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Delete!"),
             @ApiResponse(responseCode = "400", description = "Bad Request!")})

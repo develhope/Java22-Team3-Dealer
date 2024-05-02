@@ -2,10 +2,10 @@ package com.develhope.spring.Vehicle.service;
 
 
 import com.develhope.spring.User.entity.Role;
-import com.develhope.spring.User.entity.Users;
+import com.develhope.spring.User.entity.UserEntity;
 import com.develhope.spring.Vehicle.DTO.VehicleDTO;
 import com.develhope.spring.Vehicle.DTO.VehicleStatusDTO;
-import com.develhope.spring.Vehicle.entity.Vehicle;
+import com.develhope.spring.Vehicle.entity.VehicleEntity;
 import com.develhope.spring.Vehicle.entity.VehicleStatus;
 import com.develhope.spring.Vehicle.entity.VehicleType;
 import com.develhope.spring.Vehicle.repository.VehicleRepository;
@@ -22,254 +22,254 @@ public class VehicleService {
     @Autowired
     VehicleRepository vehicleRepository;
 
-    public void createVehicle(Users user, VehicleDTO vehicleDTO) {
+    public void createVehicle(UserEntity user, VehicleDTO vehicleDTO) {
         if (user.getRole() == Role.ADMIN) {
-            Vehicle vehicle = convertToEntity(vehicleDTO);
-            vehicleRepository.save(vehicle);
+            VehicleEntity vehicleEntity = convertToEntity(vehicleDTO);
+            vehicleRepository.save(vehicleEntity);
         } else {
-            throw new CustomExceptions.AccessDeniedException("Only admin can");
+            throw new CustomExceptions.AccessDeniedException("This action can be performed only by admins.");
         }
     }
 
-    public VehicleDTO getVehicleById(Long vehicleId, Users user) {
+    public VehicleDTO getVehicleById(Long vehicleId, UserEntity user) {
         if (user.getRole() == Role.CUSTOMER || user.getRole() == Role.SALESMAN) {
-            Vehicle vehicle = vehicleRepository.findById(vehicleId).orElse(null);
-            if (vehicle == null) {
-                throw new CustomExceptions.InvalidIdException("Vehicle with this id not found: " + vehicleId);
+            VehicleEntity vehicleEntity = vehicleRepository.findById(vehicleId).orElse(null);
+            if (vehicleEntity == null) {
+                throw new CustomExceptions.InvalidIdException("No vehicles found for the id: " + vehicleId);
             }
-            return convertToDTO(vehicle);
+            return convertToDTO(vehicleEntity);
         } else {
-            throw new CustomExceptions.AccessDeniedException("You don't have access");
+            throw new CustomExceptions.AccessDeniedException("Access denied!!");
         }
 
     }
 
     public List<VehicleDTO> getAllVehicle() {
-        List<Vehicle> vehicleList = vehicleRepository.findAll();
+        List<VehicleEntity> vehicleEntityList = vehicleRepository.findAll();
         List<VehicleDTO> vehicleDTOList = new ArrayList<>();
-        if (vehicleList.isEmpty()) {
+        if (vehicleEntityList.isEmpty()) {
             throw new IllegalArgumentException("No vehicle found");
         } else {
-            for (Vehicle vehicle : vehicleList) {
-                vehicleDTOList.add(convertToDTO(vehicle));
+            for (VehicleEntity vehicleEntity : vehicleEntityList) {
+                vehicleDTOList.add(convertToDTO(vehicleEntity));
             }
         }
         return vehicleDTOList;
     }
 
-    public List<VehicleDTO> getVehicleByPrice(Users user, BigDecimal minPrice, BigDecimal maxPrice) {//dare valori default in controller
+    public List<VehicleDTO> getVehicleByPrice(UserEntity user, BigDecimal minPrice, BigDecimal maxPrice) {//dare valori default in controller
         if (user.getRole() == Role.CUSTOMER) {
             if (minPrice.compareTo(maxPrice) > 0) {
-                throw new IllegalArgumentException("the lower price cannot be greater than the higher price");
+                throw new IllegalArgumentException("The lower price cannot be greater than the higher price");
             }
-            List<Vehicle> vehicleList = vehicleRepository.getAllVehicleByPrice(minPrice, maxPrice);
+            List<VehicleEntity> vehicleEntityList = vehicleRepository.getAllVehicleByPrice(minPrice, maxPrice);
             List<VehicleDTO> vehicleDTOList = new ArrayList<>();
-            for (Vehicle vehicle : vehicleList) {
-                vehicleDTOList.add(convertToDTO(vehicle));
+            for (VehicleEntity vehicleEntity : vehicleEntityList) {
+                vehicleDTOList.add(convertToDTO(vehicleEntity));
             }
             return vehicleDTOList;
         } else {
-            throw new CustomExceptions.AccessDeniedException("You don't have access");
+            throw new CustomExceptions.AccessDeniedException("Access denied!!");
         }
     }
 
-    public List<VehicleDTO> getVehicleByColor(Users user, String color) {
+    public List<VehicleDTO> getVehicleByColor(UserEntity user, String color) {
         if (user.getRole() == Role.CUSTOMER) {
-            List<Vehicle> vehicleList = vehicleRepository.getAllVehicleByColor(color);
-            if (vehicleList.isEmpty()) {
-                throw new IllegalArgumentException("No vehicle found with color: " + color);
+            List<VehicleEntity> vehicleEntityList = vehicleRepository.getAllVehicleByColor(color);
+            if (vehicleEntityList.isEmpty()) {
+                throw new IllegalArgumentException("There are no vehicles in: " + color + " here...");
             }
             List<VehicleDTO> vehicleDTOList = new ArrayList<>();
-            for (Vehicle vehicle : vehicleList) {
-                vehicleDTOList.add(convertToDTO(vehicle));
+            for (VehicleEntity vehicleEntity : vehicleEntityList) {
+                vehicleDTOList.add(convertToDTO(vehicleEntity));
             }
             return vehicleDTOList;
         } else {
-            throw new CustomExceptions.AccessDeniedException("You don't have access");
+            throw new CustomExceptions.AccessDeniedException("Access denied!!");
         }
     }
 
-    public List<VehicleDTO> getVehicleByBrand(Users user, String brand) {
+    public List<VehicleDTO> getVehicleByBrand(UserEntity user, String brand) {
         if (user.getRole() == Role.CUSTOMER) {
-            List<Vehicle> vehicleList = vehicleRepository.getAllVehicleByBrand(brand);
-            if (vehicleList.isEmpty()) {
-                throw new IllegalArgumentException("No vehicle found with brand: " + brand);
+            List<VehicleEntity> vehicleEntityList = vehicleRepository.getAllVehicleByBrand(brand);
+            if (vehicleEntityList.isEmpty()) {
+                throw new IllegalArgumentException("There are no " + brand + " vehicles here...");
             }
             List<VehicleDTO> vehicleDTOList = new ArrayList<>();
-            for (Vehicle vehicle : vehicleList) {
-                vehicleDTOList.add(convertToDTO(vehicle));
+            for (VehicleEntity vehicleEntity : vehicleEntityList) {
+                vehicleDTOList.add(convertToDTO(vehicleEntity));
             }
             return vehicleDTOList;
         } else {
-            throw new CustomExceptions.AccessDeniedException("You don't have access");
+            throw new CustomExceptions.AccessDeniedException("Access denied!!");
         }
     }
 
-    public List<VehicleDTO> getVehicleByModel(Users user, String model) {
+    public List<VehicleDTO> getVehicleByModel(UserEntity user, String model) {
         if (user.getRole() == Role.CUSTOMER) {
-            List<Vehicle> vehicleList = vehicleRepository.getAllVehicleByModel(model);
-            if (vehicleList.isEmpty()) {
-                throw new IllegalArgumentException("No vehicle found with model: " + model);
+            List<VehicleEntity> vehicleEntityList = vehicleRepository.getAllVehicleByModel(model);
+            if (vehicleEntityList.isEmpty()) {
+                throw new IllegalArgumentException("There are no " + model + " here....");
             }
             List<VehicleDTO> vehicleDTOList = new ArrayList<>();
-            for (Vehicle vehicle : vehicleList) {
-                vehicleDTOList.add(convertToDTO(vehicle));
+            for (VehicleEntity vehicleEntity : vehicleEntityList) {
+                vehicleDTOList.add(convertToDTO(vehicleEntity));
             }
             return vehicleDTOList;
         } else {
-            throw new CustomExceptions.AccessDeniedException("You don't have access");
+            throw new CustomExceptions.AccessDeniedException("Access denied!!");
         }
     }
 
-    public List<VehicleDTO> getVehicleByType(Users user, VehicleType vehicleType) {
+    public List<VehicleDTO> getVehicleByType(UserEntity user, VehicleType vehicleType) {
         if (user.getRole() == Role.CUSTOMER) {
             List<VehicleDTO> vehicleDTOList = new ArrayList<>();
             if (vehicleType == VehicleType.CAR
                     || vehicleType == VehicleType.MOTORBIKE
                     || vehicleType == VehicleType.SCOOTER
                     || vehicleType == VehicleType.VAN) {
-                List<Vehicle> vehicleList = vehicleRepository.getAllVehicleByType(vehicleType.toString());
-                for (Vehicle vehicle : vehicleList) {
-                    vehicleDTOList.add(convertToDTO(vehicle));
+                List<VehicleEntity> vehicleEntityList = vehicleRepository.getAllVehicleByType(vehicleType.toString());
+                for (VehicleEntity vehicleEntity : vehicleEntityList) {
+                    vehicleDTOList.add(convertToDTO(vehicleEntity));
                 }
             } else {
-                throw new CustomExceptions.InvalidTypeException("Type not valid: " + vehicleType);
+                throw new CustomExceptions.InvalidTypeException("UInvalid type: " + vehicleType);
             }
             return vehicleDTOList;
         } else {
-            throw new CustomExceptions.AccessDeniedException("You don't have access");
+            throw new CustomExceptions.AccessDeniedException("Access denied!!");
         }
     }
 
-    public List<VehicleDTO> getVehicleByStatus(Users user, VehicleStatus vehicleStatus) {
+    public List<VehicleDTO> getVehicleByStatus(UserEntity user, VehicleStatus vehicleStatus) {
         if (user.getRole() == Role.CUSTOMER) {
 
             if (vehicleStatus == VehicleStatus.ORDERABLE
                     || vehicleStatus == VehicleStatus.PURCHASABLE
                     || vehicleStatus == VehicleStatus.NOT_AVAILABLE) {
                 List<VehicleDTO> vehicleDTOList = new ArrayList<>();
-                List<Vehicle> vehicleList = vehicleRepository.getAllVehicleStatus(vehicleStatus.toString());
-                for (Vehicle vehicle : vehicleList) {
-                    vehicleDTOList.add(convertToDTO(vehicle));
+                List<VehicleEntity> vehicleEntityList = vehicleRepository.getAllVehicleStatus(vehicleStatus.toString());
+                for (VehicleEntity vehicleEntity : vehicleEntityList) {
+                    vehicleDTOList.add(convertToDTO(vehicleEntity));
                 }
                 return vehicleDTOList;
             } else {
-                throw new CustomExceptions.InvalidStatusException("Type not valid: " + vehicleStatus);
+                throw new CustomExceptions.InvalidStatusException("Invalid type: " + vehicleStatus);
             }
 
         } else {
-            throw new CustomExceptions.AccessDeniedException("You don't have access");
+            throw new CustomExceptions.AccessDeniedException("Access denied!!");
         }
     }
 
-    public List<VehicleDTO> getVehicleNew(Users user, Boolean isNew) {
+    public List<VehicleDTO> getVehicleNew(UserEntity user, Boolean isNew) {
         if (user.getRole() == Role.CUSTOMER) {
             List<VehicleDTO> vehicleDTOList = new ArrayList<>();
-            List<Vehicle> vehicleList = vehicleRepository.getAllVehicleNew(isNew);
-            for (Vehicle vehicle : vehicleList) {
-                vehicleDTOList.add(convertToDTO(vehicle));
+            List<VehicleEntity> vehicleEntityList = vehicleRepository.getAllVehicleNew(isNew);
+            for (VehicleEntity vehicleEntity : vehicleEntityList) {
+                vehicleDTOList.add(convertToDTO(vehicleEntity));
             }
             return vehicleDTOList;
         } else {
-            throw new CustomExceptions.AccessDeniedException("You don't have access");
+            throw new CustomExceptions.AccessDeniedException("Access denied!!");
         }
     }
 
-    public void updateVehicle(Long vehicleId, Users user, VehicleDTO updateVehicleDTO) {
+    public void updateVehicle(Long vehicleId, UserEntity user, VehicleDTO updateVehicleDTO) {
         if (user.getRole() == Role.ADMIN) {
-            Vehicle vehicle = vehicleRepository.findById(vehicleId).orElse(null);
-            if (vehicle == null) {
-                throw new CustomExceptions.InvalidIdException("Vehicle with this id not found: " + vehicleId);
+            VehicleEntity vehicleEntity = vehicleRepository.findById(vehicleId).orElse(null);
+            if (vehicleEntity == null) {
+                throw new CustomExceptions.InvalidIdException("No vehicles found for the id: " + vehicleId);
             }
-            Vehicle updateVehicle = convertToEntity(updateVehicleDTO);
-            vehicle.setBrand(updateVehicle.getBrand());
-            vehicle.setModel(updateVehicle.getModel());
-            vehicle.setDisplacement(updateVehicle.getDisplacement());
-            vehicle.setColor(updateVehicle.getColor());
-            vehicle.setPower(updateVehicle.getPower());
-            vehicle.setTransmission(updateVehicle.getTransmission());
-            vehicle.setRegistrationYear(updateVehicle.getRegistrationYear());
-            vehicle.setFullType(updateVehicle.getFullType());
-            vehicle.setPrice(updateVehicle.getPrice());
-            vehicle.setDiscount(updateVehicle.getDiscount());
-            vehicle.setAccessories(updateVehicle.getAccessories());
-            vehicle.setIsNew(updateVehicle.getIsNew());
-            vehicle.setVehicleStatus(updateVehicle.getVehicleStatus());
-            vehicle.setVehicleType(updateVehicle.getVehicleType());
-            vehicleRepository.save(vehicle);
+            VehicleEntity updateVehicleEntity = convertToEntity(updateVehicleDTO);
+            vehicleEntity.setBrand(updateVehicleEntity.getBrand());
+            vehicleEntity.setModel(updateVehicleEntity.getModel());
+            vehicleEntity.setDisplacement(updateVehicleEntity.getDisplacement());
+            vehicleEntity.setColor(updateVehicleEntity.getColor());
+            vehicleEntity.setPower(updateVehicleEntity.getPower());
+            vehicleEntity.setTransmission(updateVehicleEntity.getTransmission());
+            vehicleEntity.setRegistrationYear(updateVehicleEntity.getRegistrationYear());
+            vehicleEntity.setFullType(updateVehicleEntity.getFullType());
+            vehicleEntity.setPrice(updateVehicleEntity.getPrice());
+            vehicleEntity.setDiscount(updateVehicleEntity.getDiscount());
+            vehicleEntity.setAccessories(updateVehicleEntity.getAccessories());
+            vehicleEntity.setIsNew(updateVehicleEntity.getIsNew());
+            vehicleEntity.setVehicleStatus(updateVehicleEntity.getVehicleStatus());
+            vehicleEntity.setVehicleType(updateVehicleEntity.getVehicleType());
+            vehicleRepository.save(vehicleEntity);
         } else {
-            throw new CustomExceptions.AccessDeniedException("Only admin can");
+            throw new CustomExceptions.AccessDeniedException("This action can be performed only by admins.");
         }
     }
 
-    public VehicleDTO chanceStatus(Long vehicleId, Users user, VehicleStatusDTO vehicleStatusDTO) {
+    public VehicleDTO chanceStatus(Long vehicleId, UserEntity user, VehicleStatusDTO vehicleStatusDTO) {
         if (user.getRole() == Role.ADMIN) {
-            Vehicle vehicle = vehicleRepository.findById(vehicleId).orElse(null);
-            if (vehicle == null) {
-                throw new CustomExceptions.InvalidIdException("Vehicle with this id not found: " + vehicleId);
+            VehicleEntity vehicleEntity = vehicleRepository.findById(vehicleId).orElse(null);
+            if (vehicleEntity == null) {
+                throw new CustomExceptions.InvalidIdException("No vehicles found for the id: " + vehicleId);
             }
             if (vehicleStatusDTO.getVehicleStatus() == VehicleStatus.ORDERABLE
                     || vehicleStatusDTO.getVehicleStatus() == VehicleStatus.PURCHASABLE
                     || vehicleStatusDTO.getVehicleStatus() == VehicleStatus.NOT_AVAILABLE) {
-                vehicle.setVehicleStatus(vehicleStatusDTO.getVehicleStatus());
-                vehicleRepository.save(vehicle);
-                return convertToDTO(vehicle);
+                vehicleEntity.setVehicleStatus(vehicleStatusDTO.getVehicleStatus());
+                vehicleRepository.save(vehicleEntity);
+                return convertToDTO(vehicleEntity);
             } else {
-                throw new CustomExceptions.InvalidStatusException("Status not valid: " + vehicleStatusDTO.getVehicleStatus());
+                throw new CustomExceptions.InvalidStatusException("Invalid status: " + vehicleStatusDTO.getVehicleStatus());
             }
         } else {
-            throw new CustomExceptions.AccessDeniedException("Only admin can");
+            throw new CustomExceptions.AccessDeniedException("This action can be performed only by admins.");
         }
     }
 
-    public void deleteVehicle(Long vehicleId, Users user) {
+    public void deleteVehicle(Long vehicleId, UserEntity user) {
         if (user.getRole() == Role.ADMIN) {
-            Vehicle vehicle = vehicleRepository.findById(vehicleId).orElse(null);
-            if (vehicle == null) {
-                throw new CustomExceptions.InvalidIdException("Vehicle with this id not found: " + vehicleId);
+            VehicleEntity vehicleEntity = vehicleRepository.findById(vehicleId).orElse(null);
+            if (vehicleEntity == null) {
+                throw new CustomExceptions.InvalidIdException("No vehicles found for the id: " + vehicleId);
             } else {
                 vehicleRepository.deleteById(vehicleId);
             }
         } else {
-            throw new CustomExceptions.AccessDeniedException("Only admin can");
+            throw new CustomExceptions.AccessDeniedException("This action can be performed only by admins.");
         }
     }
 
-    private Vehicle convertToEntity(VehicleDTO vehicleDTO) {
-        Vehicle vehicle = new Vehicle();
-        vehicle.setBrand(vehicleDTO.getBrand());
-        vehicle.setModel(vehicleDTO.getModel());
-        vehicle.setDisplacement(vehicleDTO.getDisplacement());
-        vehicle.setColor(vehicleDTO.getColor());
-        vehicle.setPower(vehicleDTO.getPower());
-        vehicle.setTransmission(vehicleDTO.getTransmission());
-        vehicle.setRegistrationYear(vehicleDTO.getRegistrationYear());
-        vehicle.setFullType(vehicleDTO.getFullType());
-        vehicle.setPrice(vehicleDTO.getPrice());
-        vehicle.setDiscount(vehicleDTO.getDiscount());
-        vehicle.setAccessories(vehicleDTO.getAccessories());
-        vehicle.setIsNew(vehicleDTO.getIsNew());
-        vehicle.setVehicleStatus(vehicleDTO.getVehicleStatus());
-        vehicle.setVehicleType(vehicleDTO.getVehicleType());
-        return vehicle;
+    private VehicleEntity convertToEntity(VehicleDTO vehicleDTO) {
+        VehicleEntity vehicleEntity = new VehicleEntity();
+        vehicleEntity.setBrand(vehicleDTO.getBrand());
+        vehicleEntity.setModel(vehicleDTO.getModel());
+        vehicleEntity.setDisplacement(vehicleDTO.getDisplacement());
+        vehicleEntity.setColor(vehicleDTO.getColor());
+        vehicleEntity.setPower(vehicleDTO.getPower());
+        vehicleEntity.setTransmission(vehicleDTO.getTransmission());
+        vehicleEntity.setRegistrationYear(vehicleDTO.getRegistrationYear());
+        vehicleEntity.setFullType(vehicleDTO.getFullType());
+        vehicleEntity.setPrice(vehicleDTO.getPrice());
+        vehicleEntity.setDiscount(vehicleDTO.getDiscount());
+        vehicleEntity.setAccessories(vehicleDTO.getAccessories());
+        vehicleEntity.setIsNew(vehicleDTO.getIsNew());
+        vehicleEntity.setVehicleStatus(vehicleDTO.getVehicleStatus());
+        vehicleEntity.setVehicleType(vehicleDTO.getVehicleType());
+        return vehicleEntity;
     }
 
-    private VehicleDTO convertToDTO(Vehicle vehicle) {
+    private VehicleDTO convertToDTO(VehicleEntity vehicleEntity) {
         VehicleDTO vehicleDTO = new VehicleDTO();
-        vehicleDTO.setBrand(vehicle.getBrand());
-        vehicleDTO.setModel(vehicle.getModel());
-        vehicleDTO.setDisplacement(vehicle.getDisplacement());
-        vehicleDTO.setColor(vehicle.getColor());
-        vehicleDTO.setPower(vehicle.getPower());
-        vehicleDTO.setTransmission(vehicle.getTransmission());
-        vehicleDTO.setRegistrationYear(vehicle.getRegistrationYear());
-        vehicleDTO.setFullType(vehicle.getFullType());
-        vehicleDTO.setPrice(vehicle.getPrice());
-        vehicleDTO.setDiscount(vehicle.getDiscount());
-        vehicleDTO.setAccessories(vehicle.getAccessories());
-        vehicleDTO.setIsNew(vehicle.getIsNew());
-        vehicleDTO.setVehicleStatus(vehicle.getVehicleStatus());
-        vehicleDTO.setVehicleType(vehicle.getVehicleType());
+        vehicleDTO.setBrand(vehicleEntity.getBrand());
+        vehicleDTO.setModel(vehicleEntity.getModel());
+        vehicleDTO.setDisplacement(vehicleEntity.getDisplacement());
+        vehicleDTO.setColor(vehicleEntity.getColor());
+        vehicleDTO.setPower(vehicleEntity.getPower());
+        vehicleDTO.setTransmission(vehicleEntity.getTransmission());
+        vehicleDTO.setRegistrationYear(vehicleEntity.getRegistrationYear());
+        vehicleDTO.setFullType(vehicleEntity.getFullType());
+        vehicleDTO.setPrice(vehicleEntity.getPrice());
+        vehicleDTO.setDiscount(vehicleEntity.getDiscount());
+        vehicleDTO.setAccessories(vehicleEntity.getAccessories());
+        vehicleDTO.setIsNew(vehicleEntity.getIsNew());
+        vehicleDTO.setVehicleStatus(vehicleEntity.getVehicleStatus());
+        vehicleDTO.setVehicleType(vehicleEntity.getVehicleType());
         return vehicleDTO;
     }
 }

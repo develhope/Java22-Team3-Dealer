@@ -14,7 +14,7 @@ import java.math.BigDecimal;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Vehicle {
+public class VehicleEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long vehicleId;
@@ -51,7 +51,7 @@ public class Vehicle {
 
     @Override
     public String toString() {
-        return "Vehicle{" +
+        return "VehicleEntity{" +
                 "vehicleId=" + vehicleId +
                 ", brand='" + brand + '\'' +
                 ", model='" + model + '\'' +
