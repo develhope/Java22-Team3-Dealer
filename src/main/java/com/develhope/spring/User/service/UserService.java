@@ -63,14 +63,8 @@ public class UserService {
         return updatedUser;
     }
 
-
     public UserDetailsService userDetailsService() {
-        return new UserDetailsService() {
-            @Override
-            public UserDetails loadUserByUsername(String username) {
-                return usersRepository.findByEmail(username)
-                        .orElseThrow(() -> new UsernameNotFoundException("User not found"));
-            }
-        };
+        return username -> usersRepository.findByEmail(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
     }
 }
