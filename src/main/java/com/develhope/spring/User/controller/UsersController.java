@@ -40,8 +40,8 @@ public class UsersController {
             @ApiResponse(responseCode = "200", description = "Update!"),
             @ApiResponse(responseCode = "400", description = "Bad Request!")})
     @PutMapping("/updateUser/{userId}")
-    public UsersDTO updateUser(@PathVariable Long userId, @RequestBody UsersDTO usersDTO){
-        return userService.updateUser(userId, usersDTO);
+    public UsersDTO updateUser(@PathVariable Long userId, @RequestBody CreateUserRequest request){
+        return userService.updateUser(userId, request);
     }
     @Operation(summary = "Find UserEntity by ID")
     @ApiResponses(value = {
