@@ -17,7 +17,6 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
     @Autowired
     UsersRepository usersRepository;
-//ciao
     public UserResponse createUsers(CreateUserRequest request) {
         UserModel model = UserModel.dtoToModel(request);
         User entity = UserModel.modelToEntity(model);
