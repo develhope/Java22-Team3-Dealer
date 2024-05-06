@@ -2,6 +2,7 @@ package com.develhope.spring.User.controller;
 
 import com.develhope.spring.User.DTOs.CreateUserRequest;
 import com.develhope.spring.User.DTOs.UserResponse;
+import com.develhope.spring.User.entity.User;
 import com.develhope.spring.User.service.UserServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -9,6 +10,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -52,4 +54,13 @@ public class UsersController {
     public ResponseEntity<?> getById(@PathVariable Long userId){
         return new ResponseEntity<>(userServiceImpl.findById(userId),HttpStatus.OK);
     }
+    @Operation(summary = "Get all users")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "This are the results of your research"),
+            @ApiResponse(responseCode = "400", description = "Bad Request!")})
+    @GetMapping("/getAll")
+    public ResponseEntity<?> getAll() throws Exception {
+        return new ResponseEntity<>(userServiceImpl.getAll(),HttpStatus.OK);
+    }
+
 }

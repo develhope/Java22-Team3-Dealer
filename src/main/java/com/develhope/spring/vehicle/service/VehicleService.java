@@ -7,7 +7,9 @@ import com.develhope.spring.Vehicle.model.VehicleModel;
 import com.develhope.spring.Vehicle.repository.VehicleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-//TODO: implementazione autenticazione
+
+import java.util.List;
+
 @Service
 public class VehicleService {
     @Autowired
@@ -49,6 +51,14 @@ public class VehicleService {
         Vehicle savedEntity = repository.saveAndFlush(entity);
         VehicleModel savedModel = VehicleModel.entityToModel(savedEntity);
         return VehicleModel.modelToDto(savedModel);
+    }
+
+    public List<Vehicle> getAll() throws Exception {
+        List<Vehicle> vehicles = repository.findAll();
+        if(vehicles.isEmpty()){
+            throw new Exception("Ops, looks like there is nothing here...");
+        }
+        return vehicles;
     }
 }
 

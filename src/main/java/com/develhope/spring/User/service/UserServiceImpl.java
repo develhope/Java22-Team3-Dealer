@@ -62,7 +62,7 @@ public class UserServiceImpl implements UserService {
     public List<User> getAll() throws Exception {
         List<User> users = usersRepository.findAll();
         if (users.isEmpty()) {
-            throw new Exception("Ops, looks like is empty here....");
+            throw new Exception("Ops, looks like there is nothing here...");
         }
         return users;
     }
