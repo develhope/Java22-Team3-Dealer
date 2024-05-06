@@ -1,7 +1,8 @@
-package com.develhope.spring.vehicle.DTOs;
+package com.develhope.spring.Vehicle.DTOs;
 
+import com.develhope.spring.Vehicle.entity.Type;
 import com.develhope.spring.vehicle.entity.Status;
-import com.develhope.spring.vehicle.entity.Type;
+
 import lombok.*;
 
 import java.math.BigDecimal;
