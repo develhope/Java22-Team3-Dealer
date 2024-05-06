@@ -1,7 +1,5 @@
 package com.develhope.spring.User.service;
 
-import com.develhope.spring.User.DTOs.CreateUserRequest;
-import com.develhope.spring.User.DTOs.UserModel;
 import com.develhope.spring.User.DTOs.UsersDTO;
 import com.develhope.spring.User.entity.Users;
 import com.develhope.spring.User.repository.UsersRepository;
