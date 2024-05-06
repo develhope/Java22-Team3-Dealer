@@ -1,7 +1,7 @@
 package com.develhope.spring.vehicle.controller;
 
 import com.develhope.spring.vehicle.DTOs.CreateVehicleRequest;
-import com.develhope.spring.vehicle.DTOs.VehicleDTO;
+import com.develhope.spring.vehicle.DTOs.VehicleResponse;
 import com.develhope.spring.vehicle.service.VehicleService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -26,7 +26,7 @@ public class VehicleController {
             @ApiResponse(responseCode = "400", description = "Bad request!")})
     @PostMapping("/createVehicle")
     public ResponseEntity<?> createVehicle(@RequestBody CreateVehicleRequest request){
-        VehicleDTO newVehicle = service.createVehicle(request);
+        VehicleResponse newVehicle = service.createVehicle(request);
         return new ResponseEntity<>(newVehicle, HttpStatus.CREATED);
     }
 
@@ -46,7 +46,7 @@ public class VehicleController {
             @ApiResponse(responseCode = "400", description = "Bad request!")})
     @PostMapping("/deleteVehicle")
     public ResponseEntity<?> update (Long id, CreateVehicleRequest request){
-        VehicleDTO updated = service.updateVehicle(id,request);
+        VehicleResponse updated = service.updateVehicle(id,request);
         return new ResponseEntity<>(updated, HttpStatus.CREATED);
     }
 

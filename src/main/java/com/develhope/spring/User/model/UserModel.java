@@ -1,9 +1,9 @@
 package com.develhope.spring.User.model;
 
 import com.develhope.spring.User.DTOs.CreateUserRequest;
-import com.develhope.spring.User.DTOs.UsersDTO;
+import com.develhope.spring.User.DTOs.UserResponse;
 import com.develhope.spring.User.entity.Role;
-import com.develhope.spring.User.entity.UserEntity;
+import com.develhope.spring.User.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -28,16 +28,16 @@ public class UserModel {
         this.role = role;
     }
 
-    public static UsersDTO modelToDto(UserModel userModel){
-        return new UsersDTO(userModel.getId(), userModel.getFirstName(), userModel.getLastName(), userModel.getTelephoneNumber(), userModel.getEmail(), userModel.getPassword(), userModel.getRole());
+    public static UserResponse modelToDto(UserModel userModel){
+        return new UserResponse(userModel.getId(), userModel.getFirstName(), userModel.getLastName(), userModel.getTelephoneNumber(), userModel.getEmail(), userModel.getPassword(), userModel.getRole());
     }
     public static UserModel dtoToModel(CreateUserRequest request){
         return new UserModel(request.getFirstName(), request.getLastName(), request.getTelephoneNumber(), request.getEmail(), request.getPassword(), request.getRole());
     }
-    public static UserEntity modelToEntity(UserModel userModel){
-        return new UserEntity(userModel.getId(), userModel.getFirstName(), userModel.getLastName(), userModel.getTelephoneNumber(), userModel.getEmail(), userModel.getPassword(), userModel.getRole());
+    public static User modelToEntity(UserModel userModel){
+        return new User(userModel.getId(), userModel.getFirstName(), userModel.getLastName(), userModel.getTelephoneNumber(), userModel.getEmail(), userModel.getPassword(), userModel.getRole());
     }
-    public static UserModel entityToModel(UserEntity userEntity){
-        return new UserModel(userEntity.getUserId(), userEntity.getFirstName(), userEntity.getLastName(), userEntity.getTelephoneNumber(), userEntity.getEmail(), userEntity.getPassword(), userEntity.getRole());
+    public static UserModel entityToModel(User user){
+        return new UserModel(user.getUserId(), user.getFirstName(), user.getLastName(), user.getTelephoneNumber(), user.getEmail(), user.getPassword(), user.getRole());
     }
 }

@@ -1,7 +1,7 @@
 package com.develhope.spring.User.controller;
 
 import com.develhope.spring.User.DTOs.CreateUserRequest;
-import com.develhope.spring.User.DTOs.UsersDTO;
+import com.develhope.spring.User.DTOs.UserResponse;
 import com.develhope.spring.User.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -23,7 +23,7 @@ public class UsersController {
             @ApiResponse(responseCode = "400", description = "Bad Request!")})
     @PostMapping("/createUser")
     public ResponseEntity<?> createUsers(@RequestBody CreateUserRequest request){
-        UsersDTO saveUsers = userService.createUsers(request);
+        UserResponse saveUsers = userService.createUsers(request);
         return new ResponseEntity<>(saveUsers, HttpStatus.CREATED);
     }
     @Operation(summary = "Delete Users by ID")
@@ -41,7 +41,7 @@ public class UsersController {
             @ApiResponse(responseCode = "400", description = "Bad Request!")})
     @PutMapping("/updateUser/{userId}")
     public ResponseEntity<?> updateUser(@PathVariable Long userId, @RequestBody CreateUserRequest request){
-        UsersDTO updatedUser = userService.updateUser(userId, request);
+        UserResponse updatedUser = userService.updateUser(userId, request);
          return new ResponseEntity<>(updatedUser, HttpStatus.CREATED);
     }
     @Operation(summary = "Find Users by ID")

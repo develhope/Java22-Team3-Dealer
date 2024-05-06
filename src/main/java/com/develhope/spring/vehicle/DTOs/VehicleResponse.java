@@ -10,7 +10,7 @@ import java.math.BigDecimal;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class VehicleDTO {
+public class VehicleResponse {
     private Long vehicleId;
     private String brand;
     private String model;
