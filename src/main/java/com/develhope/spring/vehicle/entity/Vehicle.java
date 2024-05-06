@@ -1,4 +1,4 @@
-package com.develhope.spring.vehicle.entity;
+package com.develhope.spring.Vehicle.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -41,7 +41,7 @@ public class Vehicle {
     private Boolean isNew;
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    private Status vehicleStatus;
+    private com.develhope.spring.vehicle.entity.Status vehicleStatus;
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private Type vehicleType;

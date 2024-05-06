@@ -1,8 +1,7 @@
-package com.develhope.spring.vehicle.controller;
-
-import com.develhope.spring.vehicle.DTOs.CreateVehicleRequest;
-import com.develhope.spring.vehicle.DTOs.VehicleResponse;
-import com.develhope.spring.vehicle.service.VehicleService;
+package com.develhope.spring.Vehicle.controller;
+import com.develhope.spring.Vehicle.DTOs.CreateVehicleRequest;
+import com.develhope.spring.Vehicle.DTOs.VehicleResponse;
+import com.develhope.spring.Vehicle.service.VehicleService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -59,3 +58,139 @@ public class VehicleController {
         return new ResponseEntity<>(service.findById(id), HttpStatus.OK);
     }
 }
+
+//    @Operation(summary = "Get vehicles by price")
+//    @GetMapping("/byPrice")
+//    public ResponseEntity<?> getVehicleByPrice(@AuthenticationPrincipal UserEntity user, @RequestParam(defaultValue = "0") BigDecimal minPrice, @RequestParam(defaultValue = "1000000000000") BigDecimal maxPrice) {
+//        try {
+//            List<VehicleDTO> vehicleDTOList = vehicleService.getVehicleByPrice(user, minPrice, maxPrice);
+//            return new ResponseEntity<>(vehicleDTOList, HttpStatus.OK);
+//        } catch (CustomExceptions.AccessDeniedException e) {
+//            return ResponseEntity
+//                    .status(HttpStatus.FORBIDDEN)
+//                    .body(Collections.singletonMap("error", e.getMessage()));
+//        }
+//
+//    }
+//
+//    @Operation(summary = "Get vehicles by color")
+//    @GetMapping("/byColor")
+//    public ResponseEntity<?> getVehicleByColor(@AuthenticationPrincipal UserEntity user, @RequestParam String color) {
+//        try {
+//            List<VehicleDTO> vehicleDTOList = vehicleService.getVehicleByColor(user, color);
+//            return new ResponseEntity<>(vehicleDTOList, HttpStatus.OK);
+//        } catch (IllegalArgumentException | CustomExceptions.AccessDeniedException e) {
+//            return ResponseEntity
+//                    .status(HttpStatus.FORBIDDEN)
+//                    .body(Collections.singletonMap("error", e.getMessage()));
+//        }
+//
+//    }
+//
+//    @Operation(summary = "Get vehicles by brand")
+//    @GetMapping("/byBrand")
+//    public ResponseEntity<?> getVehicleByBrand(@AuthenticationPrincipal UserEntity user, @RequestParam String brand) {
+//        try {
+//            List<VehicleDTO> vehicleDTOList = vehicleService.getVehicleByBrand(user, brand);
+//            return new ResponseEntity<>(vehicleDTOList, HttpStatus.OK);
+//        } catch (IllegalArgumentException | CustomExceptions.AccessDeniedException e) {
+//            return ResponseEntity
+//                    .status(HttpStatus.FORBIDDEN)
+//                    .body(Collections.singletonMap("error", e.getMessage()));
+//        }
+//    }
+//
+//    @Operation(summary = "Get vehicles by model")
+//    @GetMapping("/byModel")
+//    public ResponseEntity<?> getVehicleByModel(@AuthenticationPrincipal UserEntity user, @RequestParam String model) {
+//        try {
+//            List<VehicleDTO> vehicleDTOList = vehicleService.getVehicleByModel(user, model);
+//            return new ResponseEntity<>(vehicleDTOList, HttpStatus.OK);
+//        } catch (IllegalArgumentException | CustomExceptions.AccessDeniedException e) {
+//            return ResponseEntity
+//                    .status(HttpStatus.FORBIDDEN)
+//                    .body(Collections.singletonMap("error", e.getMessage()));
+//        }
+//    }
+//
+//    @Operation(summary = "Get vehicles by type")
+//    @GetMapping("/byType")
+//    public ResponseEntity<?> getVehicleByType(@AuthenticationPrincipal UserEntity user, @RequestParam VehicleType vehicleType) {
+//        try {
+//            List<VehicleDTO> vehicleDTOList = vehicleService.getVehicleByType(user, vehicleType);
+//            return new ResponseEntity<>(vehicleDTOList, HttpStatus.OK);
+//        } catch (CustomExceptions.InvalidTypeException | CustomExceptions.AccessDeniedException e) {
+//            return ResponseEntity
+//                    .status(HttpStatus.FORBIDDEN)
+//                    .body(Collections.singletonMap("error", e.getMessage()));
+//        }
+//    }
+//
+//    @Operation(summary = "Get vehicles by status")
+//    @GetMapping("/byStatus")
+//    public ResponseEntity<?> getVehicleByStatus(@AuthenticationPrincipal UserEntity user, @RequestParam VehicleStatus vehicleStatus) {
+//        try {
+//            List<VehicleDTO> vehicleDTOList = vehicleService.getVehicleByStatus(user, vehicleStatus);
+//            return new ResponseEntity<>(vehicleDTOList, HttpStatus.OK);
+//        } catch (CustomExceptions.InvalidStatusException | CustomExceptions.AccessDeniedException e) {
+//            return ResponseEntity
+//                    .status(HttpStatus.FORBIDDEN)
+//                    .body(Collections.singletonMap("error", e.getMessage()));
+//        }
+//    }
+//
+//    @Operation(summary = "Get vehicles new")
+//    @GetMapping("/isNew")
+//    public ResponseEntity<?> getVehicleNew(@AuthenticationPrincipal UserEntity user, @RequestParam Boolean isNew) {
+//        try {
+//            List<VehicleDTO> vehicleDTOList = vehicleService.getVehicleNew(user, isNew);
+//            return new ResponseEntity<>(vehicleDTOList, HttpStatus.OK);
+//        } catch (CustomExceptions.AccessDeniedException e) {
+//            return ResponseEntity
+//                    .status(HttpStatus.FORBIDDEN)
+//                    .body(Collections.singletonMap("error", e.getMessage()));
+//        }
+//    }
+//
+//    @Operation(summary = "update a vehicle")
+//    @PutMapping("/update/{id}")
+//    public ResponseEntity<?> updateVehicle(@PathVariable Long id, @AuthenticationPrincipal UserEntity user, @RequestBody VehicleDTO updateVehicleDTO) {
+//        try {
+//            vehicleService.updateVehicle(id, user, updateVehicleDTO);
+//            return new ResponseEntity<>(updateVehicleDTO, HttpStatus.OK);
+//        } catch (CustomExceptions.AccessDeniedException e) {
+//            return ResponseEntity
+//                    .status(HttpStatus.FORBIDDEN)
+//                    .body(Collections.singletonMap("error", e.getMessage()));
+//        }
+//    }
+//
+//    @Operation(summary = "Change a vehicle status")
+//    @PutMapping("/status/{id}")
+//    public ResponseEntity<?> changeStatus(@PathVariable Long id, @AuthenticationPrincipal UserEntity user, @RequestBody VehicleStatusDTO vehicleStatusDTO) {
+//        try {
+//            VehicleDTO vehicleDTO = vehicleService.chanceStatus(id, user, vehicleStatusDTO);
+//            return new ResponseEntity<>(vehicleDTO, HttpStatus.OK);
+//        } catch (CustomExceptions.InvalidIdException | CustomExceptions.InvalidStatusException |
+//                 CustomExceptions.AccessDeniedException e) {
+//            return ResponseEntity
+//                    .status(HttpStatus.FORBIDDEN)
+//                    .body(Collections.singletonMap("error", e.getMessage()));
+//        }
+//
+//    }
+//
+//    @Operation(summary = "Delete a vehicle by Id")
+//    @DeleteMapping("/delete/{id}")
+//    public ResponseEntity<?> deleteVehicle(@PathVariable Long id, @AuthenticationPrincipal UserEntity user) {
+//        try {
+//            vehicleService.deleteVehicle(id, user);
+//            return new ResponseEntity<>(HttpStatus.OK);
+//        } catch (CustomExceptions.InvalidIdException | CustomExceptions.AccessDeniedException e) {
+//            return ResponseEntity
+//                    .status(HttpStatus.FORBIDDEN)
+//                    .body(Collections.singletonMap("error", e.getMessage()));
+//        }
+//    }
+//}
+

@@ -1,4 +1,4 @@
-package com.develhope.spring.vehicle.entity;
+package com.develhope.spring.Vehicle.entity;
 
 public enum Type {
     VAN,
