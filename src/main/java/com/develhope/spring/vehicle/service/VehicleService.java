@@ -7,11 +7,12 @@ import com.develhope.spring.vehicle.model.VehicleModel;
 import com.develhope.spring.vehicle.repository.VehicleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
+//TODO: Optional? creare interfaccia veicolo/user? implementazione autenticazione
 @Service
 public class VehicleService {
     @Autowired
     private VehicleRepository repository;
+
     public VehicleResponse createVehicle(CreateVehicleRequest request){
         VehicleModel model = VehicleModel.dtoToModel(request);
         Vehicle entity = VehicleModel.modelToEntity(model);
