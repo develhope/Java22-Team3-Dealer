@@ -22,7 +22,7 @@ public class UsersController {
             @ApiResponse(responseCode = "200", description = "Created!"),
             @ApiResponse(responseCode = "400", description = "Bad Request!")})
     @PostMapping("/createUser")
-    public ResponseEntity<UsersDTO> createUsers(@RequestBody CreateUserRequest request){
+    public ResponseEntity<?> createUsers(@RequestBody CreateUserRequest request){
         UsersDTO saveUsers = userService.createUsers(request);
         return new ResponseEntity<>(saveUsers, HttpStatus.CREATED);
     }
@@ -40,16 +40,16 @@ public class UsersController {
             @ApiResponse(responseCode = "200", description = "Update!"),
             @ApiResponse(responseCode = "400", description = "Bad Request!")})
     @PutMapping("/updateUser/{userId}")
-    public UsersDTO updateUser(@PathVariable Long userId, @RequestBody UsersDTO usersDTO){
-        return userService.updateUser(userId, usersDTO);
+    public ResponseEntity<?> updateUser(@PathVariable Long userId, @RequestBody CreateUserRequest request){
+        UsersDTO updatedUser = userService.updateUser(userId, request);
+         return new ResponseEntity<>(updatedUser, HttpStatus.CREATED);
     }
     @Operation(summary = "Find Users by ID")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Delete!"),
             @ApiResponse(responseCode = "400", description = "Bad Request!")})
     @GetMapping("/findUser/{userId}")
-    public ResponseEntity<UsersDTO> findById(@PathVariable Long userId){
+    public ResponseEntity<?> findById(@PathVariable Long userId){
         return new ResponseEntity<>(userService.findById(userId),HttpStatus.OK);
     }
-
 }

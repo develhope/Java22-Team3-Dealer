@@ -1,13 +1,14 @@
-package com.develhope.spring.User.DTOs;
+package com.develhope.spring.User.model;
 
+import com.develhope.spring.User.DTOs.CreateUserRequest;
+import com.develhope.spring.User.DTOs.UsersDTO;
 import com.develhope.spring.User.entity.Role;
 import com.develhope.spring.User.entity.UserEntity;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
-import java.time.OffsetDateTime;
-
 @Data
-
+@AllArgsConstructor
 public class UserModel {
 
     private Long id;
@@ -17,16 +18,6 @@ public class UserModel {
     private String email;
     private String password;
     private Role role;
-
-    public UserModel(Long id, String firstName, String lastName, Integer telephoneNumber, String email, String password, Role role) {
-        this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.telephoneNumber = telephoneNumber;
-        this.email = email;
-        this.password = password;
-        this.role = role;
-    }
 
     public UserModel(String firstName, String lastName, Integer telephoneNumber, String email, String password, Role role) {
         this.firstName = firstName;

@@ -1,21 +1,17 @@
 package com.develhope.spring.User.service;
-
 import com.develhope.spring.User.DTOs.CreateUserRequest;
-import com.develhope.spring.User.DTOs.UserModel;
+import com.develhope.spring.User.model.UserModel;
 import com.develhope.spring.User.DTOs.UsersDTO;
-import com.develhope.spring.User.entity.UserEntity;
 import com.develhope.spring.User.entity.UserEntity;
 import com.develhope.spring.User.repository.UsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service
 public class UserService {
     @Autowired
     UsersRepository usersRepository;
+
     public UsersDTO createUsers(CreateUserRequest request) {
         UserModel model = UserModel.dtoToModel(request);
         UserEntity entity = UserModel.modelToEntity(model);
@@ -28,7 +24,7 @@ public class UserService {
     public void deleteUsersByID(Long userId) {
         UserEntity user = usersRepository.findById(userId).orElse(null);
         if (user == null) {
-            throw new IllegalArgumentException("Buyer not found by ID : " + userId);
+            throw new IllegalArgumentException("No users found for the id: " + userId);
         } else {
             usersRepository.deleteById(userId);
         }
@@ -37,34 +33,23 @@ public class UserService {
     public UsersDTO findById(Long userId) {
         UserEntity user = usersRepository.findById(userId).orElse(null);
         if (user == null) {
-            throw new IllegalArgumentException("Buyer not found by ID : " + userId);
+            throw new IllegalArgumentException("No users found for the id: " + userId);
         }
-        return convertToDTO(user);
+        UserModel userModel = UserModel.entityToModel(user);
+        UsersDTO userFound = UserModel.modelToDto(userModel);
+        return userFound;
     }
 
-    public UsersDTO updateUser(Long userId, UsersDTO usersDTO) {
-        UserEntity usersUpdate = usersRepository.findById(userId).orElse(null);
-        if (usersUpdate == null) {
-            throw new IllegalArgumentException("Unable to update buyer with this ID : " + userId);
+    public UsersDTO updateUser(Long userId, CreateUserRequest request) {
+        UserEntity toUpdate = usersRepository.findById(userId).orElse(null);
+        if (toUpdate == null) {
+            throw new IllegalArgumentException("No users found for the id: " + userId);
         }
-        UserEntity saveUsersDTO = convertToEntity(usersDTO);
-        usersUpdate.setFirstName(saveUsersDTO.getFirstName());
-        usersUpdate.setLastName(saveUsersDTO.getLastName());
-        usersUpdate.setEmail(saveUsersDTO.getEmail());
-        usersUpdate.setPassword(saveUsersDTO.getPassword());
-        usersUpdate.setTelephoneNumber(saveUsersDTO.getTelephoneNumber());
-        usersRepository.save(usersUpdate);
-        return usersDTO;
-    }
-
-
-    public UserDetailsService userDetailsService() {
-        return new UserDetailsService() {
-            @Override
-            public UserDetails loadUserByUsername(String username) {
-                return usersRepository.findByEmail(username)
-                        .orElseThrow(() -> new UsernameNotFoundException("User not found"));
-            }
-        };
+        UserModel model = UserModel.dtoToModel(request);
+        UserEntity entity = UserModel.modelToEntity(model);
+        UserEntity savedEntity = usersRepository.saveAndFlush(entity);
+        UserModel savedModel = UserModel.entityToModel(savedEntity);
+        UsersDTO updatedUser = UserModel.modelToDto(savedModel);
+        return updatedUser;
     }
 }
