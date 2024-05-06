@@ -26,7 +26,7 @@ public class UserServiceImpl implements UserService {
         return savedUser;
     }
 
-    public boolean deleteUsersByID(Long userId) {
+    public boolean deleteUserById(Long userId) {
         User user = usersRepository.findById(userId).orElse(null);
         if (user == null) {
             throw new IllegalArgumentException("No users found for the id: " + userId);

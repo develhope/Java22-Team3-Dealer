@@ -1,4 +1,5 @@
 package com.develhope.spring.Vehicle.controller;
+import com.develhope.spring.User.entity.User;
 import com.develhope.spring.Vehicle.DTOs.CreateVehicleRequest;
 import com.develhope.spring.Vehicle.DTOs.VehicleResponse;
 import com.develhope.spring.Vehicle.service.VehicleService;
@@ -8,6 +9,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,7 +26,7 @@ public class VehicleController {
             @ApiResponse(responseCode = "200", description = "A new vehicle has been added to your table"),
             @ApiResponse(responseCode = "400", description = "Bad request!")})
     @PostMapping("/createVehicle")
-    public ResponseEntity<?> createVehicle(@RequestBody CreateVehicleRequest request){
+    public ResponseEntity<?> createVehicle( @RequestBody CreateVehicleRequest request){
         VehicleResponse newVehicle = service.createVehicle(request);
         return new ResponseEntity<>(newVehicle, HttpStatus.CREATED);
     }

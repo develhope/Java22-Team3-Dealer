@@ -24,7 +24,7 @@ public class UsersController {
             @ApiResponse(responseCode = "200", description = "A new user has been added to your table"),
             @ApiResponse(responseCode = "400", description = "Bad Request!")})
     @PostMapping("/createUser")
-    public ResponseEntity<?> createUsers(@RequestBody CreateUserRequest request){
+    public ResponseEntity<?> createUsers(@AuthenticationPrincipal User user, @RequestBody CreateUserRequest request){
         UserResponse saveUsers = userServiceImpl.createUsers(request);
         return new ResponseEntity<>(saveUsers, HttpStatus.CREATED);
     }
@@ -34,7 +34,7 @@ public class UsersController {
             @ApiResponse(responseCode = "400", description = "Bad Request!")})
     @DeleteMapping("/deleteUser/{userId}")
     public ResponseEntity<Void> deleteUsers(@PathVariable Long id){
-        userServiceImpl.deleteUsersByID(id);
+        userServiceImpl.deleteUserById(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
     @Operation(summary = "Update Users by ID")
