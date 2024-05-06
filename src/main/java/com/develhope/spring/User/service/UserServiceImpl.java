@@ -35,6 +35,16 @@ public class UserServiceImpl implements UserService {
             return true;
         }
     }
+    //TODO: questo metodo per la ricerca di user è corretto?
+    public boolean deleteUser(User userEmail) {
+        User user = usersRepository.findByEmail(String.valueOf(userDetailsService().loadUserByUsername(userEmail.getEmail()))).orElse(null);
+        if (user == null) {
+            throw new IllegalArgumentException("No users found with this email address: " + user.getEmail());
+        } else {
+            usersRepository.delete(user);
+            return true;
+        }
+    }
 
     public UserResponse findById(Long userId) {
         User user = usersRepository.findById(userId).orElse(null);
@@ -46,10 +56,23 @@ public class UserServiceImpl implements UserService {
         return userFound;
     }
 
-    public UserResponse updateUser(Long userId, CreateUserRequest request) {
+    public UserResponse updateUserById(Long userId, CreateUserRequest request) {
         User toUpdate = usersRepository.findById(userId).orElse(null);
         if (toUpdate == null) {
             throw new IllegalArgumentException("No users found for the id: " + userId);
+        }
+        UserModel model = UserModel.dtoToModel(request);
+        User entity = UserModel.modelToEntity(model);
+        User savedEntity = usersRepository.saveAndFlush(entity);
+        UserModel savedModel = UserModel.entityToModel(savedEntity);
+        UserResponse updatedUser = UserModel.modelToDto(savedModel);
+        return updatedUser;
+    }
+    //TODO: o è megli così?
+    public UserResponse updateUser(UserDetails user, CreateUserRequest request) {
+        User toUpdate = usersRepository.findByEmail(String.valueOf(userDetailsService().loadUserByUsername(user.getUsername()))).orElse(null);
+        if (toUpdate == null) {
+            throw new IllegalArgumentException("No users found with this username: " + user.getUsername());
         }
         UserModel model = UserModel.dtoToModel(request);
         User entity = UserModel.modelToEntity(model);

@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -37,14 +38,35 @@ public class UsersController {
         userServiceImpl.deleteUserById(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    @Operation(summary = "Delete user")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Deleted successfully"),
+            @ApiResponse(responseCode = "400", description = "Bad Request!")})
+    @DeleteMapping("/deleteUser")
+    public ResponseEntity<Void> deleteUsers(@AuthenticationPrincipal User user){
+        userServiceImpl.deleteUser(user);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
     @Operation(summary = "Update Users by ID")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Updated successfully!"),
             @ApiResponse(responseCode = "400", description = "Bad Request!")})
     @PutMapping("/updateUser/{userId}")
     public ResponseEntity<?> updateUser(@PathVariable Long userId, @RequestBody CreateUserRequest request){
-        UserResponse updatedUser = userServiceImpl.updateUser(userId, request);
+        UserResponse updatedUser = userServiceImpl.updateUserById(userId, request);
          return new ResponseEntity<>(updatedUser, HttpStatus.CREATED);
+    }
+
+    @Operation(summary = "Update Users by ID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Updated successfully!"),
+            @ApiResponse(responseCode = "400", description = "Bad Request!")})
+    @PutMapping("/updateUser/{userId}")
+    public ResponseEntity<?> updateUser(@AuthenticationPrincipal User user, @RequestBody CreateUserRequest request){
+        UserResponse updatedUser = userServiceImpl.updateUser((UserDetails) user, request);
+        return new ResponseEntity<>(updatedUser, HttpStatus.CREATED);
     }
     @Operation(summary = "Find Users by ID")
     @ApiResponses(value = {
