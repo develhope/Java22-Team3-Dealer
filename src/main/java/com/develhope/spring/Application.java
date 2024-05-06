@@ -11,8 +11,3 @@ public class Application {
 	}
 
 }
-//@Repository
-//public interface RentRepository extends JpaRepository<Rent,Long> {
-//	@Query(value = "SELECT * FROM RENT WHERE ID= :id", nativeQuery = true)
-//	List<Rent> rentList(@Param("id")Long id);
-//}
