@@ -17,9 +17,9 @@ public class UsersController {
     @Autowired
     UserService userService;
 
-    @Operation(summary = "Create Users")
+    @Operation(summary = "Create User")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Created!"),
+            @ApiResponse(responseCode = "200", description = "A new user has been added to your table"),
             @ApiResponse(responseCode = "400", description = "Bad Request!")})
     @PostMapping("/createUser")
     public ResponseEntity<?> createUsers(@RequestBody CreateUserRequest request){
@@ -28,16 +28,16 @@ public class UsersController {
     }
     @Operation(summary = "Delete Users by ID")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Delete!"),
+            @ApiResponse(responseCode = "200", description = "Deleted successfully"),
             @ApiResponse(responseCode = "400", description = "Bad Request!")})
     @DeleteMapping("/deleteUser/{userId}")
-    public ResponseEntity<Void> deleteUsers(@PathVariable Long userId){
-        userService.deleteUsersByID(userId);
+    public ResponseEntity<Void> deleteUsers(@PathVariable Long id){
+        userService.deleteUsersByID(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
     @Operation(summary = "Update Users by ID")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Update!"),
+            @ApiResponse(responseCode = "200", description = "Updated successfully!"),
             @ApiResponse(responseCode = "400", description = "Bad Request!")})
     @PutMapping("/updateUser/{userId}")
     public ResponseEntity<?> updateUser(@PathVariable Long userId, @RequestBody CreateUserRequest request){
@@ -46,10 +46,10 @@ public class UsersController {
     }
     @Operation(summary = "Find Users by ID")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Delete!"),
+            @ApiResponse(responseCode = "200", description = "This is the result of your research"),
             @ApiResponse(responseCode = "400", description = "Bad Request!")})
     @GetMapping("/findUser/{userId}")
-    public ResponseEntity<?> findById(@PathVariable Long userId){
+    public ResponseEntity<?> getById(@PathVariable Long userId){
         return new ResponseEntity<>(userService.findById(userId),HttpStatus.OK);
     }
 }

@@ -52,4 +52,5 @@ public class UserService {
         UsersDTO updatedUser = UserModel.modelToDto(savedModel);
         return updatedUser;
     }
+    //TODO: metodo getAll
 }
