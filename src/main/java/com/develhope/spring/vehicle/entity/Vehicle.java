@@ -1,19 +1,16 @@
 package com.develhope.spring.Vehicle.entity;
-
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.math.BigDecimal;
 
 @Entity
+@Data
 @Table
 @Getter
 @Setter
 @AllArgsConstructor
-@NoArgsConstructor
+@RequiredArgsConstructor
 public class Vehicle {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -44,10 +41,10 @@ public class Vehicle {
     private Boolean isNew;
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    private VehicleStatus vehicleStatus;
+    private com.develhope.spring.vehicle.entity.Status vehicleStatus;
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    private VehicleType vehicleType;
+    private Type vehicleType;
 
     @Override
     public String toString() {
@@ -68,5 +65,6 @@ public class Vehicle {
                 ", vehicleStatus=" + vehicleStatus +
                 ", vehicleType=" + vehicleType +
                 '}';
+
     }
 }
