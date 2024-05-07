@@ -1,6 +1,6 @@
 package com.develhope.spring.authentication;
 
-import com.develhope.spring.User.entity.Users;
+import com.develhope.spring.User.entity.User;
 import com.develhope.spring.authentication.entities.RefreshToken;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -9,7 +9,7 @@ public interface JwtService {
 
     String generateToken(UserDetails userDetails);
 
-    RefreshToken generateRefreshToken(Users user);
+    RefreshToken generateRefreshToken(User user);
 
     boolean isRefreshTokenExpired(RefreshToken token);
 

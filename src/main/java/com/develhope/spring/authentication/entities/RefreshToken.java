@@ -1,6 +1,6 @@
 package com.develhope.spring.authentication.entities;
 
-import com.develhope.spring.User.entity.Users;
+import com.develhope.spring.User.entity.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,17 +11,16 @@ import java.time.Instant;
 
 @Entity
 @Data
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
 public class RefreshToken {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
     private String token;
-    private Instant expiryDate;
+    private Instant expiringDate;
     @OneToOne
-    @JoinColumn(name = "user_id")
-    private Users userInfo;
+    @JoinColumn(name = "user_id", referencedColumnName = "userId")
+    private User userInfo;
 }
-

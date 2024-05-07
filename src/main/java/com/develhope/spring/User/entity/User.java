@@ -12,6 +12,7 @@ import java.util.List;
 @Data
 @Getter
 @Setter
+@Builder
 @AllArgsConstructor
 @RequiredArgsConstructor
 public class User {
@@ -23,7 +24,7 @@ public class User {
     @Column(nullable = false, name = "Surname")
     private String lastName;
     @Column(nullable = false, name = "Telephone number")
-    private Integer telephoneNumber;
+    private String telephoneNumber;
     @Column(unique = true, name = "Email")
     private String email;
     @Column(nullable = false)
