@@ -4,49 +4,101 @@ import com.develhope.spring.User.entity.User;
 import com.develhope.spring.authentication.entities.RefreshToken;
 import com.develhope.spring.authentication.repository.RefreshTokenRepository;
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.io.Decoders;
+import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+import java.security.Key;
+import java.time.Instant;
+import java.time.OffsetDateTime;
+import java.util.*;
 import java.util.function.Function;
 
 @Service
 public class JtwServiceImpl implements JwtService{
     @Value("${token.signing.key}")
-    private String signingKey;
+    private final String signingKey = "413F4428472B4B6250655368566D5970337336763979244226452948404D6351";
     @Autowired
     RefreshTokenRepository refreshTokenRepository;
+
     @Override
     public String extractUserName(String token) {
-        return extractClaim(token, Claims ::getSubject);
+        return extractClaim(token, Claims::getSubject);
     }
 
     @Override
     public String generateToken(UserDetails userDetails) {
-        return "";
+        return generateToken(new HashMap<>(), userDetails);
     }
-//TODO: questo metodo ci peermette di estrarre tutte le info dello user da un token
+
+    @Override
+    public boolean isTokenValid(String token, UserDetails userDetails) {
+        final String userName = extractUserName(token);
+        return (userName.equals(userDetails.getUsername())) && !isTokenExpired(token);
+    }
+
     private <T> T extractClaim(String token, Function<Claims, T> claimsResolvers) {
         final Claims claims = extractAllClaims(token);
         return claimsResolvers.apply(claims);
     }
 
-    private Claims extractAllClaims(String token) {
+    private String generateToken(Map<String, Object> extraClaims, UserDetails userDetails) {
+        OffsetDateTime tokenCreatedAt = OffsetDateTime.now();
+        OffsetDateTime tokenExpiredAt = tokenCreatedAt.plusMinutes(3);
+
+        return Jwts.builder()
+                .setClaims(extraClaims).setSubject(userDetails.getUsername())
+                .setIssuedAt(Date.from(tokenCreatedAt.toInstant()))
+                .setExpiration(Date.from(tokenExpiredAt.toInstant()))
+                .signWith(getSigningKey(), SignatureAlgorithm.HS256).compact();
     }
 
     @Override
     public RefreshToken generateRefreshToken(User user) {
-        return null;
+        Instant refreshTokenExpiredAt = OffsetDateTime.now().plusMonths(1).toInstant();
+
+        List<RefreshToken> tokens = refreshTokenRepository.findByUserInfo(user);
+        for (RefreshToken token : tokens) {
+            refreshTokenRepository.delete(token);
+        }
+
+        RefreshToken refreshToken = RefreshToken.builder()
+                .userInfo(user)
+                .token(UUID.randomUUID().toString())
+                .expiringDate(refreshTokenExpiredAt)
+                .build();
+
+        return refreshTokenRepository.save(refreshToken);
+    }
+
+    private boolean isTokenExpired(String token) {
+        return extractExpiration(token).before(new Date());
     }
 
     @Override
     public boolean isRefreshTokenExpired(RefreshToken token) {
+        if (token.getExpiringDate().compareTo(Instant.now()) < 0) {
+            refreshTokenRepository.delete(token);
+            return true;
+        }
         return false;
     }
 
-    @Override
-    public boolean isTokenValid(String token, UserDetails userDetails) {
-        return false;
+    private Date extractExpiration(String token) {
+        return extractClaim(token, Claims::getExpiration);
+    }
+
+    private Claims extractAllClaims(String token) {
+        return Jwts.parserBuilder().setSigningKey(getSigningKey()).build().parseClaimsJws(token).getBody();
+    }
+
+    private Key getSigningKey() {
+        byte[] keyBytes = Decoders.BASE64.decode(signingKey);
+        return Keys.hmacShaKeyFor(keyBytes);
     }
 }

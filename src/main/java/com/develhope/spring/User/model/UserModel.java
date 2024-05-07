@@ -14,12 +14,12 @@ public class UserModel {
     private Long id;
     private String firstName;
     private String lastName;
-    private Integer telephoneNumber;
+    private String telephoneNumber;
     private String email;
     private String password;
     private Role role;
 
-    public UserModel(String firstName, String lastName, Integer telephoneNumber, String email, String password, Role role) {
+    public UserModel(String firstName, String lastName, String telephoneNumber, String email, String password, Role role) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.telephoneNumber = telephoneNumber;

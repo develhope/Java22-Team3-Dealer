@@ -68,7 +68,7 @@ public class UserServiceImpl implements UserService {
         UserResponse updatedUser = UserModel.modelToDto(savedModel);
         return updatedUser;
     }
-    //TODO: o è megli così?
+    //TODO: o è meglio così?
     public UserResponse updateUser(UserDetails user, CreateUserRequest request) {
         User toUpdate = usersRepository.findByEmail(String.valueOf(userDetailsService().loadUserByUsername(user.getUsername()))).orElse(null);
         if (toUpdate == null) {
@@ -92,12 +92,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDetailsService userDetailsService() {
-        return new UserDetailsService() {
-            @Override
-            public UserDetails loadUserByUsername(String username) {
-                return (UserDetails) usersRepository.findByEmail(username)
-                        .orElseThrow(() -> new UsernameNotFoundException("User not found"));
-            }
-        };
+        return username -> (UserDetails) usersRepository.findByEmail(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
     }
 }
