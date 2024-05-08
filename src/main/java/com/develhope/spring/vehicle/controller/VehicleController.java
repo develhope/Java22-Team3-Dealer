@@ -1,8 +1,8 @@
-package com.develhope.spring.Vehicle.controller;
+package com.develhope.spring.vehicle.controller;
 import com.develhope.spring.User.entity.User;
 import com.develhope.spring.Vehicle.DTOs.CreateVehicleRequest;
 import com.develhope.spring.Vehicle.DTOs.VehicleResponse;
-import com.develhope.spring.Vehicle.service.VehicleService;
+import com.develhope.spring.vehicle.service.VehicleService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;

@@ -1,10 +1,10 @@
-package com.develhope.spring.Vehicle.service;
+package com.develhope.spring.vehicle.service;
 
 import com.develhope.spring.Vehicle.DTOs.CreateVehicleRequest;
 import com.develhope.spring.Vehicle.DTOs.VehicleResponse;
-import com.develhope.spring.Vehicle.entity.Vehicle;
-import com.develhope.spring.Vehicle.model.VehicleModel;
-import com.develhope.spring.Vehicle.repository.VehicleRepository;
+import com.develhope.spring.vehicle.entity.Vehicle;
+import com.develhope.spring.vehicle.model.VehicleModel;
+import com.develhope.spring.vehicle.repository.VehicleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -1,9 +1,9 @@
-package com.develhope.spring.Vehicle.model;
+package com.develhope.spring.vehicle.model;
 
 import com.develhope.spring.Vehicle.DTOs.CreateVehicleRequest;
 import com.develhope.spring.Vehicle.DTOs.VehicleResponse;
 import com.develhope.spring.Vehicle.entity.Type;
-import com.develhope.spring.Vehicle.entity.Vehicle;
+import com.develhope.spring.vehicle.entity.Vehicle;
 import com.develhope.spring.vehicle.entity.Status;
 import lombok.AllArgsConstructor;
 import lombok.Data;
