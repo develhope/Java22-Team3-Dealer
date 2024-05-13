@@ -1,6 +1,6 @@
 package com.develhope.spring.authentication;
 
-import com.develhope.spring.User.entity.User;
+import com.develhope.spring.features.User.entity.User;
 import com.develhope.spring.authentication.entities.RefreshToken;
 import com.develhope.spring.authentication.repository.RefreshTokenRepository;
 import io.jsonwebtoken.Claims;
@@ -22,7 +22,7 @@ import java.util.function.Function;
 @Service
 public class JtwServiceImpl implements JwtService{
     @Value("${token.signing.key}")
-    private final String signingKey = "413F4428472B4B6250655368566D5970337336763979244226452948404D6351";
+    private String jwtSigningKey;
     @Autowired
     RefreshTokenRepository refreshTokenRepository;
 
@@ -98,7 +98,7 @@ public class JtwServiceImpl implements JwtService{
     }
 
     private Key getSigningKey() {
-        byte[] keyBytes = Decoders.BASE64.decode(signingKey);
+        byte[] keyBytes = Decoders.BASE64.decode(jwtSigningKey);
         return Keys.hmacShaKeyFor(keyBytes);
     }
 }

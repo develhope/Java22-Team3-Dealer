@@ -1,6 +1,6 @@
 package com.develhope.spring.authentication.entities;
 
-import com.develhope.spring.User.entity.User;
+import com.develhope.spring.features.User.entity.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
