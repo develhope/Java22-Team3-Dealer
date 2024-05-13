@@ -25,7 +25,7 @@ public class OrderService {
     public List<OrderResponse> getAllOrders() throws Exception {
         List<Order> orders = orderRepository.findAll();
         if (orders.isEmpty()) {
-            throw new Exception("ops, looks like there is nothing here.");
+            throw new Exception("No orders found in the database.");
         }
 
         List<OrderResponse> orderResponses = new ArrayList<>();
@@ -64,13 +64,7 @@ public class OrderService {
         // Converte l'ordine salvato in un DTO e lo restituisce
         return OrderModel.entityToDto(savedOrder);
     }
-//        Order orderToUpdate = orderRepository.findById(orderId)
-//                .orElseThrow(() -> new IllegalArgumentException("Order not found for id: " + orderId));
-//        Order updatedOrder = OrderModel.dtoToEntity(request);
-//        Order savedOrder = orderRepository.save(updatedOrder);
-//        return OrderModel.entityToDto(savedOrder);
-//
-//    }
+
     public void deleteOrderById(Long orderId) {
         orderRepository.deleteById(orderId);
     }

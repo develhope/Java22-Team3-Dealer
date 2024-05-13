@@ -26,7 +26,7 @@ public class OrderModel {
     private Vehicle vehicle;
 
 
-    public static Order dtoToEntity(CreateOrderRequest request) {
+    public static Order dtoToEntity(CreateOrderRequest request) { // Converte un oggetto CreateOrderRequest in un oggetto Order
         Order order = new Order();
         order.setCaution(request.getCaution());
         order.setPayed(request.isPayed());
@@ -34,7 +34,7 @@ public class OrderModel {
         return order;
 
     }
-    public static OrderResponse entityToDto(Order order){
+    public static OrderResponse entityToDto(Order order){ //Converte un oggetto Order in un oggetto OrderResponse
         OrderResponse response = new OrderResponse();
         response.setCaution(order.getCaution());
         response.setPayed(order.isPayed());
@@ -42,7 +42,7 @@ public class OrderModel {
         response.setVehicleId(order.getVehicle().getVehicleId());
         return response;
     }
-    public static CreateOrderRequest entityDtoRequest(Order order){
+    public static CreateOrderRequest entityDtoRequest(Order order){ //Converte un oggetto Order in un oggetto CreateOrderRequest
         CreateOrderRequest request = new CreateOrderRequest();
         request.setCaution(order.getCaution());
         request.setPayed(order.isPayed());

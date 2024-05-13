@@ -9,7 +9,7 @@ import java.math.BigDecimal;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class CreateOrderRequest {
+public class CreateOrderRequest { // DTO che rappresenta i dati necessari per creare un nuovo ordine.
     @NonNull
     private BigDecimal caution;
     @Getter
