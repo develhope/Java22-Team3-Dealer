@@ -1,6 +1,8 @@
-package com.develhope.spring.Vehicle.entity;
+package com.develhope.spring.vehicle.entity;
+import com.develhope.spring.vehicle.entity.Status;
 import jakarta.persistence.*;
 import lombok.*;
+import com.develhope.spring.Vehicle.entity.Type;
 
 import java.math.BigDecimal;
 
@@ -41,7 +43,7 @@ public class Vehicle {
     private Boolean isNew;
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    private com.develhope.spring.vehicle.entity.Status vehicleStatus;
+    private Status vehicleStatus;
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private Type vehicleType;
