@@ -1,8 +1,8 @@
 package com.develhope.spring.authentication;
 
-import com.develhope.spring.User.entity.Role;
-import com.develhope.spring.User.entity.User;
-import com.develhope.spring.User.repository.UsersRepository;
+import com.develhope.spring.features.User.entity.Role;
+import com.develhope.spring.features.User.entity.User;
+import com.develhope.spring.features.User.repository.UsersRepository;
 import com.develhope.spring.authentication.entities.RefreshToken;
 import com.develhope.spring.authentication.DTOs.request.RefreshTokenRequest;
 import com.develhope.spring.authentication.DTOs.request.SignInRequest;

@@ -48,8 +48,8 @@ Per ogni ordine/acquisto avremo:
 - Veicolo ordinato/acquistato
 
 Per un noleggio avremo:
-- Data inizio noleggio
-- Data fine noleggio
+- [Data inizio noleggio
+- Data fine noleggio]()
 - Costo giornaliero noleggio
 - Costo totale noleggio
 - Flag pagato
