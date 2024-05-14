@@ -1,4 +1,4 @@
-package com.develhope.spring.features.User.entity;
+package com.develhope.spring.features.user.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -15,9 +15,9 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;
     @Column(nullable = false, name = "Name")
-    private String firstName;
+    private String name;
     @Column(nullable = false, name = "Surname")
-    private String lastName;
+    private String surname;
     @Column(nullable = false, name = "Telephone number")
     private String telephoneNumber;
     @Column(unique = true, name = "Email")
@@ -32,8 +32,8 @@ public class User {
     public String toString() {
         return "Users{" +
                 "userId=" + userId +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
+                ", firstName='" + name + '\'' +
+                ", lastName='" + surname + '\'' +
                 ", telephoneNumber='" + telephoneNumber + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +

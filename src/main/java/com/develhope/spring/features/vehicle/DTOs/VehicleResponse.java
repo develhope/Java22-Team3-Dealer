@@ -1,6 +1,6 @@
-package com.develhope.spring.features.Vehicle.DTOs;
+package com.develhope.spring.features.vehicle.DTOs;
 
-import com.develhope.spring.features.Vehicle.entity.Type;
+import com.develhope.spring.features.vehicle.entity.Type;
 
 import lombok.*;
 

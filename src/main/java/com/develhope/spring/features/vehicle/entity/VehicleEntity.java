@@ -1,4 +1,4 @@
-package com.develhope.spring.features.Vehicle.entity;
+package com.develhope.spring.features.vehicle.entity;
 import jakarta.persistence.*;
 import lombok.*;
 import com.develhope.spring.vehicle.entity.VehicleStatus;
@@ -10,7 +10,7 @@ import java.math.BigDecimal;
 @Getter
 @Setter
 @AllArgsConstructor
-public class Vehicle {
+public class VehicleEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long vehicleId;
@@ -47,7 +47,7 @@ public class Vehicle {
 
     @Override
     public String toString() {
-        return "Vehicle{" +
+        return "vehicle{" +
                 "vehicleId=" + vehicleId +
                 ", brand='" + brand + '\'' +
                 ", model='" + model + '\'' +

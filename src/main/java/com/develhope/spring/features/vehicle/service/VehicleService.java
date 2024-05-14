@@ -1,10 +1,10 @@
-package com.develhope.spring.vehicle.service;
+package com.develhope.spring.features.vehicle.service;
 
-import com.develhope.spring.features.Vehicle.DTOs.CreateVehicleRequest;
-import com.develhope.spring.features.Vehicle.DTOs.VehicleResponse;
-import com.develhope.spring.features.Vehicle.model.VehicleModel;
-import com.develhope.spring.vehicle.entity.Vehicle;
-import com.develhope.spring.vehicle.repository.VehicleRepository;
+
+import com.develhope.spring.features.vehicle.DTOs.CreateVehicleRequest;
+import com.develhope.spring.features.vehicle.DTOs.VehicleResponse;
+import com.develhope.spring.features.vehicle.entity.VehicleEntity;
+import com.develhope.spring.features.vehicle.model.VehicleModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,18 +13,18 @@ import java.util.List;
 @Service
 public class VehicleService {
     @Autowired
-    private VehicleRepository repository;
+    private com.develhope.spring.vehicle.repository.VehicleRepository repository;
 
     public VehicleResponse createVehicle(CreateVehicleRequest request){
         VehicleModel model = VehicleModel.dtoToModel(request);
-        Vehicle entity = VehicleModel.modelToEntity(model);
-        Vehicle savedEntity = repository.saveAndFlush(entity);
+        VehicleEntity entity = VehicleModel.modelToEntity(model);
+        VehicleEntity savedEntity = repository.saveAndFlush(entity);
         VehicleModel savedModel = VehicleModel.entityToModel(savedEntity);
         return VehicleModel.modelToDto(savedModel);
 
     }
     public boolean deleteVehicleByID(Long vehicleId) {
-        Vehicle entity = repository.findById(vehicleId).orElse(null);
+        VehicleEntity entity = repository.findById(vehicleId).orElse(null);
         if (entity == null) {
             throw new IllegalArgumentException("No vehicles found for the id: " + vehicleId);
         } else {
@@ -33,7 +33,7 @@ public class VehicleService {
         }
     }
     public VehicleResponse findById(Long vehicleId) {
-        Vehicle entity = repository.findById(vehicleId).orElse(null);
+        VehicleEntity entity = repository.findById(vehicleId).orElse(null);
         if (entity == null) {
             throw new IllegalArgumentException("No vehicles found for the id: " + vehicleId);
         }
@@ -42,23 +42,23 @@ public class VehicleService {
     }
 
     public VehicleResponse updateVehicle(Long vehicleId, CreateVehicleRequest request) {
-        Vehicle toUpdate = repository.findById(vehicleId).orElse(null);
+        VehicleEntity toUpdate = repository.findById(vehicleId).orElse(null);
         if (toUpdate == null) {
             throw new IllegalArgumentException("No vehicles found for the id: " + vehicleId);
         }
         VehicleModel model = VehicleModel.dtoToModel(request);
-        Vehicle entity = VehicleModel.modelToEntity(model);
-        Vehicle savedEntity = repository.saveAndFlush(entity);
+        VehicleEntity entity = VehicleModel.modelToEntity(model);
+        VehicleEntity savedEntity = repository.saveAndFlush(entity);
         VehicleModel savedModel = VehicleModel.entityToModel(savedEntity);
         return VehicleModel.modelToDto(savedModel);
     }
 
-    public List<Vehicle> getAll() throws Exception {
-        List<Vehicle> vehicles = repository.findAll();
-        if(vehicles.isEmpty()){
-            throw new Exception("Your list of vehicles is empty");
+    public List<VehicleEntity> getAll() throws Exception {
+        List<VehicleEntity> vehicleEntities = repository.findAll();
+        if(vehicleEntities.isEmpty()){
+            throw new Exception("Your list of vehicleEntities is empty");
         }
-        return vehicles;
+        return vehicleEntities;
     }
 }
 

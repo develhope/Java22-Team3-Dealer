@@ -1,9 +1,9 @@
-package com.develhope.spring.features.User.controller;
+package com.develhope.spring.features.user.controller;
 
-import com.develhope.spring.features.User.DTOs.UserRequest;
-import com.develhope.spring.features.User.DTOs.UserResponse;
-import com.develhope.spring.features.User.entity.User;
-import com.develhope.spring.features.User.service.UserServiceImpl;
+import com.develhope.spring.features.user.DTOs.UserRequest;
+import com.develhope.spring.features.user.DTOs.UserResponse;
+import com.develhope.spring.features.user.entity.User;
+import com.develhope.spring.features.user.service.UserServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -19,7 +19,7 @@ public class UsersController {
     @Autowired
     UserServiceImpl userServiceImpl;
 
-    @Operation(summary = "Create User")
+    @Operation(summary = "Create user")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "A new user has been added to your table"),
             @ApiResponse(responseCode = "400", description = "Bad Request!")})

@@ -1,21 +1,23 @@
 package com.develhope.spring.features.orders.DTOs;
 
+import com.develhope.spring.features.orders.entity.OrderStatus;
 import com.develhope.spring.features.vehicle.entity.VehicleEntity;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class OrderResponse { //DTO utilizzato per rappresentare la risposta di un'operazione di visualizzazione di un ordine.
+@Getter
+@Setter
+public class OrderRequest { // DTO che rappresenta i dati necessari per creare un nuovo ordine.
+
     private Long id;
     private BigDecimal caution;
     private boolean payed;
-    private String status;
-    private VehicleEntity vehicleEntityId;
+    private OrderStatus status;
+    private VehicleEntity vehicle;
     private OffsetDateTime orderDate;
-
 }

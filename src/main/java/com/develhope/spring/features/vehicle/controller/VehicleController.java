@@ -1,8 +1,8 @@
-package com.develhope.spring.features.Vehicle.controller;
+package com.develhope.spring.features.vehicle.controller;
 
-import com.develhope.spring.features.Vehicle.DTOs.CreateVehicleRequest;
-import com.develhope.spring.features.Vehicle.DTOs.VehicleResponse;
-import com.develhope.spring.vehicle.service.VehicleService;
+import com.develhope.spring.features.vehicle.DTOs.CreateVehicleRequest;
+import com.develhope.spring.features.vehicle.DTOs.VehicleResponse;
+import com.develhope.spring.features.vehicle.service.VehicleService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -54,7 +54,7 @@ public class VehicleController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Research executed successfully"),
             @ApiResponse(responseCode = "400", description = "Bad request!")})
-    @PostMapping("/getVehicle")
+    @PostMapping("/getVehicleEntity")
     public ResponseEntity<?> getById (Long id){
         return new ResponseEntity<>(service.findById(id), HttpStatus.OK);
     }

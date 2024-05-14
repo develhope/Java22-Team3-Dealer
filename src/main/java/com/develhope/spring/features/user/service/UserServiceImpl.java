@@ -1,10 +1,10 @@
-package com.develhope.spring.features.User.service;
+package com.develhope.spring.features.user.service;
 
-import com.develhope.spring.features.User.DTOs.UserRequest;
-import com.develhope.spring.features.User.model.UserModel;
-import com.develhope.spring.features.User.DTOs.UserResponse;
-import com.develhope.spring.features.User.entity.User;
-import com.develhope.spring.features.User.repository.UsersRepository;
+import com.develhope.spring.features.user.DTOs.UserRequest;
+import com.develhope.spring.features.user.model.UserModel;
+import com.develhope.spring.features.user.DTOs.UserResponse;
+import com.develhope.spring.features.user.entity.User;
+import com.develhope.spring.features.user.repository.UsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -53,8 +53,8 @@ public class UserServiceImpl implements UserService {
 
         if (result.isPresent()) {
             try {
-                result.get().setFirstName(request.getFirstName()== null ? result.get().getFirstName() : request.getFirstName());
-                result.get().setLastName(request.getLastName() == null ? result.get().getLastName() : request.getLastName());
+                result.get().setName(request.getName()== null ? result.get().getName() : request.getName());
+                result.get().setSurname(request.getSurname() == null ? result.get().getSurname() : request.getSurname());
                 result.get().setEmail(request.getEmail() == null ? result.get().getEmail() : request.getEmail());
                 result.get().setPassword(request.getPassword() == null ? result.get().getPassword() : request.getPassword());
                 result.get().setTelephoneNumber(request.getTelephoneNumber() == null ? result.get().getTelephoneNumber() : request.getTelephoneNumber());
@@ -95,6 +95,6 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDetailsService userDetailsService() {
         return username -> (UserDetails) usersRepository.findByEmail(username)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+                .orElseThrow(() -> new UsernameNotFoundException("user not found"));
     }
 }

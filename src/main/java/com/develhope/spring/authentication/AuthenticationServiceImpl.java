@@ -1,8 +1,8 @@
 package com.develhope.spring.authentication;
 
-import com.develhope.spring.features.User.entity.Role;
-import com.develhope.spring.features.User.entity.User;
-import com.develhope.spring.features.User.repository.UsersRepository;
+import com.develhope.spring.features.user.entity.Role;
+import com.develhope.spring.features.user.entity.User;
+import com.develhope.spring.features.user.repository.UsersRepository;
 import com.develhope.spring.authentication.entities.RefreshToken;
 import com.develhope.spring.authentication.DTOs.request.RefreshTokenRequest;
 import com.develhope.spring.authentication.DTOs.request.SignInRequest;
@@ -34,8 +34,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     @Override
     public JwtAuthenticationResponse signup(SignUpRequest request) {
         User user = User.builder()
-                .firstName(request.getFirstName())
-                .lastName(request.getLastName())
+                .name(request.getFirstName())
+                .surname(request.getLastName())
                 .telephoneNumber(request.getTelephoneNumber())
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))

@@ -1,6 +1,6 @@
 package com.develhope.spring.authentication.repository;
 
-import com.develhope.spring.features.User.entity.User;
+import com.develhope.spring.features.user.entity.User;
 import com.develhope.spring.authentication.entities.RefreshToken;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
