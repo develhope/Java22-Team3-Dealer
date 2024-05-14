@@ -32,7 +32,7 @@ public class OrderModel {
     }
 
     public static OrderEntity dtoToEntity(OrderRequest request) { // Converte un oggetto OrderRequest in un oggetto OrderEntity
-        return new OrderEntity(request.getCaution(), request.isPayed(), request.getStatus(),request.getVehicle(), request.getOrderDate());
+        return new OrderEntity(request.getId(),request.getCaution(), request.isPayed(), request.getStatus(),request.getVehicle(), request.getOrderDate());
 
     }
 
@@ -52,6 +52,5 @@ public class OrderModel {
     public static OrderModel entityToModel(OrderEntity entity){
         return new OrderModel(entity.getId(),entity.getCaution(), entity.isPayed(), entity.getStatus(),entity.getVehicleEntity(),entity.getOrderDate());
     }
-    //TODO: modelToEntity entityToModel
 }
 
