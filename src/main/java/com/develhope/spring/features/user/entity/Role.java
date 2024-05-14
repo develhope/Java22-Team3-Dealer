@@ -1,4 +1,4 @@
-package com.develhope.spring.features.User.entity;
+package com.develhope.spring.features.user.entity;
 
 public enum Role {
     ADMIN,

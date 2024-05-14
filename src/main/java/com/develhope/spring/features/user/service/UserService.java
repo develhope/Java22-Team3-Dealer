@@ -1,4 +1,4 @@
-package com.develhope.spring.features.User.service;
+package com.develhope.spring.features.user.service;
 
 import org.springframework.security.core.userdetails.UserDetailsService;
 

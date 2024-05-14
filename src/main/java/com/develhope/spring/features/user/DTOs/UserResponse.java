@@ -1,6 +1,6 @@
-package com.develhope.spring.features.User.DTOs;
+package com.develhope.spring.features.user.DTOs;
 
-import com.develhope.spring.features.User.entity.Role;
+import com.develhope.spring.features.user.entity.Role;
 import lombok.*;
 
 @Data

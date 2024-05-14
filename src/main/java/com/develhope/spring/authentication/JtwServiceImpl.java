@@ -1,6 +1,6 @@
 package com.develhope.spring.authentication;
 
-import com.develhope.spring.features.User.entity.User;
+import com.develhope.spring.features.user.entity.User;
 import com.develhope.spring.authentication.entities.RefreshToken;
 import com.develhope.spring.authentication.repository.RefreshTokenRepository;
 import io.jsonwebtoken.Claims;

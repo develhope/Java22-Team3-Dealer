@@ -1,6 +1,5 @@
 package com.develhope.spring.features.orders.entity;
-
-import com.develhope.spring.vehicle.entity.Vehicle;
+import com.develhope.spring.features.vehicle.entity.VehicleEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -14,8 +13,7 @@ import java.time.OffsetDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-
-public class Order {
+public class OrderEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -25,9 +23,8 @@ public class Order {
     private boolean payed;
     @Column(nullable = false, name = "status")
     private OrderStatus status;
-    @Column(nullable = false, name = "vehicle")
-    private Vehicle vehicle;
+    @Column(nullable = false, name = "vehicleEntity")
+    private VehicleEntity vehicleEntity;
     @Column(nullable = false, name = "orderDate")
     private OffsetDateTime orderDate;
-
 }

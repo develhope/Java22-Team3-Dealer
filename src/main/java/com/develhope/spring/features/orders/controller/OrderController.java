@@ -2,7 +2,7 @@ package com.develhope.spring.features.orders.controller;
 
 
 
-import com.develhope.spring.features.orders.DTOs.CreateOrderRequest;
+import com.develhope.spring.features.orders.DTOs.OrderRequest;
 import com.develhope.spring.features.orders.DTOs.OrderResponse;
 import com.develhope.spring.features.orders.service.OrderService;
 
@@ -30,7 +30,7 @@ public class OrderController {
             @ApiResponse(responseCode = "201", description = "A new order has been created"),
             @ApiResponse(responseCode = "400", description = "Bad request!!!")})
     @PostMapping("/createOrder")
-    public ResponseEntity<OrderResponse>createOrder (@RequestBody CreateOrderRequest request){
+    public ResponseEntity<OrderResponse>createOrder (@RequestBody OrderRequest request){
         OrderResponse newOrder = orderService.createOrder(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(newOrder);
     }
@@ -39,7 +39,7 @@ public class OrderController {
             @ApiResponse(responseCode = "200", description = "Updated successfully"),
             @ApiResponse(responseCode = "400", description = "Bad request!")})
     @PutMapping("/updateOrder/{id}")
-    public ResponseEntity<OrderResponse>updateOrder(@PathVariable Long id, @RequestBody CreateOrderRequest request){
+    public ResponseEntity<OrderResponse>updateOrder(@PathVariable Long id, @RequestBody OrderRequest request){
         OrderResponse updateOrder = orderService.updateOrder(id,request);
         return ResponseEntity.ok(updateOrder);
     }
@@ -54,8 +54,8 @@ public class OrderController {
     }
     @Operation(summary = "Get order by ID")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Order found successfully"),
-            @ApiResponse(responseCode = "404", description = "Order not found!")})
+            @ApiResponse(responseCode = "200", description = "OrderEntity found successfully"),
+            @ApiResponse(responseCode = "404", description = "OrderEntity not found!")})
     @GetMapping("/getOrder/{id}")
     public ResponseEntity<OrderResponse> getOrderById(@PathVariable Long id){
         OrderResponse order = orderService.findById(id);

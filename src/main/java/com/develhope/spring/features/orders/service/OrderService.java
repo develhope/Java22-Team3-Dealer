@@ -1,8 +1,8 @@
 package com.develhope.spring.features.orders.service;
 
-import com.develhope.spring.features.orders.DTOs.CreateOrderRequest;
+import com.develhope.spring.features.orders.DTOs.OrderRequest;
 import com.develhope.spring.features.orders.DTOs.OrderResponse;
-import com.develhope.spring.features.orders.entity.Order;
+import com.develhope.spring.features.orders.entity.OrderEntity;
 import com.develhope.spring.features.orders.entity.OrderStatus;
 import com.develhope.spring.features.orders.model.OrderModel;
 import com.develhope.spring.features.orders.repository.OrderRepository;
@@ -23,44 +23,44 @@ public class OrderService {
     }
 
     public List<OrderResponse> getAllOrders() throws Exception {
-        List<Order> orders = orderRepository.findAll();
-        if (orders.isEmpty()) {
-            throw new Exception("No orders found in the database.");
+        List<OrderEntity> orderEntities = orderRepository.findAll();
+        if (orderEntities.isEmpty()) {
+            throw new Exception("No orderEntities found in the database.");
         }
 
         List<OrderResponse> orderResponses = new ArrayList<>();
-        for (Order order : orders) {
-            OrderResponse orderResponse = OrderModel.entityToDto(order);
+        for (OrderEntity orderEntity : orderEntities) {
+            OrderResponse orderResponse = OrderModel.entityToDto(orderEntity);
             orderResponses.add(orderResponse);
         }
         return orderResponses;
     }
 
-    public OrderResponse createOrder(CreateOrderRequest request) {
-        Order order = OrderModel.dtoToEntity(request);
-        Order savedOrder = orderRepository.save(order);
-        return OrderModel.entityToDto(savedOrder);
+    public OrderResponse createOrder(OrderRequest request) {
+        OrderEntity orderEntity = OrderModel.dtoToEntity(request);
+        OrderEntity savedOrderEntity = orderRepository.save(orderEntity);
+        return OrderModel.entityToDto(savedOrderEntity);
 
     }
 
     public OrderResponse findById(Long orderId) {
-        Order order = orderRepository.findById(orderId)
-                .orElseThrow(() -> new IllegalArgumentException("Order not found for id: " + orderId));
-        return OrderModel.entityToDto(order);
+        OrderEntity orderEntity = orderRepository.findById(orderId)
+                .orElseThrow(() -> new IllegalArgumentException("OrderEntity not found for id: " + orderId));
+        return OrderModel.entityToDto(orderEntity);
     }
-    public OrderResponse updateOrder(Long orderId, CreateOrderRequest request) {
-        Order orderToUpdate = orderRepository.findById(orderId)
-                .orElseThrow(() -> new IllegalArgumentException("Order not found for id: " + orderId));
+    public OrderResponse updateOrder(Long orderId, OrderRequest request) {
+        OrderEntity orderEntityToUpdate = orderRepository.findById(orderId)
+                .orElseThrow(() -> new IllegalArgumentException("OrderEntity not found for id: " + orderId));
 
-        orderToUpdate.setCaution(request.getCaution());
-        orderToUpdate.setPayed(request.isPayed());
+        orderEntityToUpdate.setCaution(request.getCaution());
+        orderEntityToUpdate.setPayed(request.isPayed());
         if (request.getStatus() != null) {
-            orderToUpdate.setStatus(OrderStatus.convertStringToStatus(request.getStatus()));
+            orderEntityToUpdate.setStatus(OrderStatus.convertStringToStatus(request.getStatus()));
         }
-        Order savedOrder = orderRepository.save(orderToUpdate);
+        OrderEntity savedOrderEntity = orderRepository.save(orderEntityToUpdate);
 
         // Converte l'ordine salvato in un DTO e lo restituisce
-        return OrderModel.entityToDto(savedOrder);
+        return OrderModel.entityToDto(savedOrderEntity);
     }
 
     public void deleteOrderById(Long orderId) {

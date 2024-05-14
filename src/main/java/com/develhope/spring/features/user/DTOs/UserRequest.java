@@ -1,6 +1,6 @@
-package com.develhope.spring.features.User.DTOs;
+package com.develhope.spring.features.user.DTOs;
 
-import com.develhope.spring.features.User.entity.Role;
+import com.develhope.spring.features.user.entity.Role;
 import lombok.*;
 @Data
 @Getter
@@ -8,8 +8,8 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserRequest {
-        private String firstName;
-        private String lastName;
+        private String name;
+        private String surname;
         private String telephoneNumber;
         private String email;
         private String password;

@@ -1,10 +1,10 @@
-package com.develhope.spring.features.Vehicle.model;
+package com.develhope.spring.features.vehicle.model;
 
-import com.develhope.spring.features.Vehicle.DTOs.CreateVehicleRequest;
-import com.develhope.spring.features.Vehicle.DTOs.VehicleResponse;
-import com.develhope.spring.features.Vehicle.entity.Type;
+import com.develhope.spring.features.vehicle.DTOs.CreateVehicleRequest;
+import com.develhope.spring.features.vehicle.DTOs.VehicleResponse;
+import com.develhope.spring.features.vehicle.entity.Type;
 
-import com.develhope.spring.features.Vehicle.entity.Vehicle;
+import com.develhope.spring.features.vehicle.entity.VehicleEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -42,10 +42,10 @@ public final class VehicleModel {
     public static VehicleModel dtoToModel(CreateVehicleRequest dto){
         return new VehicleModel(dto.getBrand(),dto.getModel(),dto.getDisplacement(),dto.getColor(),dto.getPower(),dto.getTransmission(), dto.getRegistrationYear(), dto.getFullType(),dto.getPrice(),dto.getDiscount(),dto.getAccessories(),dto.getIsNew(),dto.getVehicleStatus(),dto.getVehicleType());
     }
-    public static Vehicle modelToEntity(VehicleModel model){
-        return new Vehicle(model.getVehicleId(), model.getBrand(),model.getModel(),model.getDisplacement(),model.getColor(), model.getPower(), model.getTransmission(), model.getRegistrationYear(), model.getFullType(),model.getPrice(),model.getDiscount(),model.getAccessories(),model.getIsNew(),model.getVehicleStatus(),model.getVehicleType());
+    public static VehicleEntity modelToEntity(VehicleModel model){
+        return new VehicleEntity(model.getVehicleId(), model.getBrand(),model.getModel(),model.getDisplacement(),model.getColor(), model.getPower(), model.getTransmission(), model.getRegistrationYear(), model.getFullType(),model.getPrice(),model.getDiscount(),model.getAccessories(),model.getIsNew(),model.getVehicleStatus(),model.getVehicleType());
     }
-    public static VehicleModel entityToModel(Vehicle entity){
+    public static VehicleModel entityToModel(VehicleEntity entity){
         return new VehicleModel(entity.getVehicleId(), entity.getBrand(),entity.getModel(),entity.getDisplacement(),entity.getColor(), entity.getPower(), entity.getTransmission(), entity.getRegistrationYear(), entity.getFullType(),entity.getPrice(),entity.getDiscount(),entity.getAccessories(),entity.getIsNew(),entity.getVehicleStatus(),entity.getVehicleType());
     }
 }
