@@ -3,14 +3,10 @@ package com.develhope.spring.features.rent;
 import com.develhope.spring.features.rent.DTOs.RentalRequestDTO;
 import com.develhope.spring.features.rent.DTOs.RentalResponseDTO;
 import com.develhope.spring.features.rent.model.RentModel;
-import com.develhope.spring.features.user.DTOs.UserResponse;
-import com.develhope.spring.features.user.entity.UserEntity;
-import com.develhope.spring.features.user.model.UserModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.OffsetDateTime;
-import java.time.temporal.ChronoUnit;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -40,15 +36,6 @@ public class RentService {
             return false;
         }
     }
-    public RentalResponseDTO getSingleRental(long id) {
-        Optional<RentEntity> rent = rentRepository.findById(id);
-        if (rent.isPresent()) {
-            RentModel model = RentModel.entityToModel(rent.get());
-            return RentModel.modelToDTO(model);
-        } else {
-            return null;
-        }
-    }
 
     public RentalResponseDTO updateRentById(long id, RentalRequestDTO request) {
         Optional<RentEntity> rent = rentRepository.findById(id);
@@ -69,5 +56,21 @@ public class RentService {
         }
     }
 
+    public RentalResponseDTO getSingleRental(long id) {
+        Optional<RentEntity> rent = rentRepository.findById(id);
+        if (rent.isPresent()) {
+            RentModel model = RentModel.entityToModel(rent.get());
+            return RentModel.modelToDTO(model);
+        } else {
+            return null;
+        }
+    }
 
+    public List<RentEntity> getAll(){
+       List<RentEntity> rentals = rentRepository.findAll();
+       if (rentals.isEmpty()){
+           return null;
+       }
+       return rentals;
+    }
 }
