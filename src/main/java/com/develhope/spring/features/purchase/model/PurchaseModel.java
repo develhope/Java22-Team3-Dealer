@@ -1,13 +1,11 @@
 package com.develhope.spring.features.purchase.model;
 
-import com.develhope.spring.features.Vehicle.entity.Vehicle;
-import com.develhope.spring.features.orders.DTOs.CreateOrderRequest;
-import com.develhope.spring.features.orders.DTOs.OrderResponse;
-import com.develhope.spring.features.orders.entity.Order;
 import com.develhope.spring.features.orders.entity.OrderStatus;
 import com.develhope.spring.features.purchase.DTO.PurchaseRequest;
 import com.develhope.spring.features.purchase.DTO.PurchaseResponse;
 import com.develhope.spring.features.purchase.entity.Purchase;
+import com.develhope.spring.features.vehicle.entity.VehicleEntity;
+import com.develhope.spring.features.vehicle.service.VehicleService;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -20,18 +18,10 @@ import java.time.OffsetDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PurchaseModel {
-
-    @NotNull
     private BigDecimal deposit;
-
-    @NotNull
     private boolean payed;
-
-    @NotNull
     private OrderStatus status;
-
-    @NotNull
-    private Vehicle vehicle;
+    private VehicleEntity vehicle;
 
     private OffsetDateTime purchaseDate;
 

@@ -2,7 +2,7 @@ package com.develhope.spring.features.user.controller;
 
 import com.develhope.spring.features.user.DTOs.UserRequest;
 import com.develhope.spring.features.user.DTOs.UserResponse;
-import com.develhope.spring.features.user.entity.User;
+import com.develhope.spring.features.user.entity.UserEntity;
 import com.develhope.spring.features.user.service.UserServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -19,12 +19,12 @@ public class UsersController {
     @Autowired
     UserServiceImpl userServiceImpl;
 
-    @Operation(summary = "Create user")
+    @Operation(summary = "Create userEntity")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "A new user has been added to your table"),
+            @ApiResponse(responseCode = "200", description = "A new userEntity has been added to your table"),
             @ApiResponse(responseCode = "400", description = "Bad Request!")})
     @PostMapping("/createUser")
-    public ResponseEntity<?> createUsers(@AuthenticationPrincipal User user, @RequestBody UserRequest request){
+    public ResponseEntity<?> createUsers(@AuthenticationPrincipal UserEntity userEntity, @RequestBody UserRequest request){
         UserResponse saveUsers = userServiceImpl.createUsers(request);
         return new ResponseEntity<>(saveUsers, HttpStatus.CREATED);
     }
