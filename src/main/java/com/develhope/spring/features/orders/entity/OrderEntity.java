@@ -27,4 +27,9 @@ public class OrderEntity {
     private VehicleEntity vehicleEntity;
     @Column(nullable = false, name = "orderDate")
     private OffsetDateTime orderDate;
+
+
+    public OrderEntity(Long orderId) {
+    }
 }
+

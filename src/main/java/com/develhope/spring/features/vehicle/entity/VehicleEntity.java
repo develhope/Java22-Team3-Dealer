@@ -45,6 +45,9 @@ public class VehicleEntity {
     @Enumerated(EnumType.STRING)
     private Type vehicleType;
 
+    public VehicleEntity(Long vehicleId) {
+    }
+
     @Override
     public String toString() {
         return "vehicle{" +
@@ -66,4 +69,6 @@ public class VehicleEntity {
                 '}';
 
     }
+
+
 }

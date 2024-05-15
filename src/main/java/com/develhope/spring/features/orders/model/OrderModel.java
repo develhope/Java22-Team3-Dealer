@@ -17,7 +17,7 @@ import java.time.OffsetDateTime;
 @AllArgsConstructor
 public class OrderModel {
 
-    private Long id;
+    private Long orderId;
     private BigDecimal caution;
     private boolean payed;
     private OrderStatus status;
@@ -32,12 +32,14 @@ public class OrderModel {
         this.orderDate = orderDate;
     }
 
-    public static OrderEntity dtoToEntity(OrderRequest request) { // Converte un oggetto OrderRequest in un oggetto OrderEntity
+
+
+    public static OrderEntity dtoToEntity (OrderRequest request) { // Converte un oggetto OrderRequest in un oggetto OrderEntity
         return new OrderEntity(request.getId(),request.getCaution(), request.isPayed(), request.getStatus(),request.getVehicle(), request.getOrderDate());
 
     }
 
-    public static OrderResponse entityToDto(OrderEntity orderEntity) { //Converte un oggetto OrderEntity in un oggetto OrderResponse
+    public static OrderResponse entityToDto (OrderEntity orderEntity) { //Converte un oggetto OrderEntity in un oggetto OrderResponse
         OrderResponse response = new OrderResponse();
         response.setCaution(orderEntity.getCaution());
         response.setPayed(orderEntity.isPayed());
@@ -46,12 +48,30 @@ public class OrderModel {
         return response;
     }
 
-    public static OrderEntity modelToEntity(OrderModel model) {
-        return new OrderEntity(model.getId(), model.getCaution(),model.isPayed(),model.getStatus(),model.getVehicleEntity(),model.getOrderDate());
+    public static OrderEntity modelToEntity (OrderModel model) {
+        return new OrderEntity(model.getOrderId(), model.getCaution(),model.isPayed(),model.getStatus(),model.getVehicleEntity(),model.getOrderDate());
     }
 
-    public static OrderModel entityToModel(OrderEntity entity){
+    public static OrderModel entityToModel (OrderEntity entity){
         return new OrderModel(entity.getId(),entity.getCaution(), entity.isPayed(), entity.getStatus(),entity.getVehicleEntity(),entity.getOrderDate());
     }
+    public static OrderResponse modelToDto (OrderModel model) {
+        OrderResponse response = new OrderResponse();
+        response.setCaution(model.getCaution());
+        response.setPayed(model.isPayed());
+        response.setStatus(model.getStatus().toString());
+        response.setOrderDate(model.getOrderDate());
+        return response;
+    }
+    public static OrderModel dtoToModel (OrderResponse response) {
+        OrderModel model = new OrderModel();
+        model.setCaution(response.getCaution());
+        model.setPayed(response.isPayed());
+        model.setStatus(OrderStatus.convertStringToStatus(response.getStatus()));
+        model.setOrderDate(response.getOrderDate());
+        return model;
+    }
+
+
 }
 
