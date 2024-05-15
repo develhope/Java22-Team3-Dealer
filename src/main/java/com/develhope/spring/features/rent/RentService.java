@@ -6,6 +6,7 @@ import com.develhope.spring.features.rent.model.RentModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -66,11 +67,15 @@ public class RentService {
         }
     }
 
-    public List<RentEntity> getAll(){
-       List<RentEntity> rentals = rentRepository.findAll();
-       if (rentals.isEmpty()){
-           return null;
-       }
-       return rentals;
+    public List<RentalResponseDTO> getAll() {
+        List<RentEntity> rentals = rentRepository.findAll();
+        if (rentals.isEmpty()){
+            return null;
+        }
+        List<RentalResponseDTO> rentalsDTOs = rentals.stream()
+                .map(RentModel::entityToModel)
+                .map(RentModel::modelToDTO)
+                .toList();
+        return rentalsDTOs;
     }
 }

@@ -54,11 +54,10 @@ public class RentController {
 
     @GetMapping("/getAll")
     public ResponseEntity<?> getAll(){
-        List<RentEntity> result = service.getAll();
+        List<RentalResponseDTO> result = service.getAll();
         if(result.isEmpty()){
             return ResponseEntity.status(422).body("Your list of rentals is empty");
         }
         return ResponseEntity.ok(result);
     }
-
 }
