@@ -9,12 +9,14 @@ import com.develhope.spring.features.vehicle.entity.VehicleEntity;
 import com.develhope.spring.features.vehicle.repository.VehicleRepository;
 import jakarta.annotation.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@EnableJpaRepositories
 public class RentService {
     @Autowired
     private RentRepository rentRepository;
@@ -118,3 +120,6 @@ public class RentService {
                 .toList();
     }
 }
+//TODO:
+// 1_implementation of all methods with @AuthPrinciple
+//
