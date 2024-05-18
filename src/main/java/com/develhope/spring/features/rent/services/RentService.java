@@ -144,7 +144,7 @@ public class RentService {
         }
     }
 
-    public List<RentalResponseDTO> getAll() {
+    public List<RentalResponseDTO> getAllForUser_id(UserEntity user_id) {
         List<RentEntity> rentals = rentRepository.findAll();
         if (rentals.isEmpty()) {
             return null;
@@ -162,3 +162,4 @@ public class RentService {
 // 4_where do I get libraries of vehicles with all data?
 // 5_add query in repo
 // 6_ASK ANTONIO IF THE METHODS ARE RIGHT!!!!!!
+// 7_serve model per link?

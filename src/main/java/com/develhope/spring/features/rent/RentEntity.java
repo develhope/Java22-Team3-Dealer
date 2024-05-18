@@ -15,7 +15,7 @@ import java.time.OffsetDateTime;
 public class RentEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long rentId;
     @Column(nullable = true, name = "deposit")
     private BigDecimal rentalDeposit;
     @Column(nullable = false, name = "daily rental costs")
