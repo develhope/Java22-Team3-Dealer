@@ -26,7 +26,7 @@ public PurchaseController(PurchaseService purchaseService) {
     @Operation(summary = "Purchase confirmation")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Purchased confirmed"),
-            @ApiResponse(responseCode = "400", description = "Bad request!!!")})
+            @ApiResponse(responseCode = "400", description = "Bad requests!!!")})
     @PostMapping("/createPurchase")
     public ResponseEntity<PurchaseResponse> createPurchase (@RequestBody PurchaseRequest request){
         PurchaseResponse purchaseResponse = purchaseService.createPurchase(request);
@@ -35,7 +35,7 @@ public PurchaseController(PurchaseService purchaseService) {
     @Operation(summary = "Purchase update")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Updated successfully"),
-            @ApiResponse(responseCode = "400", description = "Bad request!")})
+            @ApiResponse(responseCode = "400", description = "Bad requests!")})
     @PutMapping("/updatePurchase/{id}")
     public ResponseEntity<PurchaseResponse>updatePurchase(@PathVariable Long id, @RequestBody PurchaseRequest request){
         PurchaseResponse purchaseResponse = purchaseService.updatePurchase(id,request);
@@ -44,7 +44,7 @@ public PurchaseController(PurchaseService purchaseService) {
     @Operation(summary = "Delete purchase by Id")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Deleted successfully"),
-            @ApiResponse(responseCode = "400", description = "Bad request!")})
+            @ApiResponse(responseCode = "400", description = "Bad requests!")})
     @DeleteMapping("/deletePurchase/{id}")
     public ResponseEntity<Void> deletePurchase(@PathVariable Long id){
         purchaseService.deleteOrderById(id);

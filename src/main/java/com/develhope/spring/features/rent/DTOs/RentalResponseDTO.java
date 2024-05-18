@@ -5,7 +5,7 @@ import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
-@Data
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -18,5 +18,4 @@ public class RentalResponseDTO {
     private OffsetDateTime rentalStart;
     private OffsetDateTime rentalEnd;
     private Boolean isPayed;
-    private VehicleEntity vehicle;
 }

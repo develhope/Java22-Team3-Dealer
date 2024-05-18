@@ -5,24 +5,19 @@ import com.develhope.spring.features.purchase.DTO.PurchaseRequest;
 import com.develhope.spring.features.purchase.DTO.PurchaseResponse;
 import com.develhope.spring.features.purchase.entity.Purchase;
 import com.develhope.spring.features.vehicle.entity.VehicleEntity;
-import com.develhope.spring.features.vehicle.service.VehicleService;
-import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 
-@Data
+@Setter
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
 public class PurchaseModel {
     private BigDecimal deposit;
     private boolean payed;
     private OrderStatus status;
-    private VehicleEntity vehicle;
-
     private OffsetDateTime purchaseDate;
 
     public static Purchase dtoToEntity(PurchaseRequest purchaseRequest) {

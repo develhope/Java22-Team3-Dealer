@@ -1,6 +1,6 @@
 package com.develhope.spring.features.purchase.DTO;
 
-import com.develhope.spring.features.Vehicle.entity.Vehicle;
+import com.develhope.spring.features.vehicle.entity.VehicleEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,6 +16,6 @@ public class PurchaseResponse {
     private BigDecimal deposit;
     private boolean payed;
     private String status;
-    private Vehicle vehicleId;
+    private VehicleEntity vehicle;
     private OffsetDateTime purchaseDate;
 }

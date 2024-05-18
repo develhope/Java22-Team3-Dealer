@@ -9,7 +9,6 @@ import lombok.*;
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 
-@Data
 @Getter
 @Setter
 @AllArgsConstructor
@@ -22,29 +21,27 @@ public class RentModel {
     private OffsetDateTime rentalStart;
     private OffsetDateTime rentalEnd;
     private Boolean isPayed;
-    private VehicleEntity vehicle;
 
-    public RentModel(BigDecimal rentalDeposit, BigDecimal dailyRental, BigDecimal totalRent, OffsetDateTime rentalStart, OffsetDateTime rentalEnd, Boolean isPayed, VehicleEntity vehicle) {
+    public RentModel(BigDecimal rentalDeposit, BigDecimal dailyRental, BigDecimal totalRent, OffsetDateTime rentalStart, OffsetDateTime rentalEnd, Boolean isPayed) {
         this.rentalDeposit = rentalDeposit;
         this.dailyRental = dailyRental;
         this.totalRent = totalRent;
         this.rentalStart = rentalStart;
         this.rentalEnd = rentalEnd;
         this.isPayed = isPayed;
-        this.vehicle = vehicle;
     }
 
     public static RentalResponseDTO modelToDTO(RentModel model){
-        return new RentalResponseDTO(model.getId(), model.getRentalDeposit(),model.getDailyRental(),model.getTotalRent(),model.getRentalStart(),model.getRentalEnd(),model.getIsPayed(),model.getVehicle());
+        return new RentalResponseDTO(model.getId(), model.getRentalDeposit(),model.getDailyRental(),model.getTotalRent(),model.getRentalStart(),model.getRentalEnd(),model.getIsPayed());
     }
     public static RentModel dtoToModel(RentalRequestDTO request){
-        return new RentModel(request.getRentalDeposit(),request.getDailyRental(),request.getTotalRent(),request.getRentalStart(),request.getRentalEnd(),request.getIsPayed(),request.getVehicle());
+        return new RentModel(request.getRentalDeposit(),request.getDailyRental(),request.getTotalRent(),request.getRentalStart(),request.getRentalEnd(),request.getIsPayed());
     }
     public static RentEntity modelToEntity(RentModel model){
-        return new RentEntity(model.getId(), model.getRentalDeposit(),model.getDailyRental(),model.getTotalRent(),model.getRentalStart(),model.getRentalEnd(),model.getIsPayed(),model.getVehicle());
+        return new RentEntity(model.getId(), model.getRentalDeposit(),model.getDailyRental(),model.getTotalRent(),model.getRentalStart(),model.getRentalEnd(),model.getIsPayed());
     }
     public static RentModel entityToModel(RentEntity entity){
-        return new RentModel(entity.getRentalDeposit(),entity.getDailyRental(),entity.getTotalRent(),entity.getRentalStart(),entity.getRentalEnd(),entity.getIsPayed(),entity.getVehicle());
+        return new RentModel(entity.getRentalDeposit(),entity.getDailyRental(),entity.getTotalRent(),entity.getRentalStart(),entity.getRentalEnd(),entity.getIsPayed());
     }
 }
 

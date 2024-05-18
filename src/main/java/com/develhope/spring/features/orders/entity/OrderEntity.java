@@ -23,8 +23,6 @@ public class OrderEntity {
     private boolean payed;
     @Column(nullable = false, name = "status")
     private OrderStatus status;
-    @Column(nullable = false, name = "vehicleEntity")
-    private VehicleEntity vehicleEntity;
     @Column(nullable = false, name = "orderDate")
     private OffsetDateTime orderDate;
 }

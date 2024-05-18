@@ -2,9 +2,12 @@ package com.develhope.spring.features.rent;
 
 import com.develhope.spring.features.rent.DTOs.RentalRequestDTO;
 import com.develhope.spring.features.rent.DTOs.RentalResponseDTO;
+import com.develhope.spring.features.user.entity.UserEntity;
+import com.develhope.spring.features.vehicle.entity.VehicleEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,9 +18,9 @@ public class RentController {
     @Autowired
     RentService service;
 
-    @PostMapping("/create")
-    public ResponseEntity<?> create(@RequestBody RentalRequestDTO request) {
-        RentalResponseDTO result = service.createRental(request);
+    @PostMapping("/create/{vehicleId}")
+    public ResponseEntity<?> create(@RequestBody RentalRequestDTO request,@AuthenticationPrincipal UserEntity userEntity, @PathVariable Long vehicleId, @RequestParam(required = false) Long costumerId) {
+        RentalResponseDTO result = service.createRental(request, userEntity, vehicleId,costumerId);
         if (result == null) {
             return ResponseEntity.status(420).body("Impossible to create new rental");
         } else {
@@ -35,8 +38,8 @@ public class RentController {
     }
 
     @PutMapping("/update/{rentId}")
-    public ResponseEntity<?> updateById(@PathVariable Long rentId, @RequestBody RentalRequestDTO request){
-        RentalResponseDTO updatedRent = service.updateRentById(rentId, request);
+    public ResponseEntity<?> updateById(@PathVariable Long rentId,@AuthenticationPrincipal UserEntity userEntity, @RequestBody RentalRequestDTO request){
+        RentalResponseDTO updatedRent = service.updateLinkRentById(rentId, userEntity, request);
         if (updatedRent == null) {
             return ResponseEntity.status(422).body("No rentals found for the rentId: " + rentId);
         }

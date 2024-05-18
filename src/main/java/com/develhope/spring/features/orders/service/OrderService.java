@@ -55,7 +55,7 @@ public class OrderService {
         orderEntityToUpdate.setCaution(request.getCaution());
         orderEntityToUpdate.setPayed(request.isPayed());
         if (request.getStatus() != null) {
-            orderEntityToUpdate.setStatus(OrderStatus.convertStringToStatus(request.getStatus()));
+            orderEntityToUpdate.setStatus(OrderStatus.convertStringToStatus(String.valueOf(request.getStatus())));
         }
         OrderEntity savedOrderEntity = orderRepository.save(orderEntityToUpdate);
 

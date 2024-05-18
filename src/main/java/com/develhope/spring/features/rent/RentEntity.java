@@ -8,13 +8,11 @@ import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 @Table(name = "Rental")
 @Entity
-@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
 public class RentEntity {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -30,21 +28,6 @@ public class RentEntity {
     private OffsetDateTime rentalEnd;
     @Column(nullable = false, name = "has been the rental costs payed?")
     private Boolean isPayed;
-    @Column(nullable = false, name = "rented vehicle")
-    private VehicleEntity vehicle;
 
-    @Override
-    public String toString() {
-        return "RentEntity{" +
-                "id=" + id +
-                ", rentalDeposit=" + rentalDeposit +
-                ", dailyRental=" + dailyRental +
-                ", totalRent=" + totalRent +
-                ", rentalStart=" + rentalStart +
-                ", rentalEnd=" + rentalEnd +
-                ", isPayed=" + isPayed +
-                ", vehicle=" + vehicle +
-                '}';
-    }
 }
 

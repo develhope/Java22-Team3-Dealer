@@ -7,7 +7,6 @@ import lombok.*;
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 
-@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -18,6 +17,5 @@ public class OrderRequest { // DTO che rappresenta i dati necessari per creare u
     private BigDecimal caution;
     private boolean payed;
     private OrderStatus status;
-    private VehicleEntity vehicle;
     private OffsetDateTime orderDate;
 }

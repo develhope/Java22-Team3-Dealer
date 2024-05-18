@@ -21,19 +21,17 @@ public class OrderModel {
     private BigDecimal caution;
     private boolean payed;
     private OrderStatus status;
-    private VehicleEntity vehicleEntity;
     private OffsetDateTime orderDate;
 
-    public OrderModel(BigDecimal caution, boolean payed, OrderStatus status, VehicleEntity vehicleEntity, OffsetDateTime orderDate) {
+    public OrderModel(BigDecimal caution, boolean payed, OrderStatus status, OffsetDateTime orderDate) {
         this.caution = caution;
         this.payed = payed;
         this.status = status;
-        this.vehicleEntity = vehicleEntity;
         this.orderDate = orderDate;
     }
 
     public static OrderEntity dtoToEntity(OrderRequest request) { // Converte un oggetto OrderRequest in un oggetto OrderEntity
-        return new OrderEntity(request.getId(),request.getCaution(), request.isPayed(), request.getStatus(),request.getVehicle(), request.getOrderDate());
+        return new OrderEntity(request.getId(),request.getCaution(), request.isPayed(), request.getStatus(), request.getOrderDate());
 
     }
 
@@ -47,11 +45,11 @@ public class OrderModel {
     }
 
     public static OrderEntity modelToEntity(OrderModel model) {
-        return new OrderEntity(model.getId(), model.getCaution(),model.isPayed(),model.getStatus(),model.getVehicleEntity(),model.getOrderDate());
+        return new OrderEntity(model.getId(), model.getCaution(),model.isPayed(),model.getStatus(),model.getOrderDate());
     }
 
     public static OrderModel entityToModel(OrderEntity entity){
-        return new OrderModel(entity.getId(),entity.getCaution(), entity.isPayed(), entity.getStatus(),entity.getVehicleEntity(),entity.getOrderDate());
+        return new OrderModel(entity.getId(),entity.getCaution(), entity.isPayed(), entity.getStatus(),entity.getOrderDate());
     }
 }
 

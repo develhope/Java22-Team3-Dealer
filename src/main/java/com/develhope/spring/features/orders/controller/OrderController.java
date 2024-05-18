@@ -28,7 +28,7 @@ public class OrderController {
     @Operation(summary = "create order")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "A new order has been created"),
-            @ApiResponse(responseCode = "400", description = "Bad request!!!")})
+            @ApiResponse(responseCode = "400", description = "Bad requests!!!")})
     @PostMapping("/createOrder")
     public ResponseEntity<OrderResponse>createOrder (@RequestBody OrderRequest request){
         OrderResponse newOrder = orderService.createOrder(request);
@@ -37,7 +37,7 @@ public class OrderController {
     @Operation(summary = "Update order")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Updated successfully"),
-            @ApiResponse(responseCode = "400", description = "Bad request!")})
+            @ApiResponse(responseCode = "400", description = "Bad requests!")})
     @PutMapping("/updateOrder/{id}")
     public ResponseEntity<OrderResponse>updateOrder(@PathVariable Long id, @RequestBody OrderRequest request){
         OrderResponse updateOrder = orderService.updateOrder(id,request);
@@ -46,7 +46,7 @@ public class OrderController {
     @Operation(summary = "Delete order by ID")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Deleted successfully"),
-            @ApiResponse(responseCode = "400", description = "Bad request!")})
+            @ApiResponse(responseCode = "400", description = "Bad requests!")})
     @DeleteMapping("/deleteOrder/{id}")
     public ResponseEntity<Void> deleteOrder(@PathVariable Long id){
         orderService.deleteOrderById(id);

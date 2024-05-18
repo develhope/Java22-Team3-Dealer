@@ -1,14 +1,9 @@
 package com.develhope.spring.features.purchase.service;
 
-import com.develhope.spring.features.orders.DTOs.CreateOrderRequest;
-import com.develhope.spring.features.orders.DTOs.OrderResponse;
-import com.develhope.spring.features.orders.entity.Order;
 import com.develhope.spring.features.orders.entity.OrderStatus;
-import com.develhope.spring.features.orders.model.OrderModel;
 import com.develhope.spring.features.purchase.DTO.PurchaseRequest;
 import com.develhope.spring.features.purchase.DTO.PurchaseResponse;
 import com.develhope.spring.features.purchase.entity.Purchase;
-import com.develhope.spring.features.purchase.entity.PurchaseStatus;
 import com.develhope.spring.features.purchase.model.PurchaseModel;
 import com.develhope.spring.features.purchase.repository.PurchaseRepository;
 import org.springframework.beans.factory.annotation.Autowired;

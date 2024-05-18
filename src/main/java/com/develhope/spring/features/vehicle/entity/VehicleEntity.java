@@ -5,11 +5,11 @@ import com.develhope.spring.vehicle.entity.VehicleStatus;
 import java.math.BigDecimal;
 
 @Entity
-@Data
 @Table
 @Getter
 @Setter
 @AllArgsConstructor
+@NoArgsConstructor
 public class VehicleEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,11 +19,11 @@ public class VehicleEntity {
     @Column(nullable = false)
     private String model;
     @Column(nullable = false)
-    private int displacement;
+    private Integer displacement;
     @Column(nullable = false)
     private String color;
     @Column(nullable = false)
-    private int power;
+    private Integer power;
     @Column(nullable = false)
     private String transmission;
     @Column(nullable = false)
@@ -43,27 +43,6 @@ public class VehicleEntity {
     private VehicleStatus vehicleStatus;
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    private Type vehicleType;
+    private VehicleType vehicleType;
 
-    @Override
-    public String toString() {
-        return "vehicle{" +
-                "vehicleId=" + vehicleId +
-                ", brand='" + brand + '\'' +
-                ", model='" + model + '\'' +
-                ", displacement=" + displacement +
-                ", color='" + color + '\'' +
-                ", power=" + power +
-                ", transmission='" + transmission + '\'' +
-                ", registrationYear=" + registrationYear +
-                ", fullType='" + fullType + '\'' +
-                ", price=" + price +
-                ", discount=" + discount +
-                ", accessories='" + accessories + '\'' +
-                ", isNew=" + isNew +
-                ", vehicleStatus=" + vehicleStatus +
-                ", vehicleType=" + vehicleType +
-                '}';
-
-    }
 }

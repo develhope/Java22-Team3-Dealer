@@ -2,25 +2,24 @@ package com.develhope.spring.features.vehicle.model;
 
 import com.develhope.spring.features.vehicle.DTOs.CreateVehicleRequest;
 import com.develhope.spring.features.vehicle.DTOs.VehicleResponse;
-import com.develhope.spring.features.vehicle.entity.Type;
+import com.develhope.spring.features.vehicle.entity.VehicleType;
 
 import com.develhope.spring.features.vehicle.entity.VehicleEntity;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.math.BigDecimal;
 
-@Data
 @AllArgsConstructor
 @NoArgsConstructor
-public final class VehicleModel {
+@Getter
+@Setter
+public class VehicleModel {
     private Long vehicleId;
     private String brand;
     private String model;
-    private int displacement;
+    private Integer displacement;
     private String color;
-    private int power;
+    private Integer power;
     private String transmission;
     private Integer registrationYear;
     private String fullType;
@@ -29,11 +28,11 @@ public final class VehicleModel {
     private String accessories;
     private Boolean isNew;
     private com.develhope.spring.vehicle.entity.VehicleStatus vehicleStatus;
-    private Type vehicleType;
+    private VehicleType vehicleType;
 
 
 
-    public VehicleModel(String brand, String model, int displacement, String color, int power, String transmission, Integer registrationYear, String fullType, BigDecimal price, BigDecimal discount, String accessories, Boolean isNew, com.develhope.spring.vehicle.entity.VehicleStatus vehicleStatus, Type vehicleType) {
+    public VehicleModel(String brand, String model, int displacement, String color, int power, String transmission, Integer registrationYear, String fullType, BigDecimal price, BigDecimal discount, String accessories, Boolean isNew, com.develhope.spring.vehicle.entity.VehicleStatus vehicleStatus, VehicleType vehicleType) {
     }
 
     public static VehicleResponse modelToDto(VehicleModel model){
