@@ -10,7 +10,7 @@ import lombok.*;
 @AllArgsConstructor
 @Getter
 @Setter
-public class LinkRentUserVehicle {
+public class LinkRentUserVehicleEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -27,7 +27,7 @@ public class LinkRentUserVehicle {
     @JoinColumn(name = "rent_id")
     private RentEntity rentEntity;
 
-    public LinkRentUserVehicle(UserEntity userEntity, VehicleEntity vehicleEntity, RentEntity rentEntity) {
+    public LinkRentUserVehicleEntity(UserEntity userEntity, VehicleEntity vehicleEntity, RentEntity rentEntity) {
         this.userEntity = userEntity;
         this.vehicleEntity = vehicleEntity;
         this.rentEntity = rentEntity;

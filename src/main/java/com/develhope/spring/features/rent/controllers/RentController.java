@@ -1,9 +1,9 @@
-package com.develhope.spring.features.rent;
+package com.develhope.spring.features.rent.controllers;
 
 import com.develhope.spring.features.rent.DTOs.RentalRequestDTO;
 import com.develhope.spring.features.rent.DTOs.RentalResponseDTO;
+import com.develhope.spring.features.rent.services.RentService;
 import com.develhope.spring.features.user.entity.UserEntity;
-import com.develhope.spring.features.vehicle.entity.VehicleEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,8 +28,8 @@ public class RentController {
         }
     }
     @DeleteMapping("/delete/rental/{rentalId}")
-    public ResponseEntity<?> delete(@PathVariable Long id) {
-        boolean result = service.deleteRentalById(id);
+    public ResponseEntity<?> delete(@AuthenticationPrincipal UserEntity userEntity, @PathVariable Long id) {
+        boolean result = service.deleteRentalById(userEntity,id);
         if (result) {
             return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
         } else {
@@ -38,21 +38,21 @@ public class RentController {
     }
 
     @PutMapping("/update/{rentId}")
-    public ResponseEntity<?> updateById(@PathVariable Long rentId,@AuthenticationPrincipal UserEntity userEntity, @RequestBody RentalRequestDTO request){
-        RentalResponseDTO updatedRent = service.updateLinkRentById(rentId, userEntity, request);
+    public ResponseEntity<?> updateById(@AuthenticationPrincipal UserEntity userEntity, @PathVariable Long rentId, @RequestBody RentalRequestDTO request){
+        RentalResponseDTO updatedRent = service.updateLinkRentById(userEntity, rentId, request);
         if (updatedRent == null) {
             return ResponseEntity.status(422).body("No rentals found for the rentId: " + rentId);
         }
-            return ResponseEntity.ok(updatedRent);
+        return ResponseEntity.ok(updatedRent);
     }
 
     @GetMapping("/getSingleRent/{rentId}")
-    public ResponseEntity<?> getSingleById(@PathVariable Long rentId){
-        RentalResponseDTO rental = service.getSingleRental(rentId);
+    public ResponseEntity<?> getSingleById(@AuthenticationPrincipal UserEntity userEntity,@PathVariable Long rentId){
+        RentalResponseDTO rental = service.getSingleRental(userEntity, rentId);
         if(rental == null){
             return  ResponseEntity.status(422).body("No rental found by the id: " + rentId);
         }
-            return ResponseEntity.ok(rental);
+        return ResponseEntity.ok(rental);
     }
 
     @GetMapping("/getAll")
