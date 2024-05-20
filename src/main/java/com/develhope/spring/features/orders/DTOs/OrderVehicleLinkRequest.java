@@ -16,6 +16,5 @@ public class OrderVehicleLinkRequest {
     private BigDecimal caution;
     private boolean payed;
     private String status;
-    private VehicleEntity vehicleEntity;
     private OffsetDateTime orderDate;
 }
