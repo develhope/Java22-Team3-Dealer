@@ -17,10 +17,10 @@ import java.time.Instant;
 public class RefreshToken {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private int id;
     private String token;
-    private Instant expiringDate;
+    private Instant expiryDate;
     @OneToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "userId")
+    @JoinColumn(name = "users_id", referencedColumnName = "id")
     private User userInfo;
 }

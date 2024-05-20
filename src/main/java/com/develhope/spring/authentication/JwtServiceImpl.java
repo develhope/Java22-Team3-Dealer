@@ -1,8 +1,8 @@
 package com.develhope.spring.authentication;
 
-import com.develhope.spring.features.user.entity.User;
 import com.develhope.spring.authentication.entities.RefreshToken;
 import com.develhope.spring.authentication.repository.RefreshTokenRepository;
+import com.develhope.spring.features.user.entity.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -18,6 +18,7 @@ import java.time.Instant;
 import java.time.OffsetDateTime;
 import java.util.*;
 import java.util.function.Function;
+
 @Service
 public class JwtServiceImpl implements JwtService {
     @Value("${token.signing.key}")
@@ -34,11 +35,6 @@ public class JwtServiceImpl implements JwtService {
     @Override
     public String generateToken(UserDetails userDetails) {
         return generateToken(new HashMap<>(), userDetails);
-    }
-
-    @Override
-    public RefreshToken generateRefreshToken(User user) {
-        return null;
     }
 
     @Override
@@ -75,7 +71,7 @@ public class JwtServiceImpl implements JwtService {
         RefreshToken refreshToken = RefreshToken.builder()
                 .userInfo(user)
                 .token(UUID.randomUUID().toString())
-                .expiringDate(refreshTokenExpiredAt)
+                .expiryDate(refreshTokenExpiredAt)
                 .build();
 
         return refreshTokenRepository.save(refreshToken);
@@ -107,4 +103,3 @@ public class JwtServiceImpl implements JwtService {
         return Keys.hmacShaKeyFor(keyBytes);
     }
 }
-
