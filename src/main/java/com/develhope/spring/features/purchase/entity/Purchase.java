@@ -1,7 +1,7 @@
 package com.develhope.spring.features.purchase.entity;
 
-import com.develhope.spring.features.Vehicle.entity.Vehicle;
 import com.develhope.spring.features.orders.entity.OrderStatus;
+import com.develhope.spring.features.vehicle.entity.VehicleEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -34,7 +34,7 @@ public class Purchase {
     private OrderStatus status;
 
     @Column(nullable = false, name = "vehicle")
-    private Vehicle vehicle;
+    private VehicleEntity vehicle;
 
     @Column(nullable = false, name = "purchaseDate")
     private OffsetDateTime purchaseDate;

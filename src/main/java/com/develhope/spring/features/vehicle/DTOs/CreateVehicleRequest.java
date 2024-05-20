@@ -2,6 +2,7 @@ package com.develhope.spring.features.vehicle.DTOs;
 
 import com.develhope.spring.features.vehicle.entity.Type;
 
+import com.develhope.spring.features.vehicle.entity.VehicleStatus;
 import lombok.*;
 
 import java.math.BigDecimal;
@@ -24,6 +25,6 @@ public class CreateVehicleRequest {
     private BigDecimal discount;
     private String accessories;
     private Boolean isNew;
-    private com.develhope.spring.vehicle.entity.VehicleStatus vehicleStatus;
+    private VehicleStatus vehicleStatus;
     private Type vehicleType;
 }

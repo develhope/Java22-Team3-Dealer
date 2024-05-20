@@ -18,13 +18,13 @@ import java.time.Instant;
 import java.time.OffsetDateTime;
 import java.util.*;
 import java.util.function.Function;
-
 @Service
-public class JtwServiceImpl implements JwtService{
+public class JwtServiceImpl implements JwtService {
     @Value("${token.signing.key}")
     private String jwtSigningKey;
+
     @Autowired
-    RefreshTokenRepository refreshTokenRepository;
+    private RefreshTokenRepository refreshTokenRepository;
 
     @Override
     public String extractUserName(String token) {
@@ -34,6 +34,11 @@ public class JtwServiceImpl implements JwtService{
     @Override
     public String generateToken(UserDetails userDetails) {
         return generateToken(new HashMap<>(), userDetails);
+    }
+
+    @Override
+    public RefreshToken generateRefreshToken(User user) {
+        return null;
     }
 
     @Override
@@ -49,7 +54,7 @@ public class JtwServiceImpl implements JwtService{
 
     private String generateToken(Map<String, Object> extraClaims, UserDetails userDetails) {
         OffsetDateTime tokenCreatedAt = OffsetDateTime.now();
-        OffsetDateTime tokenExpiredAt = tokenCreatedAt.plusMinutes(3);
+        OffsetDateTime tokenExpiredAt = tokenCreatedAt.plusHours(8);
 
         return Jwts.builder()
                 .setClaims(extraClaims).setSubject(userDetails.getUsername())
@@ -82,7 +87,7 @@ public class JtwServiceImpl implements JwtService{
 
     @Override
     public boolean isRefreshTokenExpired(RefreshToken token) {
-        if (token.getExpiringDate().compareTo(Instant.now()) < 0) {
+        if (token.getExpiryDate().compareTo(Instant.now()) < 0) {
             refreshTokenRepository.delete(token);
             return true;
         }
@@ -102,3 +107,4 @@ public class JtwServiceImpl implements JwtService{
         return Keys.hmacShaKeyFor(keyBytes);
     }
 }
+

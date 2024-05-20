@@ -1,7 +1,6 @@
 package com.develhope.spring.features.vehicle.entity;
 import jakarta.persistence.*;
 import lombok.*;
-import com.develhope.spring.vehicle.entity.VehicleStatus;
 import java.math.BigDecimal;
 
 @Entity

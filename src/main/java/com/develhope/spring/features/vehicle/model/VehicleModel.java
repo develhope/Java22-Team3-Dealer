@@ -5,6 +5,7 @@ import com.develhope.spring.features.vehicle.DTOs.VehicleResponse;
 import com.develhope.spring.features.vehicle.entity.Type;
 
 import com.develhope.spring.features.vehicle.entity.VehicleEntity;
+import com.develhope.spring.features.vehicle.entity.VehicleStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -28,12 +29,12 @@ public final class VehicleModel {
     private BigDecimal discount;
     private String accessories;
     private Boolean isNew;
-    private com.develhope.spring.vehicle.entity.VehicleStatus vehicleStatus;
+    private VehicleStatus vehicleStatus;
     private Type vehicleType;
 
 
 
-    public VehicleModel(String brand, String model, int displacement, String color, int power, String transmission, Integer registrationYear, String fullType, BigDecimal price, BigDecimal discount, String accessories, Boolean isNew, com.develhope.spring.vehicle.entity.VehicleStatus vehicleStatus, Type vehicleType) {
+    public VehicleModel(String brand, String model, int displacement, String color, int power, String transmission, Integer registrationYear, String fullType, BigDecimal price, BigDecimal discount, String accessories, Boolean isNew, VehicleStatus vehicleStatus, Type vehicleType) {
     }
 
     public static VehicleResponse modelToDto(VehicleModel model){
