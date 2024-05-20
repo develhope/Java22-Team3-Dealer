@@ -23,7 +23,7 @@ public class VehicleController {
     @Operation(summary = "Create vehicle")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "A new vehicle has been added to your table"),
-            @ApiResponse(responseCode = "400", description = "Bad request!")})
+            @ApiResponse(responseCode = "400", description = "Bad requests!")})
     @PostMapping("/createVehicle")
     public ResponseEntity<?> createVehicle( @RequestBody CreateVehicleRequest request){
         VehicleResponse newVehicle = service.createVehicle(request);
@@ -33,7 +33,7 @@ public class VehicleController {
     @Operation(summary = "Delete vehicle by ID")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Deleted successfully"),
-            @ApiResponse(responseCode = "400", description = "Bad request!")})
+            @ApiResponse(responseCode = "400", description = "Bad requests!")})
     @PostMapping("/deleteVehicle")
     public ResponseEntity<?> deleteVehicle(Long id){
         service.deleteVehicleByID(id);
@@ -43,7 +43,7 @@ public class VehicleController {
     @Operation(summary = "Update vehicle attributes")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Updated successfully"),
-            @ApiResponse(responseCode = "400", description = "Bad request!")})
+            @ApiResponse(responseCode = "400", description = "Bad requests!")})
     @PostMapping("/deleteVehicle")
     public ResponseEntity<?> update (Long id, CreateVehicleRequest request){
         VehicleResponse updated = service.updateVehicle(id,request);
@@ -53,7 +53,7 @@ public class VehicleController {
     @Operation(summary = "Get vehicle")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Research executed successfully"),
-            @ApiResponse(responseCode = "400", description = "Bad request!")})
+            @ApiResponse(responseCode = "400", description = "Bad requests!")})
     @PostMapping("/getVehicleEntity")
     public ResponseEntity<?> getById (Long id){
         return new ResponseEntity<>(service.findById(id), HttpStatus.OK);
@@ -61,7 +61,7 @@ public class VehicleController {
     @Operation(summary = "Get all vehicles")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "All vehicles retrieved successfully"),
-            @ApiResponse(responseCode = "400", description = "Bad request!")})
+            @ApiResponse(responseCode = "400", description = "Bad requests!")})
     @PostMapping("/getAllVehicle")
     public ResponseEntity<?> getAll ( ) throws Exception {
         return new ResponseEntity<>(service.getAll(), HttpStatus.OK);

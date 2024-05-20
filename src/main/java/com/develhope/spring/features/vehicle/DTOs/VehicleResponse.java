@@ -1,11 +1,10 @@
 package com.develhope.spring.features.vehicle.DTOs;
 
-import com.develhope.spring.features.vehicle.entity.Type;
+import com.develhope.spring.features.vehicle.entity.VehicleType;
 
 import lombok.*;
 
 import java.math.BigDecimal;
-@Data
 @Getter
 @Setter
 @AllArgsConstructor
@@ -14,9 +13,9 @@ public class VehicleResponse {
     private Long vehicleId;
     private String brand;
     private String model;
-    private int displacement;
+    private Integer displacement;
     private String color;
-    private int power;
+    private Integer power;
     private String transmission;
     private Integer registrationYear;
     private String fullType;
@@ -25,5 +24,5 @@ public class VehicleResponse {
     private String accessories;
     private Boolean isNew;
     private com.develhope.spring.vehicle.entity.VehicleStatus vehicleStatus;
-    private Type vehicleType;
+    private VehicleType vehicleType;
 }

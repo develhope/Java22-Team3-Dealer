@@ -5,6 +5,7 @@ import com.develhope.spring.features.vehicle.DTOs.CreateVehicleRequest;
 import com.develhope.spring.features.vehicle.DTOs.VehicleResponse;
 import com.develhope.spring.features.vehicle.entity.VehicleEntity;
 import com.develhope.spring.features.vehicle.model.VehicleModel;
+import com.develhope.spring.features.vehicle.repository.VehicleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +14,7 @@ import java.util.List;
 @Service
 public class VehicleService {
     @Autowired
-    private com.develhope.spring.vehicle.repository.VehicleRepository repository;
+    private VehicleRepository repository;
 
     public VehicleResponse createVehicle(CreateVehicleRequest request){
         VehicleModel model = VehicleModel.dtoToModel(request);

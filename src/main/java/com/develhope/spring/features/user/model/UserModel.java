@@ -3,7 +3,7 @@ package com.develhope.spring.features.user.model;
 import com.develhope.spring.features.user.DTOs.UserRequest;
 import com.develhope.spring.features.user.DTOs.UserResponse;
 import com.develhope.spring.features.user.entity.Role;
-import com.develhope.spring.features.user.entity.User;
+import com.develhope.spring.features.user.entity.UserEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
@@ -38,10 +38,10 @@ public class UserModel {
     public static UserModel dtoToModel(UserRequest request){
         return new UserModel(request.getName(), request.getSurname(), request.getTelephoneNumber(), request.getEmail(), request.getPassword(), request.getRole());
     }
-    public static User modelToEntity(UserModel userModel){
-        return new User(userModel.getId(), userModel.getName(), userModel.getSurname(), userModel.getTelephoneNumber(), userModel.getEmail(), userModel.getPassword(), userModel.getRole());
+    public static UserEntity modelToEntity(UserModel userModel){
+        return new UserEntity(userModel.getId(), userModel.getName(), userModel.getSurname(), userModel.getTelephoneNumber(), userModel.getEmail(), userModel.getPassword(), userModel.getRole());
     }
-    public static UserModel entityToModel(User user){
-        return new UserModel(user.getUserId(), user.getName(), user.getSurname(), user.getTelephoneNumber(), user.getEmail(), user.getPassword(), user.getRole());
+    public static UserModel entityToModel(UserEntity userEntity){
+        return new UserModel(userEntity.getUserId(), userEntity.getName(), userEntity.getSurname(), userEntity.getTelephoneNumber(), userEntity.getEmail(), userEntity.getPassword(), userEntity.getRole());
     }
 }
