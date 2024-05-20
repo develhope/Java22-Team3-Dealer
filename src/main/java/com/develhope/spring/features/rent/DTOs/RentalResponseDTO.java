@@ -1,6 +1,5 @@
 package com.develhope.spring.features.rent.DTOs;
 
-import com.develhope.spring.features.vehicle.entity.VehicleEntity;
 import lombok.*;
 
 import java.math.BigDecimal;
@@ -18,4 +17,7 @@ public class RentalResponseDTO {
     private OffsetDateTime rentalStart;
     private OffsetDateTime rentalEnd;
     private Boolean isPayed;
+    private Long costumerId;
+    private Long sellerId;
+    private Long vehicleId;
 }

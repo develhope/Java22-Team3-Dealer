@@ -3,14 +3,15 @@ package com.develhope.spring.features.rent.services;
 import com.develhope.spring.BaseEntityData;
 import com.develhope.spring.features.rent.DTOs.RentalRequestDTO;
 import com.develhope.spring.features.rent.DTOs.RentalResponseDTO;
-import com.develhope.spring.features.rent.LinkRentUserVehicleEntity;
+import com.develhope.spring.features.rent.entities.LinkRentUserVehicleEntity;
 import com.develhope.spring.features.rent.repositories.LinkUserVehicleRepository;
-import com.develhope.spring.features.rent.RentEntity;
+import com.develhope.spring.features.rent.entities.RentEntity;
 import com.develhope.spring.features.rent.repositories.RentRepository;
 import com.develhope.spring.features.rent.model.RentModel;
 
 import com.develhope.spring.features.user.entity.Role;
 import com.develhope.spring.features.user.entity.UserEntity;
+import com.develhope.spring.features.user.model.UserModel;
 import com.develhope.spring.features.user.repository.UsersRepository;
 import com.develhope.spring.features.vehicle.entity.VehicleEntity;
 import com.develhope.spring.features.vehicle.repository.VehicleRepository;
@@ -80,10 +81,9 @@ public class RentService {
     }
 
     //this method updates rental's infos by checking first if the user has access to this function
-    public RentalResponseDTO updateLinkRentById(UserEntity userEntity, Long rentId, RentalRequestDTO request) {
-        UserEntity user = (UserEntity) userDetails.getAuthorities();
+    public RentalResponseDTO updateLinkRentById(UserModel user, Long rentId, RentalRequestDTO request) {
         RentModel model = null;
-        if (userEntity != null & user != null) {
+        if (user != null) {
             try {
                 if (user.getRole() == Role.SALESMAN || user.getRole() == Role.ADMIN || user.getRole() == Role.CUSTOMER) {
                     Optional<RentEntity> rent = rentRepository.findById(rentId);
@@ -143,7 +143,7 @@ public class RentService {
             return null;
         }
     }
-
+//TODO: non per Id ma per entity
     public List<RentalResponseDTO> getAllForUser_id(UserEntity user_id) {
         List<RentEntity> rentals = rentRepository.findAll();
         if (rentals.isEmpty()) {
@@ -154,6 +154,7 @@ public class RentService {
                 .map(RentModel::modelToDTO)
                 .toList();
     }
+
 }
 //TODO:
 // 1_add a method to retrieve all rentals for one user that works for only two roles
@@ -161,5 +162,5 @@ public class RentService {
 // 3_add a method for most rented vehicle/most active profile of sellers
 // 4_where do I get libraries of vehicles with all data?
 // 5_add query in repo
-// 6_ASK ANTONIO IF THE METHODS ARE RIGHT!!!!!!
+// 6_change boolean in payed with enum?
 // 7_serve model per linkAnche?

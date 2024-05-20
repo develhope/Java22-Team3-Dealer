@@ -4,6 +4,7 @@ import com.develhope.spring.features.rent.DTOs.RentalRequestDTO;
 import com.develhope.spring.features.rent.DTOs.RentalResponseDTO;
 import com.develhope.spring.features.rent.services.RentService;
 import com.develhope.spring.features.user.entity.UserEntity;
+import com.develhope.spring.features.user.model.UserModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +20,7 @@ public class RentController {
     RentService service;
 
     @PostMapping("/create/{vehicleId}")
-    public ResponseEntity<?> create(@RequestBody RentalRequestDTO request,@AuthenticationPrincipal UserEntity userEntity, @PathVariable Long vehicleId, @RequestParam(required = false) Long costumerId) {
+    public ResponseEntity<?> create(@AuthenticationPrincipal UserEntity userEntity,@RequestBody RentalRequestDTO request, @PathVariable Long vehicleId, @RequestParam(required = false) Long costumerId) {
         RentalResponseDTO result = service.createRental(request, userEntity, vehicleId,costumerId);
         if (result == null) {
             return ResponseEntity.status(420).body("Impossible to create new rental");
@@ -36,10 +37,10 @@ public class RentController {
             return ResponseEntity.status(421).body("Impossible to delete the rental with the id: " + id);
         }
     }
-
+//here the userEntity found is converted into a model
     @PutMapping("/update/{rentId}")
-    public ResponseEntity<?> updateById(@AuthenticationPrincipal UserEntity userEntity, @PathVariable Long rentId, @RequestBody RentalRequestDTO request){
-        RentalResponseDTO updatedRent = service.updateLinkRentById(userEntity, rentId, request);
+    public ResponseEntity<?> updateRentById(@AuthenticationPrincipal UserEntity userEntity, @PathVariable Long rentId, @RequestBody RentalRequestDTO request){
+        RentalResponseDTO updatedRent = service.updateLinkRentById(UserModel.entityToModel(userEntity), rentId, request);
         if (updatedRent == null) {
             return ResponseEntity.status(422).body("No rentals found for the rentId: " + rentId);
         }
@@ -56,8 +57,8 @@ public class RentController {
     }
 
     @GetMapping("/getAll")
-    public ResponseEntity<?> getAll(){
-        List<RentalResponseDTO> result = service.getAll();
+    public ResponseEntity<?> getAll(@AuthenticationPrincipal UserEntity user){
+        List<RentalResponseDTO> result = service.getAllForUser_id(user);
         if(result.isEmpty()){
             return ResponseEntity.status(422).body("Your list of rentals is empty");
         }

@@ -1,4 +1,4 @@
-package com.develhope.spring.features.rent;
+package com.develhope.spring.features.rent.entities;
 
 import com.develhope.spring.features.user.entity.UserEntity;
 import com.develhope.spring.features.vehicle.entity.VehicleEntity;

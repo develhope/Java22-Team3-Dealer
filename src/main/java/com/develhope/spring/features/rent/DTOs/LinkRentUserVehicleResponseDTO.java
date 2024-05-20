@@ -7,17 +7,13 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.math.BigDecimal;
-import java.time.OffsetDateTime;
-import java.util.List;
-
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class LinkRentUserVehicleResponseDTO {
-private List<RentalResponseDTO> rentalResponseDTOs;
-private List<UserResponse> users;
-private List<VehicleResponse> vehicles;
-
+private Long id;
+private VehicleResponse vehicleDTO;
+private UserResponse userDTO;
+private RentalResponseDTO rentalDTO;
 }

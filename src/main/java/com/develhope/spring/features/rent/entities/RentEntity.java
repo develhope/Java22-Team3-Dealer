@@ -1,6 +1,5 @@
-package com.develhope.spring.features.rent;
+package com.develhope.spring.features.rent.entities;
 
-import com.develhope.spring.features.vehicle.entity.VehicleEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -15,7 +14,7 @@ import java.time.OffsetDateTime;
 public class RentEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long rentId;
+    private Long id;
     @Column(nullable = true, name = "deposit")
     private BigDecimal rentalDeposit;
     @Column(nullable = false, name = "daily rental costs")
@@ -28,6 +27,12 @@ public class RentEntity {
     private OffsetDateTime rentalEnd;
     @Column(nullable = false, name = "has been the rental costs payed?")
     private Boolean isPayed;
+    @Column(nullable = false, name = "costumer_id")
+    private Long costumerId;
+    @Column(nullable = false, name = "seller_id")
+    private Long sellerId;
+    @Column(nullable = false, name = "vehicle_id")
+    private Long vehicleId;
 
 }
 

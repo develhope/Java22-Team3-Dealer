@@ -1,6 +1,6 @@
 package com.develhope.spring.features.rent.repositories;
 
-import com.develhope.spring.features.rent.LinkRentUserVehicleEntity;
+import com.develhope.spring.features.rent.entities.LinkRentUserVehicleEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.stereotype.Repository;
