@@ -36,7 +36,7 @@ public abstract class AuthenticationServiceImpl implements AuthenticationService
         UserEntity userEntity = UserEntity.builder()
                 .name(request.getFirstName())
                 .surname(request.getLastName())
-                .telephoneNumber(request.getTelephoneNumber())
+                .telephoneNumber(request.getPhone())
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
                 .role(Role.convertStringToRole(request.getRole())).build();
