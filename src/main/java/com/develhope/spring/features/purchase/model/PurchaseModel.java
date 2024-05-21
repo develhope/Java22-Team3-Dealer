@@ -2,7 +2,6 @@ package com.develhope.spring.features.purchase.model;
 
 import com.develhope.spring.features.Vehicle.entity.Vehicle;
 import com.develhope.spring.features.orders.DTOs.CreateOrderRequest;
-import com.develhope.spring.features.orders.DTOs.OrderResponse;
 import com.develhope.spring.features.orders.entity.Order;
 import com.develhope.spring.features.orders.entity.OrderStatus;
 import com.develhope.spring.features.purchase.DTO.PurchaseRequest;

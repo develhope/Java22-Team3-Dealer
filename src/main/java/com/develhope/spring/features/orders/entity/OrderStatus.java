@@ -6,6 +6,7 @@ public enum OrderStatus {
     COMPLETED,
     DELETED,
     NOT_SET;
+
     public static OrderStatus convertStringToStatus(String status) {
         return switch (status.toLowerCase()) {
             case "payed" -> OrderStatus.PAYED;

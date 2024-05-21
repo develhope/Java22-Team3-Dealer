@@ -1,69 +1,83 @@
 package com.develhope.spring.features.orders.service;
 
-import com.develhope.spring.features.orders.DTOs.OrderRequest;
-import com.develhope.spring.features.orders.DTOs.OrderResponse;
 import com.develhope.spring.features.orders.entity.OrderEntity;
-import com.develhope.spring.features.orders.entity.OrderStatus;
 import com.develhope.spring.features.orders.model.OrderModel;
 import com.develhope.spring.features.orders.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class OrderService {
+
     @Autowired
     private OrderRepository orderRepository;
 
-    public OrderService(OrderRepository orderRepository) {
-        this.orderRepository = orderRepository;
-
-    }
-
-    public List<OrderResponse> getAllOrders() throws Exception {
-        List<OrderEntity> orderEntities = orderRepository.findAll();
-        if (orderEntities.isEmpty()) {
-            throw new Exception("No orderEntities found in the database.");
+    public ResponseEntity<List<OrderModel>> getAllOrders(String role) {
+        if (role.equals("ROLE_ADMIN") || role.equals("ROLE_SALESMAN")) {
+            List<OrderEntity> orderEntities = orderRepository.findAll();
+            return new ResponseEntity<>(OrderModel.entityListToModelList(orderEntities), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
+    }
 
-        List<OrderResponse> orderResponses = new ArrayList<>();
-        for (OrderEntity orderEntity : orderEntities) {
-            OrderResponse orderResponse = OrderModel.entityToDto(orderEntity);
-            orderResponses.add(orderResponse);
+    public ResponseEntity<OrderModel> getOrderById(Long id, String role, Long userId) {
+        Optional<OrderEntity> orderEntityOptional = orderRepository.findById(id);
+        if (orderEntityOptional.isPresent()) {
+            OrderEntity orderEntity = orderEntityOptional.get();
+            if (role.equals("ROLE_ADMIN") || role.equals("ROLE_SALESMAN") || (role.equals("ROLE_CUSTOMER") && orderEntity.getCustomerId().equals(userId))) {
+                return new ResponseEntity<>(OrderModel.entityToModel(orderEntity), HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+            }
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        return orderResponses;
     }
 
-    public OrderResponse createOrder(OrderRequest request) {
-        OrderEntity orderEntity = OrderModel.dtoToEntity(request);
-        OrderEntity savedOrderEntity = orderRepository.save(orderEntity);
-        return OrderModel.entityToDto(savedOrderEntity);
-
-    }
-
-    public OrderResponse findById(Long orderId) {
-        OrderEntity orderEntity = orderRepository.findById(orderId)
-                .orElseThrow(() -> new IllegalArgumentException("OrderEntity not found for id: " + orderId));
-        return OrderModel.entityToDto(orderEntity);
-    }
-    public OrderResponse updateOrder(Long orderId, OrderRequest request) {
-        OrderEntity orderEntityToUpdate = orderRepository.findById(orderId)
-                .orElseThrow(() -> new IllegalArgumentException("OrderEntity not found for id: " + orderId));
-
-        orderEntityToUpdate.setCaution(request.getCaution());
-        orderEntityToUpdate.setPayed(request.isPayed());
-        if (request.getStatus() != null) {
-            orderEntityToUpdate.setStatus(OrderStatus.convertStringToStatus(String.valueOf(request.getStatus())));
+    public ResponseEntity<OrderModel> createOrder(OrderModel orderModel, String role) {
+        if (role.equals("ROLE_ADMIN") || role.equals("ROLE_SALESMAN")) {
+            OrderEntity orderEntity = OrderModel.modelToEntity(orderModel);
+            orderEntity = orderRepository.save(orderEntity);
+            return new ResponseEntity<>(OrderModel.entityToModel(orderEntity), HttpStatus.CREATED);
+        } else {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
-        OrderEntity savedOrderEntity = orderRepository.save(orderEntityToUpdate);
-
-        // Converte l'ordine salvato in un DTO e lo restituisce
-        return OrderModel.entityToDto(savedOrderEntity);
     }
 
-    public void deleteOrderById(Long orderId) {
-        orderRepository.deleteById(orderId);
+    public ResponseEntity<OrderModel> updateOrder(OrderModel orderModel, String role, Long userId) {
+        Optional<OrderEntity> orderEntityOptional = orderRepository.findById(orderModel.getId());
+        if (orderEntityOptional.isPresent()) {
+            OrderEntity orderEntity = orderEntityOptional.get();
+            if (role.equals("ROLE_ADMIN") || role.equals("ROLE_SALESMAN") || (role.equals("ROLE_CUSTOMER") && orderEntity.getCustomerId().equals(userId))) {
+                OrderEntity updatedOrderEntity = OrderModel.modelToEntity(orderModel);
+                updatedOrderEntity = orderRepository.save(updatedOrderEntity);
+                return new ResponseEntity<>(OrderModel.entityToModel(updatedOrderEntity), HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+            }
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    public ResponseEntity<Void> deleteOrder(Long id, String role, Long userId) {
+        Optional<OrderEntity> orderEntityOptional = orderRepository.findById(id);
+        if (orderEntityOptional.isPresent()) {
+            OrderEntity orderEntity = orderEntityOptional.get();
+            if (role.equals("ROLE_ADMIN") || role.equals("ROLE_SALESMAN") || (role.equals("ROLE_CUSTOMER") && orderEntity.getCustomerId().equals(userId))) {
+                orderRepository.deleteById(id);
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            } else {
+                return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+            }
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 }

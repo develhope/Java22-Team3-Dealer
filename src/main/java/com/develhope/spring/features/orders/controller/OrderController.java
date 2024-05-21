@@ -1,74 +1,86 @@
 package com.develhope.spring.features.orders.controller;
 
-
-
-import com.develhope.spring.features.orders.DTOs.OrderRequest;
-import com.develhope.spring.features.orders.DTOs.OrderResponse;
+import com.develhope.spring.features.orders.model.OrderModel;
 import com.develhope.spring.features.orders.service.OrderService;
-
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
 @RestController
 @RequestMapping("/orders")
 public class OrderController {
+
     @Autowired
     private OrderService orderService;
 
-
-    public OrderController(OrderService orderService) {
-        this.orderService = orderService;
-    }
-    @Operation(summary = "create order")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "A new order has been created"),
-            @ApiResponse(responseCode = "400", description = "Bad request!!!")})
-    @PostMapping("/createOrder")
-    public ResponseEntity<OrderResponse>createOrder (@RequestBody OrderRequest request){
-        OrderResponse newOrder = orderService.createOrder(request);
-        return ResponseEntity.status(HttpStatus.CREATED).body(newOrder);
-    }
-    @Operation(summary = "Update order")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Updated successfully"),
-            @ApiResponse(responseCode = "400", description = "Bad request!")})
-    @PutMapping("/updateOrder/{id}")
-    public ResponseEntity<OrderResponse>updateOrder(@PathVariable Long id, @RequestBody OrderRequest request){
-        OrderResponse updateOrder = orderService.updateOrder(id,request);
-        return ResponseEntity.ok(updateOrder);
-    }
-    @Operation(summary = "Delete order by ID")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Deleted successfully"),
-            @ApiResponse(responseCode = "400", description = "Bad request!")})
-    @DeleteMapping("/deleteOrder/{id}")
-    public ResponseEntity<Void> deleteOrder(@PathVariable Long id){
-        orderService.deleteOrderById(id);
-        return ResponseEntity.ok().build();
-    }
-    @Operation(summary = "Get order by ID")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "OrderEntity found successfully"),
-            @ApiResponse(responseCode = "404", description = "OrderEntity not found!")})
-    @GetMapping("/getOrder/{id}")
-    public ResponseEntity<OrderResponse> getOrderById(@PathVariable Long id){
-        OrderResponse order = orderService.findById(id);
-        return ResponseEntity.ok(order);
-    }
-    @Operation(summary = "Get all orders")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "All orders retrieved successfully"),
-            @ApiResponse(responseCode = "404", description = "No orders found!")})
-    @GetMapping("/getAllOrders")
-    public ResponseEntity<List<OrderResponse>> getAllOrders() throws Exception{
-        List<OrderResponse> orders = orderService.getAllOrders();
-        return ResponseEntity.ok(orders);
+    @GetMapping
+    public ResponseEntity<?> getAllOrders(@AuthenticationPrincipal UserDetails userDetails) {
+        String role = userDetails.getAuthorities().iterator().next().getAuthority();
+        ResponseEntity<List<OrderModel>> response = orderService.getAllOrders(role);
+        if (response.getStatusCode().isError()) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Error 403: You do not have permission to view all orders");
+        }
+        return response;
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getOrderById(@PathVariable Long id, @AuthenticationPrincipal UserDetails userDetails) {
+        String role = userDetails.getAuthorities().iterator().next().getAuthority();
+        Long userId = Long.valueOf(userDetails.getUsername());
+        ResponseEntity<OrderModel> response = orderService.getOrderById(id, role, userId);
+        if (response.getStatusCode().isError()) {
+            if (response.getStatusCode().equals(HttpStatus.FORBIDDEN)) {
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Error 403: You do not have permission to view this order");
+            } else if (response.getStatusCode().equals(HttpStatus.NOT_FOUND)) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Error 404: Order not found");
+            }
+        }
+        return response;
+    }
+
+    @PostMapping
+    public ResponseEntity<?> createOrder(@RequestBody OrderModel orderModel, @AuthenticationPrincipal UserDetails userDetails) {
+        String role = userDetails.getAuthorities().iterator().next().getAuthority();
+        ResponseEntity<OrderModel> response = orderService.createOrder(orderModel, role);
+        if (response.getStatusCode().isError()) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Error 403: Impossible to create new order");
+        }
+        return response;
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updateOrder(@PathVariable Long id, @RequestBody OrderModel orderModel, @AuthenticationPrincipal UserDetails userDetails) {
+        String role = userDetails.getAuthorities().iterator().next().getAuthority();
+        Long userId = Long.valueOf(userDetails.getUsername());
+        orderModel.setId(id);
+        ResponseEntity<OrderModel> response = orderService.updateOrder(orderModel, role, userId);
+        if (response.getStatusCode().isError()) {
+            if (response.getStatusCode().equals(HttpStatus.FORBIDDEN)) {
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Error 403: You do not have permission to update this order");
+            } else if (response.getStatusCode().equals(HttpStatus.NOT_FOUND)) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Error 404: Order not found");
+            }
+        }
+        return response;
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteOrder(@PathVariable Long id, @AuthenticationPrincipal UserDetails userDetails) {
+        String role = userDetails.getAuthorities().iterator().next().getAuthority();
+        Long userId = Long.valueOf(userDetails.getUsername());
+        ResponseEntity<Void> response = orderService.deleteOrder(id, role, userId);
+        if (response.getStatusCode().isError()) {
+            if (response.getStatusCode().equals(HttpStatus.FORBIDDEN)) {
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Error 403: You do not have permission to delete this order");
+            } else if (response.getStatusCode().equals(HttpStatus.NOT_FOUND)) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Error 404: Order not found");
+            }
+        }
+        return response;
+    }
 }

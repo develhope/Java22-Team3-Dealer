@@ -1,6 +1,6 @@
 package com.develhope.spring.features.orders.controller;
 
-import com.develhope.spring.features.orders.entity.OrderVehicleLinkEntity;
+import com.develhope.spring.features.orders.entity.LinkOrderUserVehicleEntity;
 import com.develhope.spring.features.orders.service.OrderVehicleLinkService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,14 +17,14 @@ public class OrderVehicleLinkController {
     private OrderVehicleLinkService orderVehicleLinkService;
 
     @GetMapping
-    public ResponseEntity<List<OrderVehicleLinkEntity>> getAllOrderVehicleLinks() {
-        List<OrderVehicleLinkEntity> orderVehicleLinks = orderVehicleLinkService.getAllOrderVehicleLinks();
+    public ResponseEntity<List<LinkOrderUserVehicleEntity>> getAllOrderVehicleLinks() {
+        List<LinkOrderUserVehicleEntity> orderVehicleLinks = orderVehicleLinkService.getAllOrderVehicleLinks();
         return new ResponseEntity<>(orderVehicleLinks, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<OrderVehicleLinkEntity> getOrderVehicleLinkById(@PathVariable Long id) {
-        OrderVehicleLinkEntity orderVehicleLink = orderVehicleLinkService.getOrderVehicleLinkById(id);
+    public ResponseEntity<LinkOrderUserVehicleEntity> getOrderVehicleLinkById(@PathVariable Long id) {
+        LinkOrderUserVehicleEntity orderVehicleLink = orderVehicleLinkService.getOrderVehicleLinkById(id);
         if (orderVehicleLink != null) {
             return new ResponseEntity<>(orderVehicleLink, HttpStatus.OK);
         } else {
@@ -33,14 +33,14 @@ public class OrderVehicleLinkController {
     }
 
     @PostMapping
-    public ResponseEntity<OrderVehicleLinkEntity> createOrderVehicleLink(@RequestBody OrderVehicleLinkEntity orderVehicleLink) {
-        OrderVehicleLinkEntity createdOrderVehicleLink = orderVehicleLinkService.createOrderVehicleLink(orderVehicleLink);
+    public ResponseEntity<LinkOrderUserVehicleEntity> createOrderVehicleLink(@RequestBody LinkOrderUserVehicleEntity orderVehicleLink) {
+        LinkOrderUserVehicleEntity createdOrderVehicleLink = orderVehicleLinkService.createOrderVehicleLink(orderVehicleLink);
         return new ResponseEntity<>(createdOrderVehicleLink, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<OrderVehicleLinkEntity> updateOrderVehicleLink(@PathVariable Long id, @RequestBody OrderVehicleLinkEntity updatedOrderVehicleLink) {
-        OrderVehicleLinkEntity updatedLink = orderVehicleLinkService.updateOrderVehicleLink(id, updatedOrderVehicleLink);
+    public ResponseEntity<LinkOrderUserVehicleEntity> updateOrderVehicleLink(@PathVariable Long id, @RequestBody LinkOrderUserVehicleEntity updatedOrderVehicleLink) {
+        LinkOrderUserVehicleEntity updatedLink = orderVehicleLinkService.updateOrderVehicleLink(id, updatedOrderVehicleLink);
         if (updatedLink != null) {
             return new ResponseEntity<>(updatedLink, HttpStatus.OK);
         } else {

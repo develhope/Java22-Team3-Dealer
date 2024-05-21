@@ -1,7 +1,7 @@
 package com.develhope.spring.authentication;
 
 import com.develhope.spring.features.user.entity.Role;
-import com.develhope.spring.features.user.entity.User;
+import com.develhope.spring.features.user.entity.UserEntity;
 import com.develhope.spring.features.user.repository.UsersRepository;
 import com.develhope.spring.authentication.entities.RefreshToken;
 import com.develhope.spring.authentication.DTOs.request.RefreshTokenRequest;
@@ -33,7 +33,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     @Override
     public JwtAuthenticationResponse signup(SignUpRequest request) {
-        User user = User.builder()
+        UserEntity userEntity = UserEntity.builder()
                 .name(request.getFirstName())
                 .surname(request.getLastName())
                 .telephoneNumber(request.getTelephoneNumber())
@@ -41,9 +41,9 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 .password(passwordEncoder.encode(request.getPassword()))
                 .role(Role.convertStringToRole(request.getRole())).build();
 
-        userRepository.save(user);
-        String jwt = jwtService.generateToken((UserDetails) user);
-        RefreshToken refreshToken = jwtService.generateRefreshToken(user);
+        userRepository.save(userEntity);
+        String jwt = jwtService.generateToken((UserDetails) userEntity);
+        RefreshToken refreshToken = jwtService.generateRefreshToken(userEntity);
         return JwtAuthenticationResponse.builder().authToken(jwt).refreshToken(refreshToken.getToken()).build();
     }
 
@@ -63,7 +63,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         Optional<RefreshToken> refreshToken = refreshTokenRepository.findByToken(request.getRefreshToken());
 
         if (refreshToken.isPresent() && !jwtService.isRefreshTokenExpired(refreshToken.get())) {
-            var user = userRepository.findByEmail(refreshToken.get().getUserInfo().getEmail())
+            var user = userRepository.findByEmail(refreshToken.get().getUserEntityInfo().getEmail())
                     .orElseThrow(() -> new IllegalArgumentException("Invalid email or password."));
 
             var jwt = jwtService.generateToken((UserDetails) user);

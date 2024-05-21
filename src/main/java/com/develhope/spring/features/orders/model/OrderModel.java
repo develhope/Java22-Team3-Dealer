@@ -1,8 +1,7 @@
 package com.develhope.spring.features.orders.model;
 
-import com.develhope.spring.features.orders.DTOs.OrderRequest;
-import com.develhope.spring.features.vehicle.entity.VehicleEntity;
-import com.develhope.spring.features.orders.DTOs.OrderResponse;
+import com.develhope.spring.features.orders.DTOs.OrderRequestDto;
+import com.develhope.spring.features.orders.DTOs.OrderResponseDto;
 import com.develhope.spring.features.orders.entity.OrderEntity;
 import com.develhope.spring.features.orders.entity.OrderStatus;
 import lombok.AllArgsConstructor;
@@ -11,67 +10,77 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 public class OrderModel {
-
-    private Long orderId;
+    private Long id;
     private BigDecimal caution;
     private boolean payed;
     private OrderStatus status;
-    private VehicleEntity vehicleEntity;
     private OffsetDateTime orderDate;
+    private Long customerId;
+    private Long sellerId;
+    private Long vehicleId;
 
-    public OrderModel(BigDecimal caution, boolean payed, OrderStatus status, VehicleEntity vehicleEntity, OffsetDateTime orderDate) {
-        this.caution = caution;
-        this.payed = payed;
-        this.status = status;
-        this.vehicleEntity = vehicleEntity;
-        this.orderDate = orderDate;
+    public static OrderModel entityToModel(OrderEntity entity) {
+        return new OrderModel(
+                entity.getId(),
+                entity.getCaution(),
+                entity.isPayed(),
+                entity.getStatus(),
+                entity.getOrderDate(),
+                entity.getCustomerId(),
+                entity.getSellerId(),
+                entity.getVehicleId()
+        );
     }
 
-
-
-    public static OrderEntity dtoToEntity (OrderRequest request) { // Converte un oggetto OrderRequest in un oggetto OrderEntity
-        return new OrderEntity(request.getId(),request.getCaution(), request.isPayed(), request.getStatus(),request.getVehicle(), request.getOrderDate());
-
+    public static OrderEntity modelToEntity(OrderModel model) {
+        return new OrderEntity(
+                model.getId(),
+                model.getCaution(),
+                model.isPayed(),
+                model.getStatus(),
+                model.getOrderDate(),
+                model.getCustomerId(),
+                model.getSellerId(),
+                model.getVehicleId()
+        );
     }
 
-    public static OrderResponse entityToDto (OrderEntity orderEntity) { //Converte un oggetto OrderEntity in un oggetto OrderResponse
-        OrderResponse response = new OrderResponse();
-        response.setCaution(orderEntity.getCaution());
-        response.setPayed(orderEntity.isPayed());
-        response.setStatus(orderEntity.getStatus().toString());
-        response.setOrderDate(orderEntity.getOrderDate());
-        return response;
+    public static OrderModel dtoToModel(OrderRequestDto dto) {
+        return new OrderModel(
+                null,
+                dto.getCaution(),
+                dto.isPayed(),
+                dto.getStatus(),
+                dto.getOrderDate(),
+                dto.getCustomerId(),
+                dto.getSellerId(),
+                dto.getVehicleId()
+        );
     }
 
-    public static OrderEntity modelToEntity (OrderModel model) {
-        return new OrderEntity(model.getOrderId(), model.getCaution(),model.isPayed(),model.getStatus(),model.getVehicleEntity(),model.getOrderDate());
+    public static OrderResponseDto modelToDto(OrderModel model) {
+        return new OrderResponseDto(
+                model.getId(),
+                model.getCaution(),
+                model.isPayed(),
+                model.getStatus().toString(),
+                model.getOrderDate(),
+                model.getCustomerId(),
+                model.getSellerId(),
+                model.getVehicleId()
+        );
     }
 
-    public static OrderModel entityToModel (OrderEntity entity){
-        return new OrderModel(entity.getId(),entity.getCaution(), entity.isPayed(), entity.getStatus(),entity.getVehicleEntity(),entity.getOrderDate());
+    public static List<OrderModel> entityListToModelList(List<OrderEntity> entities) {
+        return entities.stream()
+                .map(OrderModel::entityToModel)
+                .collect(Collectors.toList());
     }
-    public static OrderResponse modelToDto (OrderModel model) {
-        OrderResponse response = new OrderResponse();
-        response.setCaution(model.getCaution());
-        response.setPayed(model.isPayed());
-        response.setStatus(model.getStatus().toString());
-        response.setOrderDate(model.getOrderDate());
-        return response;
-    }
-    public static OrderModel dtoToModel (OrderResponse response) {
-        OrderModel model = new OrderModel();
-        model.setCaution(response.getCaution());
-        model.setPayed(response.isPayed());
-        model.setStatus(OrderStatus.convertStringToStatus(response.getStatus()));
-        model.setOrderDate(response.getOrderDate());
-        return model;
-    }
-
-
 }
-

@@ -1,4 +1,4 @@
-package com.develhope.spring.features.purchase.DTO;
+package com.develhope.spring.features.orders.DTOs;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -10,11 +10,13 @@ import java.time.OffsetDateTime;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class PurchaseResponse {
+public class OrderResponseDto {
     private Long id;
-    private BigDecimal deposit;
+    private BigDecimal caution;
     private boolean payed;
     private String status;
-    private Vehicle vehicleId;
-    private OffsetDateTime purchaseDate;
+    private OffsetDateTime orderDate;
+    private Long customerId;
+    private Long sellerId;
+    private Long vehicleId;
 }

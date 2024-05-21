@@ -1,5 +1,5 @@
 package com.develhope.spring.features.orders.entity;
-import com.develhope.spring.features.vehicle.entity.VehicleEntity;
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -17,19 +17,29 @@ public class OrderEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(nullable = false, name = "caution")
+
+    @Column(nullable = false)
     private BigDecimal caution;
-    @Column(nullable = false, name = "payed")
+
+    @Column(nullable = false)
     private boolean payed;
-    @Column(nullable = false, name = "status")
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private OrderStatus status;
-    @Column(nullable = false, name = "vehicleEntity")
-    private VehicleEntity vehicleEntity;
-    @Column(nullable = false, name = "orderDate")
+
+    @Column(nullable = false)
     private OffsetDateTime orderDate;
 
+    @Column(name = "costumer_id", nullable = false)
+    private Long customerId;
 
-    public OrderEntity(Long orderId) {
-    }
+    @Column(name = "seller_id", nullable = false)
+    private Long sellerId;
+
+    @Column(name = "vehicle_id", nullable = false)
+    private Long vehicleId;
 }
+
+
 

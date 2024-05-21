@@ -1,6 +1,6 @@
 package com.develhope.spring.authentication;
 
-import com.develhope.spring.features.user.entity.User;
+import com.develhope.spring.features.user.entity.UserEntity;
 import com.develhope.spring.authentication.entities.RefreshToken;
 import com.develhope.spring.authentication.repository.RefreshTokenRepository;
 import io.jsonwebtoken.Claims;
@@ -59,16 +59,16 @@ public class JtwServiceImpl implements JwtService{
     }
 
     @Override
-    public RefreshToken generateRefreshToken(User user) {
+    public RefreshToken generateRefreshToken(UserEntity userEntity) {
         Instant refreshTokenExpiredAt = OffsetDateTime.now().plusMonths(1).toInstant();
 
-        List<RefreshToken> tokens = refreshTokenRepository.findByUserInfo(user);
+        List<RefreshToken> tokens = refreshTokenRepository.findByUserInfo(userEntity);
         for (RefreshToken token : tokens) {
             refreshTokenRepository.delete(token);
         }
 
         RefreshToken refreshToken = RefreshToken.builder()
-                .userInfo(user)
+                .userEntityInfo(userEntity)
                 .token(UUID.randomUUID().toString())
                 .expiringDate(refreshTokenExpiredAt)
                 .build();

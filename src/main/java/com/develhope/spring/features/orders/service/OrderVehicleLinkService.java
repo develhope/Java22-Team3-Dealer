@@ -1,6 +1,6 @@
 package com.develhope.spring.features.orders.service;
 
-import com.develhope.spring.features.orders.entity.OrderVehicleLinkEntity;
+import com.develhope.spring.features.orders.entity.LinkOrderUserVehicleEntity;
 import com.develhope.spring.features.orders.repository.OrderVehicleLinkRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,20 +14,20 @@ public class OrderVehicleLinkService {
     @Autowired
     private OrderVehicleLinkRepository orderVehicleLinkRepository;
 
-    public List<OrderVehicleLinkEntity> getAllOrderVehicleLinks() {
+    public List<LinkOrderUserVehicleEntity> getAllOrderVehicleLinks() {
         return orderVehicleLinkRepository.findAll();
     }
 
-    public OrderVehicleLinkEntity getOrderVehicleLinkById(Long id) {
-        Optional<OrderVehicleLinkEntity> optionalOrderVehicleLink = orderVehicleLinkRepository.findById(id);
+    public LinkOrderUserVehicleEntity getOrderVehicleLinkById(Long id) {
+        Optional<LinkOrderUserVehicleEntity> optionalOrderVehicleLink = orderVehicleLinkRepository.findById(id);
         return optionalOrderVehicleLink.orElse(null);
     }
 
-    public OrderVehicleLinkEntity createOrderVehicleLink(OrderVehicleLinkEntity orderVehicleLink) {
+    public LinkOrderUserVehicleEntity createOrderVehicleLink(LinkOrderUserVehicleEntity orderVehicleLink) {
         return orderVehicleLinkRepository.save(orderVehicleLink);
     }
 
-    public OrderVehicleLinkEntity updateOrderVehicleLink(Long id, OrderVehicleLinkEntity updatedOrderVehicleLink) {
+    public LinkOrderUserVehicleEntity updateOrderVehicleLink(Long id, LinkOrderUserVehicleEntity updatedOrderVehicleLink) {
         if (orderVehicleLinkRepository.existsById(id)) {
             updatedOrderVehicleLink.setId(id);
             return orderVehicleLinkRepository.save(updatedOrderVehicleLink);
