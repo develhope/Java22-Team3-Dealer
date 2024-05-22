@@ -1,10 +1,12 @@
 package com.develhope.spring.features.user.service;
 
+import com.develhope.spring.features.errors.GenericErrors;
 import com.develhope.spring.features.user.DTOs.UserRequest;
 import com.develhope.spring.features.user.entity.UserEntity;
 import com.develhope.spring.features.user.model.UserModel;
 import com.develhope.spring.features.user.DTOs.UserResponse;
 import com.develhope.spring.features.user.repository.UsersRepository;
+import io.vavr.control.Either;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -19,82 +21,90 @@ public class UserServiceImpl implements UserService {
     @Autowired
     UsersRepository usersRepository;
 
-    public UserResponse createUsers(UserRequest request) {
-        UserModel model = UserModel.dtoToModel(request);
-        UserEntity entity = UserModel.modelToEntity(model);
-        UserEntity savedEntity = usersRepository.saveAndFlush(entity);
-        UserModel savedModel = UserModel.entityToModel(savedEntity);
-        UserResponse savedUser = UserModel.modelToDto(savedModel);
-        return savedUser;
-    }
-
-    public boolean deleteUserById(Long userId) {
-        UserEntity userEntity = usersRepository.findById(userId).orElse(null);
-        if (userEntity == null) {
-            throw new IllegalArgumentException("No users found for the id: " + userId);
-        } else {
-            usersRepository.deleteById(userId);
-            return true;
+    public Either<GenericErrors, UserResponse> createUser(UserRequest createUserRequest) {
+        try {
+            UserModel model = UserModel.dtoToModel(createUserRequest);
+            UserEntity entity = UserModel.modelToEntity(model);
+            UserEntity savedEntity = usersRepository.saveAndFlush(entity);
+            UserModel savedModel = UserModel.entityToModel(savedEntity);
+            UserResponse savedUser = UserModel.modelToDto(savedModel);
+            return Either.right(savedUser);
+        } catch (Exception e) {
+            return Either.left(new GenericErrors(435, "Failed to create user: " + e.getMessage()));
         }
     }
 
-    public UserResponse findById(Long userId) {
-        UserEntity userEntity = usersRepository.findById(userId).orElse(null);
-        if (userEntity == null) {
-            throw new IllegalArgumentException("No users found for the id: " + userId);
+    public Either<GenericErrors, Boolean> deleteUserById(Long userId) {
+        try {
+            UserEntity userEntity = usersRepository.findById(userId).orElse(null);
+            if (userEntity == null) {
+                return Either.left(new GenericErrors(435, "No users found for the id: " + userId));
+            } else {
+                usersRepository.deleteById(userId);
+                return Either.right(true);
+            }
+        } catch (Exception e) {
+            return Either.left(new GenericErrors(435, "Failed to delete user: " + e.getMessage()));
         }
-        UserModel userModel = UserModel.entityToModel(userEntity);
-        UserResponse userFound = UserModel.modelToDto(userModel);
-        return userFound;
     }
 
-    public UserResponse updateUserById(long userId, UserRequest request) {
+    public Either<GenericErrors, UserResponse> findById(Long userId) {
+        try {
+            UserEntity userEntity = usersRepository.findById(userId).orElse(null);
+            if (userEntity == null) {
+                return Either.left(new GenericErrors(433, "No users found for the id: " + userId));
+            }
+            UserModel userModel = UserModel.entityToModel(userEntity);
+            UserResponse userFound = UserModel.modelToDto(userModel);
+            return Either.right(userFound);
+        } catch (Exception e) {
+            return Either.left(new GenericErrors(437, "Failed to find user: " + e.getMessage()));
+        }
+    }
+
+    public Either<GenericErrors, UserResponse> updateUserById(long userId, UserRequest request) {
         Optional<UserEntity> result = usersRepository.findById(userId);
 
         if (result.isPresent()) {
             try {
-                result.get().setName(request.getName()== null ? result.get().getName() : request.getName());
-                result.get().setSurname(request.getSurname() == null ? result.get().getSurname() : request.getSurname());
-                result.get().setEmail(request.getEmail() == null ? result.get().getEmail() : request.getEmail());
-                result.get().setPassword(request.getPassword() == null ? result.get().getPassword() : request.getPassword());
-                result.get().setTelephoneNumber(request.getTelephoneNumber() == null ? result.get().getTelephoneNumber() : request.getTelephoneNumber());
-                result.get().setRole(request.getRole() == null ? result.get().getRole() : request.getRole());
-                UserEntity savedUserEntity = usersRepository.saveAndFlush(result.get());
+                UserEntity userEntity = result.get();
+                userEntity.setName(request.getName() == null ? userEntity.getName() : request.getName());
+                userEntity.setSurname(request.getSurname() == null ? userEntity.getSurname() : request.getSurname());
+                userEntity.setEmail(request.getEmail() == null ? userEntity.getEmail() : request.getEmail());
+                userEntity.setPassword(request.getPassword() == null ? userEntity.getPassword() : request.getPassword());
+                userEntity.setTelephoneNumber(request.getTelephoneNumber() == null ? userEntity.getTelephoneNumber() : request.getTelephoneNumber());
+                userEntity.setRole(request.getRole() == null ? userEntity.getRole() : request.getRole());
+
+                UserEntity savedUserEntity = usersRepository.saveAndFlush(userEntity);
                 UserModel savedUserModel = UserModel.entityToModel(savedUserEntity);
-                return UserModel.modelToDto(savedUserModel);
+                UserResponse userResponse = UserModel.modelToDto(savedUserModel);
+
+                return Either.right(userResponse);
             } catch (Exception e) {
-                return null;
+                return Either.left(new GenericErrors(438, "Failed to update user: " + e.getMessage()));
             }
         } else {
-            return null;
+            return Either.left(new GenericErrors(438, "No users found for the id: " + userId));
         }
     }
 
-    //TODO: o è meglio così?
-    public UserResponse updateUser(UserDetails user, UserRequest request) {
-        UserEntity toUpdate = usersRepository.findByEmail(String.valueOf(userDetailsService().loadUserByUsername(user.getUsername()))).orElse(null);
-        if (toUpdate == null) {
-            throw new IllegalArgumentException("No users found with this username: " + user.getUsername());
+    public Either<GenericErrors, List<UserEntity>> getAll() {
+        try {
+            List<UserEntity> userEntities = usersRepository.findAll();
+            if (userEntities.isEmpty()) {
+                return Either.left(new GenericErrors(445, "Ops, looks like there is nothing here..."));
+            }
+            return Either.right(userEntities);
+        } catch (Exception e) {
+            return Either.left(new GenericErrors(445, "Failed to retrieve users: " + e.getMessage()));
         }
-        UserModel model = UserModel.dtoToModel(request);
-        UserEntity entity = UserModel.modelToEntity(model);
-        UserEntity savedEntity = usersRepository.saveAndFlush(entity);
-        UserModel savedModel = UserModel.entityToModel(savedEntity);
-        UserResponse updatedUser = UserModel.modelToDto(savedModel);
-        return updatedUser;
     }
 
-    public List<UserEntity> getAll() throws Exception {
-        List<UserEntity> userEntities = usersRepository.findAll();
-        if (userEntities.isEmpty()) {
-            throw new Exception("Ops, looks like there is nothing here...");
-        }
-        return userEntities;
-    }
 
     @Override
     public UserDetailsService userDetailsService() {
         return username -> (UserDetails) usersRepository.findByEmail(username)
                 .orElseThrow(() -> new UsernameNotFoundException("user not found"));
     }
+    //TODO chiedergli se va bene
 }
