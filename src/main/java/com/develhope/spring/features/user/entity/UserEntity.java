@@ -40,4 +40,7 @@ public class UserEntity {
                 ", role=" + role +
                 '}';
     }
+
+
+
 }

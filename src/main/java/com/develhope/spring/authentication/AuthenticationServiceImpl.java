@@ -33,6 +33,7 @@ public abstract class AuthenticationServiceImpl implements AuthenticationService
 
     @Override
     public JwtAuthenticationResponse signUp(SignUpRequest request) {
+
         UserEntity userEntity = UserEntity.builder()
                 .name(request.getFirstName())
                 .surname(request.getLastName())
