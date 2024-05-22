@@ -1,9 +1,9 @@
 package com.develhope.spring.features.user.service;
 
 import com.develhope.spring.features.user.DTOs.UserRequest;
+import com.develhope.spring.features.user.entity.UserEntity;
 import com.develhope.spring.features.user.model.UserModel;
 import com.develhope.spring.features.user.DTOs.UserResponse;
-import com.develhope.spring.features.user.entity.UserEntity;
 import com.develhope.spring.features.user.repository.UsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;

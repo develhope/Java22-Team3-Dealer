@@ -1,12 +1,10 @@
 package com.develhope.spring.features.purchase.model;
 
-import com.develhope.spring.features.Vehicle.entity.Vehicle;
-import com.develhope.spring.features.orders.DTOs.CreateOrderRequest;
-import com.develhope.spring.features.orders.entity.Order;
 import com.develhope.spring.features.orders.entity.OrderStatus;
 import com.develhope.spring.features.purchase.DTO.PurchaseRequest;
 import com.develhope.spring.features.purchase.DTO.PurchaseResponse;
-import com.develhope.spring.features.purchase.entity.Purchase;
+import com.develhope.spring.features.purchase.entities.PurchaseEntity;
+import com.develhope.spring.features.vehicle.DTOs.VehicleResponse;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -30,34 +28,34 @@ public class PurchaseModel {
     private OrderStatus status;
 
     @NotNull
-    private Vehicle vehicle;
+    private VehicleResponse vehicle;
 
     private OffsetDateTime purchaseDate;
 
-    public static Purchase dtoToEntity(PurchaseRequest purchaseRequest) {
-        Purchase purchase = new Purchase();
-        purchase.setDeposit(purchaseRequest.getDeposit());
-        purchase.setPayed(purchaseRequest.isPayed());
-        purchase.setStatus(OrderStatus.convertStringToStatus(purchaseRequest.getStatus()));
-        purchase.setPurchaseDate(purchaseRequest.getOrderDate());
+    public static PurchaseEntity dtoToEntity(PurchaseRequest purchaseRequest) {
+        PurchaseEntity purchase = new PurchaseEntity();
+//        purchase.setDeposit(purchaseRequest.getDeposit());
+//        purchase.setPayed(purchaseRequest.isPayed());
+//        purchase.setStatus(OrderStatus.convertStringToStatus(purchaseRequest.getStatus()));
+//        purchase.setPurchaseDate(purchaseRequest.getOrderDate());
         return purchase;
     }
 
-    public static PurchaseResponse entityToDto(Purchase purchase) {
+    public static PurchaseResponse entityToDto(PurchaseEntity purchaseEntity) {
         PurchaseResponse purchaseResponse = new PurchaseResponse();
-        purchaseResponse.setDeposit(purchase.getDeposit());
-        purchaseResponse.setPayed(purchase.isPayed());
-        purchaseResponse.setStatus(purchase.getStatus().toString());
-        purchaseResponse.setPurchaseDate(purchase.getPurchaseDate());
+//        purchaseResponse.setDeposit(purchase.getDeposit());
+//        purchaseResponse.setPayed(purchase.isPayed());
+//        purchaseResponse.setStatus(purchase.getStatus().toString());
+//        purchaseResponse.setPurchaseDate(purchase.getPurchaseDate());
         return purchaseResponse;
     }
 
-    public static PurchaseRequest entityDtoRequest(Purchase purchase) {
+    public static PurchaseRequest entityDtoRequest(PurchaseEntity purchase) {
         PurchaseRequest purchaseRequest = new PurchaseRequest();
-        purchaseRequest.setDeposit(purchase.getDeposit());
-        purchaseRequest.setPayed(purchase.isPayed());
-        purchaseRequest.setStatus(purchase.getStatus().toString());
-        purchaseRequest.setOrderDate(purchase.getPurchaseDate());
+//        purchaseRequest.setDeposit(purchase.getDeposit());
+//        purchaseRequest.setPayed(purchase.isPayed());
+//        purchaseRequest.setStatus(purchase.getStatus().toString());
+//        purchaseRequest.setOrderDate(purchase.getPurchaseDate());
         return purchaseRequest;
     }
 }

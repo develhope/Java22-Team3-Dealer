@@ -1,8 +1,9 @@
 package com.develhope.spring.features.purchase.repository;
 
-import com.develhope.spring.features.orders.entity.Order;
-import com.develhope.spring.features.purchase.entity.Purchase;
+import com.develhope.spring.features.purchase.entities.PurchaseEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-public interface PurchaseRepository extends JpaRepository<Purchase,Long> {
+@Repository
+public interface PurchaseRepository extends JpaRepository<PurchaseEntity, Long> {
 }

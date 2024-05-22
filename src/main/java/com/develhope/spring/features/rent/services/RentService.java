@@ -1,5 +1,4 @@
 package com.develhope.spring.features.rent.services;
-
 import com.develhope.spring.features.BaseEntityData;
 import com.develhope.spring.features.rent.DTOs.RentalRequestDTO;
 import com.develhope.spring.features.rent.DTOs.RentalResponseDTO;

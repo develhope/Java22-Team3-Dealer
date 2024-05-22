@@ -1,4 +1,4 @@
-package com.develhope.spring.authentication.DTOs.request;
+package com.develhope.spring.authentication.DTOs.requests;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
