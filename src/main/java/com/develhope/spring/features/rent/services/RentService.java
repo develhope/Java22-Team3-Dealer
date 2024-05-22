@@ -167,7 +167,6 @@ public class RentService {
 // 1_add a method to retrieve all rentals for one user that works for only two roles
 // 2_ add a method for all rentals by costumer accessible from all roles
 // 3_add a method for most rented vehicle/most active profile of sellers
-// 4_where do I get libraries of vehicles with all data?
-// 5_add query in repo
-// 6_change boolean in payed with enum?
-// 7_either
+// 4_add query in repo
+// 5_change boolean in payed with enum?
+// 6_either
