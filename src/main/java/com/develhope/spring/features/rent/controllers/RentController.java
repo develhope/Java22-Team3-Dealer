@@ -8,6 +8,7 @@ import com.develhope.spring.features.user.entity.UserEntity;
 import com.develhope.spring.features.user.model.UserModel;
 import io.vavr.control.Either;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -29,15 +30,15 @@ public class RentController {
             return ResponseEntity.ok(result);
         }
     }
-//    @DeleteMapping("/delete/rental/{rentalId}")
-//    public ResponseEntity<?> delete(@AuthenticationPrincipal UserEntity userEntity, @PathVariable Long id) {
-//        Either<GenericErrors, Boolean> result = service.deleteRentalById(UserModel.entityToModel(userEntity),id);
-//        if (result.isRight()) {
-//            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-//        } else {
-//            return ResponseEntity.status(result.getLeft().getCode()).body(result.getLeft().getMessage());
-//        }
-//    }
+    @DeleteMapping("/delete/rental/{rentalId}")
+    public ResponseEntity<?> delete(@AuthenticationPrincipal UserEntity userEntity, @PathVariable Long id) {
+        Either<GenericErrors, Boolean> result = service.deleteRentalById(UserModel.entityToModel(userEntity),id);
+        if (result.isRight()) {
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        } else {
+            return ResponseEntity.status(result.getLeft().getCode()).body(result.getLeft().getMessage());
+        }
+    }
 //here the userEntity found is converted into a model
     @PutMapping("/update/{rentId}")
     public ResponseEntity<?> updateRentById(@AuthenticationPrincipal UserEntity userEntity, @PathVariable Long rentId, @RequestBody RentalRequestDTO request){

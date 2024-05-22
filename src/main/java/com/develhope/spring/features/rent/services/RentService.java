@@ -19,6 +19,8 @@ import com.develhope.spring.features.vehicle.entity.VehicleEntity;
 import com.develhope.spring.features.vehicle.repository.VehicleRepository;
 import io.vavr.control.Either;
 import jakarta.annotation.Nullable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -35,8 +37,7 @@ public class RentService {
     LinkUserVehicleRepository linkUserVehicleRepository;
     @Autowired
     UsersRepository usersRepository;
-//    @Autowired
-//    Logger logger = LoggerFactory.getLogger(RentService.class);
+    Logger logger = LoggerFactory.getLogger(RentService.class);
     private BaseEntityData baseEntityData;
 
     public Either<GenericErrors,RentalResponseDTO> createRental(UserModel user, RentalRequestDTO request, Long vehicleId, @Nullable Long costumerId) {
@@ -55,25 +56,25 @@ public class RentService {
         return Either.right(RentModel.modelToDTO(savedModel));
     }
 
-//    public Either<GenericErrors, Boolean> deleteRentalById(UserModel user, Long rentId) {
-//        if (user != null) {
-//            try {
-//                if (user.getRole() == Role.SALESMAN || user.getRole() == Role.ADMIN || user.getRole() == Role.CUSTOMER) {
-//                    Optional<RentEntity> rentToDelete = rentRepository.findById(rentId);
-//                    if (rentToDelete.isPresent()) {
-//                        logger.info("Rental infos deleting started");
-//                        rentRepository.delete(rentToDelete.get());
-//                        Optional<LinkRentUserVehicleEntity> link = linkUserVehicleRepository.findByRent_Id(rentId);
-//                        link.ifPresent(linkRentUserVehicleEntity -> linkUserVehicleRepository.delete(linkRentUserVehicleEntity));
-//                    }
-//                }
-//            } catch (Exception e) {
-//                return Either.left(new UserError.UserIdNotFoundExc(user.getId(), e));
-//            }
-//        }
-//        logger.info("Deleting process completed at:{}", baseEntityData.getDeletedAt());
-//        return Either.right(true);
-//    }
+    public Either<GenericErrors, Boolean> deleteRentalById(UserModel user, Long rentId) {
+        if (user != null) {
+            try {
+                if (user.getRole() == Role.SALESMAN || user.getRole() == Role.ADMIN || user.getRole() == Role.CUSTOMER) {
+                    Optional<RentEntity> rentToDelete = rentRepository.findById(rentId);
+                    if (rentToDelete.isPresent()) {
+                        logger.info("Rental infos deleting started");
+                        rentRepository.delete(rentToDelete.get());
+                        Optional<LinkRentUserVehicleEntity> link = linkUserVehicleRepository.findByRent_Id(rentId);
+                        link.ifPresent(linkRentUserVehicleEntity -> linkUserVehicleRepository.delete(linkRentUserVehicleEntity));
+                    }
+                }
+            } catch (Exception e) {
+                return Either.left(new UserError.UserIdNotFoundExc(user.getId(), e));
+            }
+        }
+        logger.info("Deleting process completed at:{}", baseEntityData.getDeletedAt());
+        return Either.right(true);
+    }
 
     //this method updates rental's infos by checking first if the user has access to this function
     public RentalResponseDTO updateLinkRentById(UserModel user, Long rentId, RentalRequestDTO request) {
@@ -104,29 +105,29 @@ public class RentService {
         return RentModel.modelToDTO(model);
     }
 
-//    public LinkRentUserVehicleEntity updateLinkVehicleById(Long rentId, Long vehicleId) {
-//        if (rentId == null || vehicleId == null) return null;
-//        Optional<LinkRentUserVehicleEntity> rentLink = linkUserVehicleRepository.findByRent_Id(rentId);
-//        if (rentLink.isEmpty()) return null;
-//        Optional<VehicleEntity> vehicleEntity = vehicleRepository.findById(vehicleId);
-//        if (vehicleEntity.isEmpty()) return null;
-//
-//        LinkRentUserVehicleEntity newLink = rentLink.get();
-//        newLink.setVehicleEntity(vehicleEntity.get());
-//        return linkUserVehicleRepository.saveAndFlush(newLink);
-//    }
+    public LinkRentUserVehicleEntity updateLinkVehicleById(Long rentId, Long vehicleId) {
+        if (rentId == null || vehicleId == null) return null;
+        Optional<LinkRentUserVehicleEntity> rentLink = linkUserVehicleRepository.findByRent_Id(rentId);
+        if (rentLink.isEmpty()) return null;
+        Optional<VehicleEntity> vehicleEntity = vehicleRepository.findById(vehicleId);
+        if (vehicleEntity.isEmpty()) return null;
 
-//    public LinkRentUserVehicleEntity updateLinkUserById(Long rentId, Long userId) {
-//        if (rentId == null || userId == null) return null;
-//        Optional<LinkRentUserVehicleEntity> rentLink = linkUserVehicleRepository.findByRent_Id(rentId);
-//        if (rentLink.isEmpty()) return null;
-//        Optional<UserEntity> userEntity = usersRepository.findById(userId);
-//        if (userEntity.isEmpty()) return null;
-//
-//        LinkRentUserVehicleEntity newLink = rentLink.get();
-//        newLink.setUserEntity(userEntity.get());
-//        return linkUserVehicleRepository.saveAndFlush(newLink);
-//    }
+        LinkRentUserVehicleEntity newLink = rentLink.get();
+        newLink.setVehicleEntity(vehicleEntity.get());
+        return linkUserVehicleRepository.saveAndFlush(newLink);
+    }
+
+    public LinkRentUserVehicleEntity updateLinkUserById(Long rentId, Long userId) {
+        if (rentId == null || userId == null) return null;
+        Optional<LinkRentUserVehicleEntity> rentLink = linkUserVehicleRepository.findByRent_Id(rentId);
+        if (rentLink.isEmpty()) return null;
+        Optional<UserEntity> userEntity = usersRepository.findById(userId);
+        if (userEntity.isEmpty()) return null;
+
+        LinkRentUserVehicleEntity newLink = rentLink.get();
+        newLink.setUserEntity(userEntity.get());
+        return linkUserVehicleRepository.saveAndFlush(newLink);
+    }
 
     public RentalResponseDTO getSingleRental(UserEntity userEntity, Long rentId) {
 
