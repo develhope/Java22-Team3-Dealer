@@ -45,4 +45,27 @@ public class VehicleEntity {
     @Enumerated(EnumType.STRING)
     private VehicleType vehicleType;
 
+    @Override
+    public String toString() {
+        return "vehicle{" +
+                "vehicleId=" + vehicleId +
+                ", brand='" + brand + '\'' +
+                ", model='" + model + '\'' +
+                ", displacement=" + displacement +
+                ", color='" + color + '\'' +
+                ", power=" + power +
+                ", transmission='" + transmission + '\'' +
+                ", registrationYear=" + registrationYear +
+                ", fullType='" + fullType + '\'' +
+                ", price=" + price +
+                ", discount=" + discount +
+                ", accessories='" + accessories + '\'' +
+                ", isNew=" + isNew +
+                ", vehicleStatus=" + vehicleStatus +
+                ", vehicleType=" + vehicleType +
+                '}';
+
+    }
+
+
 }
