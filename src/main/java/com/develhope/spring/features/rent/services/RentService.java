@@ -1,5 +1,8 @@
 package com.develhope.spring.features.rent.services;
-import com.develhope.spring.features.BaseEntityData;
+
+import com.develhope.spring.BaseEntityData;
+import com.develhope.spring.features.errors.GenericErrors;
+import com.develhope.spring.features.errors.UserError;
 import com.develhope.spring.features.rent.DTOs.RentalRequestDTO;
 import com.develhope.spring.features.rent.DTOs.RentalResponseDTO;
 import com.develhope.spring.features.rent.entities.LinkRentUserVehicleEntity;
@@ -14,11 +17,11 @@ import com.develhope.spring.features.user.model.UserModel;
 import com.develhope.spring.features.user.repository.UsersRepository;
 import com.develhope.spring.features.vehicle.entity.VehicleEntity;
 import com.develhope.spring.features.vehicle.repository.VehicleRepository;
+import io.vavr.control.Either;
 import jakarta.annotation.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -34,32 +37,27 @@ public class RentService {
     LinkUserVehicleRepository linkUserVehicleRepository;
     @Autowired
     UsersRepository usersRepository;
-    @Autowired
-    UserDetails userDetails;
-    @Autowired
     Logger logger = LoggerFactory.getLogger(RentService.class);
     private BaseEntityData baseEntityData;
 
-    public RentalResponseDTO createRental(RentalRequestDTO request, UserEntity userEntity, Long vehicleId, @Nullable Long costumerId) {
-        if (userEntity == null) return null;
-        if (vehicleId == null) return null;
+    public Either<GenericErrors,RentalResponseDTO> createRental(UserModel user, RentalRequestDTO request, Long vehicleId, @Nullable Long costumerId) {
+        if (user == null) return Either.left(new UserError.UserNotFound());
+        if (vehicleId == null) return Either.left(new GenericErrors(433,"No vehicles found"));
         Optional<VehicleEntity> vehicle = vehicleRepository.findById(vehicleId);
-        if (vehicle.isEmpty()) return null;
-        UserEntity user = (UserEntity) userDetails.getAuthorities();
-        if (user.getRole() == Role.SALESMAN || user.getRole() == Role.ADMIN || user.getRole() == Role.CUSTOMER)
-            logger.info("Creation of new rental started");
+        if (vehicle.isEmpty()) return Either.left(new GenericErrors(434, "This vehicle is empty"));
+        if (user.getRole() == Role.SALESMAN || user.getRole() == Role.ADMIN || user.getRole() == Role.CUSTOMER);
+//            logger.info("Creation of new rental started");
         RentModel model = RentModel.dtoToModel(request);
         RentEntity entity = RentModel.modelToEntity(model);
         RentEntity savedEntity = rentRepository.saveAndFlush(entity);
-        linkUserVehicleRepository.save(new LinkRentUserVehicleEntity(userEntity, vehicle.get(), savedEntity));
+        linkUserVehicleRepository.save(new LinkRentUserVehicleEntity(UserModel.modelToEntity(user), vehicle.get(), savedEntity));
         RentModel savedModel = RentModel.entityToModel(savedEntity);
-        logger.info("Creation of new rental finished{}", baseEntityData.getCreatedAt());
-        return RentModel.modelToDTO(savedModel);
+//        logger.info("Creation of new rental finished{}", baseEntityData.getCreatedAt());
+        return Either.right(RentModel.modelToDTO(savedModel));
     }
 
-    public boolean deleteRentalById(UserEntity userEntity, Long rentId) {
-        UserEntity user = (UserEntity) userDetails.getAuthorities();
-        if (userEntity != null & user != null) {
+    public Either<GenericErrors, Boolean> deleteRentalById(UserModel user, Long rentId) {
+        if (user != null) {
             try {
                 if (user.getRole() == Role.SALESMAN || user.getRole() == Role.ADMIN || user.getRole() == Role.CUSTOMER) {
                     Optional<RentEntity> rentToDelete = rentRepository.findById(rentId);
@@ -71,12 +69,11 @@ public class RentService {
                     }
                 }
             } catch (Exception e) {
-                System.out.println("Exception caught, no result for your research has been retrieved");
-                return false;
+                return Either.left(new UserError.UserIdNotFoundExc(user.getId(), e));
             }
         }
         logger.info("Deleting process completed at:{}", baseEntityData.getDeletedAt());
-        return true;
+        return Either.right(true);
     }
 
     //this method updates rental's infos by checking first if the user has access to this function
@@ -87,7 +84,7 @@ public class RentService {
                 if (user.getRole() == Role.SALESMAN || user.getRole() == Role.ADMIN || user.getRole() == Role.CUSTOMER) {
                     Optional<RentEntity> rent = rentRepository.findById(rentId);
                     if (rent.isPresent()) {
-                        logger.info("The rental updating process started at:{}", baseEntityData.getUpdatedAt());
+//                        logger.info("The rental updating process started at:{}", baseEntityData.getUpdatedAt());
                         rent.get().setRentalDeposit(request.getRentalDeposit() == null ? rent.get().getRentalDeposit() : request.getRentalDeposit());
                         rent.get().setDailyRental(request.getDailyRental() == null ? rent.get().getDailyRental() : request.getDailyRental());
                         rent.get().setTotalRent(request.getTotalRent() == null ? rent.get().getTotalRent() : request.getTotalRent());
@@ -96,12 +93,12 @@ public class RentService {
                         rent.get().setIsPayed(request.getIsPayed() == null ? rent.get().getIsPayed() : request.getIsPayed());
                         RentEntity entity = rentRepository.saveAndFlush(rent.get());
                         model = RentModel.entityToModel(entity);
-                        logger.info("Rental updating process finished at:{}", baseEntityData.getUpdatedAt());
+//                        logger.info("Rental updating process finished at:{}", baseEntityData.getUpdatedAt());
                     }
                 }
             } catch (Exception e) {
                 e.printStackTrace();
-                logger.error("Exception in RENT_SERVICE thrown");
+//                logger.error("Exception in RENT_SERVICE thrown");
             }
         }
         assert model != null;
@@ -142,24 +139,34 @@ public class RentService {
             return null;
         }
     }
-//TODO: non per Id ma per entity
-    public List<RentalResponseDTO> getAllForUser_id(UserEntity user_id) {
-        List<RentEntity> rentals = rentRepository.findAll();
-        if (rentals.isEmpty()) {
-            return null;
+
+    //TODO: non per Id ma per entity
+    public List<RentalResponseDTO> getAllByUserRole(UserEntity user) {
+        if (user != null) {
+            try {
+                if (user.getRole() == Role.ADMIN || user.getRole() == Role.SALESMAN) {
+                    List<RentEntity> rentals = rentRepository.findAll();
+                    if (rentals.isEmpty()) {
+                        return null;
+                    }
+                    return rentals.stream()
+                            .map(RentModel::entityToModel)
+                            .map(RentModel::modelToDTO)
+                            .toList();
+                }
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
         }
-        return rentals.stream()
-                .map(RentModel::entityToModel)
-                .map(RentModel::modelToDTO)
-                .toList();
+        return List.of();
     }
+
 
 }
 //TODO:
 // 1_add a method to retrieve all rentals for one user that works for only two roles
 // 2_ add a method for all rentals by costumer accessible from all roles
 // 3_add a method for most rented vehicle/most active profile of sellers
-// 4_where do I get libraries of vehicles with all data?
-// 5_add query in repo
-// 6_change boolean in payed with enum?
-// 7_serve model per linkAnche?
+// 4_add query in repo
+// 5_change boolean in payed with enum?
+// 6_either
