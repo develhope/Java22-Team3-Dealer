@@ -14,7 +14,7 @@ import java.time.OffsetDateTime;
 @AllArgsConstructor
 public class PurchaseRequestDTO {
     private BigDecimal purchaseDeposit;
-    private boolean isPayed;
+    private Boolean isPayed;
     private Long vehicleID;
     private OffsetDateTime orderDate;
 }

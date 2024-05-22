@@ -8,6 +8,8 @@ import com.develhope.spring.features.purchase.entity.PurchaseEntity;
 import com.develhope.spring.features.purchase.model.PurchaseModel;
 import com.develhope.spring.features.purchase.repository.LinkUserVehiclePurchRepository;
 import com.develhope.spring.features.purchase.repository.PurchaseRepository;
+import com.develhope.spring.features.rent.entities.RentEntity;
+import com.develhope.spring.features.rent.model.RentModel;
 import com.develhope.spring.features.user.entity.Role;
 import com.develhope.spring.features.user.entity.UserEntity;
 import com.develhope.spring.features.user.model.UserModel;
@@ -63,16 +65,29 @@ public class PurchaseService {
         return true;
     }
 
-    public LinkPurchaseUserVehicleEntity updateLinkPurchaseById(UserModel userModel, Long id, PurchaseRequestDTO request) {
-        if (id == null) return null;
-        Optional<LinkPurchaseUserVehicleEntity> purchaseUserVehicle = linkUserVehiclePurchRepository.findByPurchase_Id(id);
-        if (purchaseUserVehicle.isEmpty()) return null;
-        Optional<UserEntity> userEntity = usersRepository.findById(id);
-        if (userEntity.isEmpty()) return null;
-
-        LinkPurchaseUserVehicleEntity newLink = purchaseUserVehicle.get();
-        newLink.setUserEntity(userEntity.get());
-        return linkUserVehiclePurchRepository.saveAndFlush(newLink);
+    public PurchaseResponseDTO updateLinkPurchaseById(UserModel userModel, Long id, PurchaseRequestDTO request) {
+        PurchaseModel model = null;
+        if (userModel != null) {
+            try {
+                if (userModel.getRole() == Role.SALESMAN || userModel.getRole() == Role.ADMIN || userModel.getRole() == Role.CUSTOMER) {
+                    Optional<PurchaseEntity> purchase = purchaseRepository.findById(id);
+                    if (purchase.isPresent()) {
+                        logger.info("Updating purchase process started at:{}", baseEntityData.getUpdatedAt());
+                        purchase.get().setPurchaseDate(request.getOrderDate()== null ? purchase.get().getPurchaseDate() : request.getOrderDate());
+                        purchase.get().setPurchaseDeposit(request.getPurchaseDeposit()== null ? purchase.get().getPurchaseDeposit() : request.getPurchaseDeposit());
+                        purchase.get().setIsPayed(request.getIsPayed() == null ? purchase.get().getIsPayed() : request.getIsPayed());
+                        PurchaseEntity entity = purchaseRepository.saveAndFlush(purchase.get());
+                        model = PurchaseModel.entityToModel(entity);
+                        logger.info("Purchase updating process finished at:{}", baseEntityData.getUpdatedAt());
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                logger.error("Exception in RENT_SERVICE thrown");
+            }
+        }
+        assert model != null;
+        return PurchaseModel.modelToDTO(model);
     }
 
     public PurchaseResponseDTO getSinglePurchase(UserEntity userEntity, Long id) {
