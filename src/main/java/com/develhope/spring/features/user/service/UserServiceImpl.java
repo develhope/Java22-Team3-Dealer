@@ -106,5 +106,5 @@ public class UserServiceImpl implements UserService {
         return username -> (UserDetails) usersRepository.findByEmail(username)
                 .orElseThrow(() -> new UsernameNotFoundException("user not found"));
     }
-    //TODO chiedergli se va bene
+
 }

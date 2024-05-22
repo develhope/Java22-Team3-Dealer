@@ -7,7 +7,6 @@ import com.develhope.spring.features.user.entity.UserEntity;
 import com.develhope.spring.features.user.service.UserServiceImpl;
 import io.vavr.control.Either;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -25,20 +24,20 @@ public class UsersController {
     public ResponseEntity<?> createUsers(@AuthenticationPrincipal UserEntity userEntity, @RequestBody UserRequest request) {
         Either<GenericErrors, UserResponse> result = userServiceImpl.createUser(request);
         if (result.isLeft()) {
-            return new ResponseEntity<>(result.getLeft().getMessage(), HttpStatus.BAD_REQUEST);
+            return ResponseEntity.status(result.getLeft().getCode()).body(result.getLeft().getMessage());
         } else {
-            return new ResponseEntity<>(result.get(), HttpStatus.CREATED);
+            return ResponseEntity.status(result.getLeft().getCode()).body(result.getLeft().getMessage());
         }
     }
 
     @DeleteMapping("/deleteUser/{userId}")
-    public ResponseEntity<Void> deleteUsers(@PathVariable Long userId) {
+    public ResponseEntity<String> deleteUsers(@PathVariable Long userId) {
         Either<GenericErrors, Boolean> result = userServiceImpl.deleteUserById(userId);
 
         if (result.isLeft()) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return ResponseEntity.status(result.getLeft().getCode()).body(result.getLeft().getMessage());
         } else {
-            return new ResponseEntity<>(HttpStatus.OK);
+            return ResponseEntity.status(result.getLeft().getCode()).body(result.getLeft().getMessage());
         }
     }
 
@@ -47,9 +46,9 @@ public class UsersController {
         Either<GenericErrors, UserResponse> result = userServiceImpl.findById(userId);
 
         if (result.isLeft()) {
-            return new ResponseEntity<>(result.getLeft().getMessage(), HttpStatus.NOT_FOUND);
+            return ResponseEntity.status(result.getLeft().getCode()).body(result.getLeft().getMessage());
         } else {
-            return new ResponseEntity<>(result.get(), HttpStatus.OK);
+            return ResponseEntity.status(result.getLeft().getCode()).body(result.getLeft().getMessage());
         }
     }
 
@@ -58,9 +57,9 @@ public class UsersController {
         Either<GenericErrors, UserResponse> result = userServiceImpl.updateUserById(userId, request);
 
         if (result.isLeft()) {
-            return new ResponseEntity<>(result.getLeft().getMessage(), HttpStatus.BAD_REQUEST);
+            return ResponseEntity.status(result.getLeft().getCode()).body(result.getLeft().getMessage());
         } else {
-            return new ResponseEntity<>(result.get(), HttpStatus.OK);
+            return ResponseEntity.status(result.getLeft().getCode()).body(result.getLeft().getMessage());
         }
     }
 
@@ -70,9 +69,9 @@ public class UsersController {
         Either<GenericErrors, List<UserEntity>> result = userServiceImpl.getAll();
 
         if (result.isLeft()) {
-            return new ResponseEntity<>(result.getLeft().getMessage(), HttpStatus.BAD_REQUEST);
+            return ResponseEntity.status(result.getLeft().getCode()).body(result.getLeft().getMessage());
         } else {
-            return new ResponseEntity<>(result.get(), HttpStatus.OK);
+            return ResponseEntity.status(result.getLeft().getCode()).body(result.getLeft().getMessage());
         }
 
     }
