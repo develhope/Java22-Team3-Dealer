@@ -1,7 +1,7 @@
 package com.develhope.spring.features.rent.services;
 
 import com.develhope.spring.BaseEntityData;
-import com.develhope.spring.features.errors.GenericError;
+import com.develhope.spring.features.errors.GenericErrors;
 import com.develhope.spring.features.errors.UserError;
 import com.develhope.spring.features.rent.DTOs.RentalRequestDTO;
 import com.develhope.spring.features.rent.DTOs.RentalResponseDTO;
@@ -19,8 +19,6 @@ import com.develhope.spring.features.vehicle.entity.VehicleEntity;
 import com.develhope.spring.features.vehicle.repository.VehicleRepository;
 import io.vavr.control.Either;
 import jakarta.annotation.Nullable;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -41,11 +39,11 @@ public class RentService {
 //    Logger logger = LoggerFactory.getLogger(RentService.class);
     private BaseEntityData baseEntityData;
 
-    public Either<GenericError,RentalResponseDTO> createRental(UserModel user, RentalRequestDTO request, Long vehicleId, @Nullable Long costumerId) {
+    public Either<GenericErrors,RentalResponseDTO> createRental(UserModel user, RentalRequestDTO request, Long vehicleId, @Nullable Long costumerId) {
         if (user == null) return Either.left(new UserError.UserNotFound());
-        if (vehicleId == null) return Either.left(new GenericError(433,"No vehicles found"));
+        if (vehicleId == null) return Either.left(new GenericErrors(433,"No vehicles found"));
         Optional<VehicleEntity> vehicle = vehicleRepository.findById(vehicleId);
-        if (vehicle.isEmpty()) return Either.left(new GenericError(434, "This vehicle is empty"));
+        if (vehicle.isEmpty()) return Either.left(new GenericErrors(434, "This vehicle is empty"));
         if (user.getRole() == Role.SALESMAN || user.getRole() == Role.ADMIN || user.getRole() == Role.CUSTOMER);
 //            logger.info("Creation of new rental started");
         RentModel model = RentModel.dtoToModel(request);
@@ -57,7 +55,7 @@ public class RentService {
         return Either.right(RentModel.modelToDTO(savedModel));
     }
 
-//    public Either<GenericError, Boolean> deleteRentalById(UserModel user, Long rentId) {
+//    public Either<GenericErrors, Boolean> deleteRentalById(UserModel user, Long rentId) {
 //        if (user != null) {
 //            try {
 //                if (user.getRole() == Role.SALESMAN || user.getRole() == Role.ADMIN || user.getRole() == Role.CUSTOMER) {

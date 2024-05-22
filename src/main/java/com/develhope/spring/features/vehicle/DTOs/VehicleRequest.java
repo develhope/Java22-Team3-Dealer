@@ -10,7 +10,7 @@ import java.math.BigDecimal;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class CreateVehicleRequest {
+public class VehicleRequest {
     private String brand;
     private String model;
     private Integer displacement;

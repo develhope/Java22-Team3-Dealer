@@ -9,7 +9,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter
 @Setter
-public class GenericError {
+public class GenericErrors {
     private int code;
     private String message;
 }

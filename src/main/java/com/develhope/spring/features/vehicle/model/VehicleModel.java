@@ -1,6 +1,6 @@
 package com.develhope.spring.features.vehicle.model;
 
-import com.develhope.spring.features.vehicle.DTOs.CreateVehicleRequest;
+import com.develhope.spring.features.vehicle.DTOs.VehicleRequest;
 import com.develhope.spring.features.vehicle.DTOs.VehicleResponse;
 import com.develhope.spring.features.vehicle.entity.VehicleType;
 
@@ -38,7 +38,7 @@ public class VehicleModel {
     public static VehicleResponse modelToDto(VehicleModel model){
         return new VehicleResponse(model.getVehicleId(), model.getBrand(),model.getModel(),model.getDisplacement(),model.getColor(), model.getPower(), model.getTransmission(), model.getRegistrationYear(), model.getFullType(),model.getPrice(),model.getDiscount(),model.getAccessories(),model.getIsNew(),model.getVehicleStatus(),model.getVehicleType());
     }
-    public static VehicleModel dtoToModel(CreateVehicleRequest dto){
+    public static VehicleModel dtoToModel(VehicleRequest dto){
         return new VehicleModel(dto.getBrand(),dto.getModel(),dto.getDisplacement(),dto.getColor(),dto.getPower(),dto.getTransmission(), dto.getRegistrationYear(), dto.getFullType(),dto.getPrice(),dto.getDiscount(),dto.getAccessories(),dto.getIsNew(),dto.getVehicleStatus(),dto.getVehicleType());
     }
     public static VehicleEntity modelToEntity(VehicleModel model){

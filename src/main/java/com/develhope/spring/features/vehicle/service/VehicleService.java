@@ -1,7 +1,7 @@
 package com.develhope.spring.features.vehicle.service;
 
 
-import com.develhope.spring.features.vehicle.DTOs.CreateVehicleRequest;
+import com.develhope.spring.features.vehicle.DTOs.VehicleRequest;
 import com.develhope.spring.features.vehicle.DTOs.VehicleResponse;
 import com.develhope.spring.features.vehicle.entity.VehicleEntity;
 import com.develhope.spring.features.vehicle.model.VehicleModel;
@@ -16,7 +16,7 @@ public class VehicleService {
     @Autowired
     private VehicleRepository repository;
 
-    public VehicleResponse createVehicle(CreateVehicleRequest request){
+    public VehicleResponse createVehicle(VehicleRequest request){
         VehicleModel model = VehicleModel.dtoToModel(request);
         VehicleEntity entity = VehicleModel.modelToEntity(model);
         VehicleEntity savedEntity = repository.saveAndFlush(entity);
@@ -42,7 +42,7 @@ public class VehicleService {
         return VehicleModel.modelToDto(model);
     }
 
-    public VehicleResponse updateVehicle(Long vehicleId, CreateVehicleRequest request) {
+    public VehicleResponse updateVehicle(Long vehicleId, VehicleRequest request) {
         VehicleEntity toUpdate = repository.findById(vehicleId).orElse(null);
         if (toUpdate == null) {
             throw new IllegalArgumentException("No vehicles found for the id: " + vehicleId);

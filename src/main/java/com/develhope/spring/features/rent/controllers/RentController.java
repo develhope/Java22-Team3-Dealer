@@ -1,6 +1,6 @@
 package com.develhope.spring.features.rent.controllers;
 
-import com.develhope.spring.features.errors.GenericError;
+import com.develhope.spring.features.errors.GenericErrors;
 import com.develhope.spring.features.rent.DTOs.RentalRequestDTO;
 import com.develhope.spring.features.rent.DTOs.RentalResponseDTO;
 import com.develhope.spring.features.rent.services.RentService;
@@ -8,7 +8,6 @@ import com.develhope.spring.features.user.entity.UserEntity;
 import com.develhope.spring.features.user.model.UserModel;
 import io.vavr.control.Either;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -23,7 +22,7 @@ public class RentController {
 
     @PostMapping("/create/{vehicleId}")
     public ResponseEntity<?> create(@AuthenticationPrincipal UserEntity userEntity,@RequestBody RentalRequestDTO request, @PathVariable Long vehicleId, @RequestParam(required = false) Long costumerId) {
-        Either<GenericError,RentalResponseDTO> result = service.createRental(UserModel.entityToModel(userEntity), request, vehicleId,costumerId);
+        Either<GenericErrors,RentalResponseDTO> result = service.createRental(UserModel.entityToModel(userEntity), request, vehicleId,costumerId);
         if (result == null || result.isEmpty()) {
             return ResponseEntity.status(420).body("Impossible to create new rental");
         } else {
@@ -32,7 +31,7 @@ public class RentController {
     }
 //    @DeleteMapping("/delete/rental/{rentalId}")
 //    public ResponseEntity<?> delete(@AuthenticationPrincipal UserEntity userEntity, @PathVariable Long id) {
-//        Either<GenericError, Boolean> result = service.deleteRentalById(UserModel.entityToModel(userEntity),id);
+//        Either<GenericErrors, Boolean> result = service.deleteRentalById(UserModel.entityToModel(userEntity),id);
 //        if (result.isRight()) {
 //            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 //        } else {
