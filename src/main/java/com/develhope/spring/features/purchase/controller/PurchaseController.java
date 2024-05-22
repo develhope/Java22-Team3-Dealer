@@ -40,13 +40,13 @@ PurchaseService purchaseService;
         }
     }
 
-    @PutMapping("/update/{Id}")
-    public ResponseEntity<?> updateRentById(@AuthenticationPrincipal UserEntity userEntity, @PathVariable Long Id, @RequestBody PurchaseRequestDTO request){
-        PurchaseResponseDTO updatedRent = purchaseService.updateLinkPurchaseById(UserModel.entityToModel(userEntity), Id, request);
-        if (updatedRent == null) {
-            return ResponseEntity.status(422).body("No purchases found for the Id: " + Id);
+    @PutMapping("/update/{id}")
+    public ResponseEntity<?> updatePurchaseById(@AuthenticationPrincipal UserEntity userEntity, @PathVariable Long id, @RequestBody PurchaseRequestDTO request){
+        PurchaseResponseDTO upPurchase = purchaseService.updateLinkPurchaseById(UserModel.entityToModel(userEntity), id, request);
+        if (upPurchase == null) {
+            return ResponseEntity.status(422).body("No purchases found for the Id: " + id);
         }
-        return ResponseEntity.ok(updatedRent);
+        return ResponseEntity.ok(upPurchase);
     }
 
     @GetMapping("/get/{Id}")

@@ -63,7 +63,7 @@ public class PurchaseService {
         return true;
     }
 
-    public LinkPurchaseUserVehicleEntity updateLinkPurchaseById(UserModel userModel, Long id, PurchaseRequestDTO request) {
+    public PurchaseResponseDTO updateLinkPurchaseById(UserModel userModel, Long id, PurchaseRequestDTO request) {
         if (id == null) return null;
         Optional<LinkPurchaseUserVehicleEntity> purchaseUserVehicle = linkUserVehiclePurchRepository.findByPurchase_Id(id);
         if (purchaseUserVehicle.isEmpty()) return null;
