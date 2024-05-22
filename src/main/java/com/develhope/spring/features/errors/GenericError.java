@@ -1,14 +1,15 @@
 package com.develhope.spring.features.errors;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Data
-@AllArgsConstructor
 @NoArgsConstructor
-public class GenericErrors {
-
+@AllArgsConstructor
+@Getter
+@Setter
+public class GenericError {
     private int code;
     private String message;
 }

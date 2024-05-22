@@ -1,6 +1,5 @@
 package com.develhope.spring.features.user.controller;
 
-import com.develhope.spring.features.errors.GenericErrors;
 import com.develhope.spring.features.user.DTOs.UserRequest;
 import com.develhope.spring.features.user.DTOs.UserResponse;
 import com.develhope.spring.features.user.entity.UserEntity;
