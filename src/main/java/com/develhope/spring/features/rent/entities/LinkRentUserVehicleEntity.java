@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Table(name = "link user vehicles on rentals details")
+@Entity
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
