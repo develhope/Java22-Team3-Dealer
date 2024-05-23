@@ -1,10 +1,12 @@
 package com.develhope.spring.features.rent.controllers;
 
+import com.develhope.spring.features.errors.GenericErrors;
 import com.develhope.spring.features.rent.DTOs.RentalRequestDTO;
 import com.develhope.spring.features.rent.DTOs.RentalResponseDTO;
 import com.develhope.spring.features.rent.services.RentService;
 import com.develhope.spring.features.user.entity.UserEntity;
 import com.develhope.spring.features.user.model.UserModel;
+import io.vavr.control.Either;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,8 +23,8 @@ public class RentController {
 
     @PostMapping("/create/{vehicleId}")
     public ResponseEntity<?> create(@AuthenticationPrincipal UserEntity userEntity,@RequestBody RentalRequestDTO request, @PathVariable Long vehicleId, @RequestParam(required = false) Long costumerId) {
-        RentalResponseDTO result = service.createRental(request, userEntity, vehicleId,costumerId);
-        if (result == null) {
+        Either<GenericErrors,RentalResponseDTO> result = service.createRental(UserModel.entityToModel(userEntity), request, vehicleId,costumerId);
+        if (result == null || result.isEmpty()) {
             return ResponseEntity.status(420).body("Impossible to create new rental");
         } else {
             return ResponseEntity.ok(result);
@@ -30,11 +32,11 @@ public class RentController {
     }
     @DeleteMapping("/delete/rental/{rentalId}")
     public ResponseEntity<?> delete(@AuthenticationPrincipal UserEntity userEntity, @PathVariable Long id) {
-        boolean result = service.deleteRentalById(userEntity,id);
-        if (result) {
+        Either<GenericErrors, Boolean> result = service.deleteRentalById(UserModel.entityToModel(userEntity),id);
+        if (result.isRight()) {
             return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
         } else {
-            return ResponseEntity.status(421).body("Impossible to delete the rental with the id: " + id);
+            return ResponseEntity.status(result.getLeft().getCode()).body(result.getLeft().getMessage());
         }
     }
 //here the userEntity found is converted into a model
@@ -58,7 +60,7 @@ public class RentController {
 
     @GetMapping("/getAll")
     public ResponseEntity<?> getAll(@AuthenticationPrincipal UserEntity user){
-        List<RentalResponseDTO> result = service.getAllForUser_id(user);
+        List<RentalResponseDTO> result = service.getAllByUserRole(user);
         if(result.isEmpty()){
             return ResponseEntity.status(422).body("Your list of rentals is empty");
         }

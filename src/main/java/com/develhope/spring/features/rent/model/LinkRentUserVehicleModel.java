@@ -2,11 +2,8 @@ package com.develhope.spring.features.rent.model;
 
 import com.develhope.spring.features.rent.DTOs.LinkRentUserVehicleRequestDTO;
 import com.develhope.spring.features.rent.DTOs.LinkRentUserVehicleResponseDTO;
-import com.develhope.spring.features.rent.DTOs.RentalResponseDTO;
 import com.develhope.spring.features.rent.entities.LinkRentUserVehicleEntity;
-import com.develhope.spring.features.user.DTOs.UserResponse;
 import com.develhope.spring.features.user.model.UserModel;
-import com.develhope.spring.features.vehicle.DTOs.VehicleResponse;
 import com.develhope.spring.features.vehicle.model.VehicleModel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -30,18 +27,18 @@ public class LinkRentUserVehicleModel {
     }
 
     public LinkRentUserVehicleResponseDTO modelToDto(LinkRentUserVehicleModel model) {
-        return new LinkRentUserVehicleResponseDTO();
+        return new LinkRentUserVehicleResponseDTO(model.getId(),VehicleModel.modelToDto(model.getVehicle()),UserModel.modelToDto(model.getUser()),RentModel.modelToDTO(model.getRental()));
     }
 
-    public LinkRentUserVehicleModel modelToDTO(LinkRentUserVehicleRequestDTO request){
-        return new LinkRentUserVehicleModel();
+    public LinkRentUserVehicleModel dtoToModel(LinkRentUserVehicleRequestDTO request){
+        return new LinkRentUserVehicleModel(VehicleModel.dtoToModel(request.getVehicle()),UserModel.dtoToModel(request.getUser()),RentModel.dtoToModel(request.getRental()));
     }
 
     public LinkRentUserVehicleEntity modelToEntity(LinkRentUserVehicleModel model) {
-        return new LinkRentUserVehicleEntity();
+        return new LinkRentUserVehicleEntity(model.getId(), UserModel.modelToEntity(model.getUser()),VehicleModel.modelToEntity(model.getVehicle()),RentModel.modelToEntity(model.getRental()));
     }
     public LinkRentUserVehicleModel entityToModel(LinkRentUserVehicleEntity entity){
-        return new LinkRentUserVehicleModel();
+        return new LinkRentUserVehicleModel(entity.getId(), VehicleModel.entityToModel(entity.getVehicleEntity()),UserModel.entityToModel(entity.getUserEntity()),RentModel.entityToModel(entity.getRentEntity()));
     }
 
 }
