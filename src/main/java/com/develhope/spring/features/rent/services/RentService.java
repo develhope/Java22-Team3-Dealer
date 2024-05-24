@@ -147,7 +147,7 @@ public class RentService {
     }
 
     //TODO: non per Id ma per entity
-    public List<RentalResponseDTO> getAllByUserRole(UserEntity user) {
+    public List<RentalResponseDTO> getAllByUserRole(UserModel user) {
         if (user != null) {
             try {
                 if (user.getRole() == Role.ADMIN || user.getRole() == Role.SALESMAN) {
