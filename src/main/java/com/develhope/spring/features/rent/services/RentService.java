@@ -3,6 +3,7 @@ package com.develhope.spring.features.rent.services;
 import com.develhope.spring.BaseEntityData;
 import com.develhope.spring.features.errors.GenericErrors;
 import com.develhope.spring.features.errors.UserError;
+import com.develhope.spring.features.errors.VehicleError;
 import com.develhope.spring.features.rent.DTOs.RentalRequestDTO;
 import com.develhope.spring.features.rent.DTOs.RentalResponseDTO;
 import com.develhope.spring.features.rent.entities.LinkRentUserVehicleEntity;
@@ -40,20 +41,26 @@ public class RentService {
     Logger logger = LoggerFactory.getLogger(RentService.class);
     private BaseEntityData baseEntityData;
 
-    public Either<GenericErrors,RentalResponseDTO> createRental(UserModel user, RentalRequestDTO request, Long vehicleId, @Nullable Long costumerId) {
+    public Either<GenericErrors, RentalResponseDTO> createRental(UserModel user, RentalRequestDTO request, Long vehicleId, @Nullable Long costumerId) {
+
         if (user == null) return Either.left(new UserError.UserNotFound());
-        if (vehicleId == null) return Either.left(new GenericErrors(433,"No vehicles found"));
+        if (vehicleId == null) return Either.left(new VehicleError.VehicleNotFound());
         Optional<VehicleEntity> vehicle = vehicleRepository.findById(vehicleId);
         if (vehicle.isEmpty()) return Either.left(new GenericErrors(434, "This vehicle is empty"));
-        if (user.getRole() == Role.SALESMAN || user.getRole() == Role.ADMIN || user.getRole() == Role.CUSTOMER);
-//            logger.info("Creation of new rental started");
-        RentModel model = RentModel.dtoToModel(request);
-        RentEntity entity = RentModel.modelToEntity(model);
-        RentEntity savedEntity = rentRepository.saveAndFlush(entity);
-        linkUserVehicleRepository.save(new LinkRentUserVehicleEntity(UserModel.modelToEntity(user), vehicle.get(), savedEntity));
-        RentModel savedModel = RentModel.entityToModel(savedEntity);
-//        logger.info("Creation of new rental finished{}", baseEntityData.getCreatedAt());
-        return Either.right(RentModel.modelToDTO(savedModel));
+        if (user.getRole() == Role.SALESMAN || user.getRole() == Role.ADMIN || user.getRole() == Role.CUSTOMER) ;
+        try {
+            logger.info("Creation of new rental started");
+            RentModel model = RentModel.dtoToModel(request);
+            RentEntity entity = RentModel.modelToEntity(model);
+            RentEntity savedEntity = rentRepository.saveAndFlush(entity);
+            linkUserVehicleRepository.save(new LinkRentUserVehicleEntity(UserModel.modelToEntity(user), vehicle.get(), savedEntity));
+            RentModel savedModel = RentModel.entityToModel(savedEntity);
+            logger.info("Creation of new rental finished{}", baseEntityData.getCreatedAt());
+            return Either.right(RentModel.modelToDTO(savedModel));
+
+        } catch (Exception e) {
+            return Either.left(new GenericErrors(435, "Impossible to save " + e.getMessage()));
+        }
     }
 
     public Either<GenericErrors, Boolean> deleteRentalById(UserModel user, Long rentId) {
@@ -62,7 +69,7 @@ public class RentService {
                 if (user.getRole() == Role.SALESMAN || user.getRole() == Role.ADMIN || user.getRole() == Role.CUSTOMER) {
                     Optional<RentEntity> rentToDelete = rentRepository.findById(rentId);
                     if (rentToDelete.isPresent()) {
-                        logger.info("Rental infos deleting started");
+                        logger.info("Rental deleting started at: {}", baseEntityData.getDeletedAt());
                         rentRepository.delete(rentToDelete.get());
                         Optional<LinkRentUserVehicleEntity> link = linkUserVehicleRepository.findByRent_Id(rentId);
                         link.ifPresent(linkRentUserVehicleEntity -> linkUserVehicleRepository.delete(linkRentUserVehicleEntity));

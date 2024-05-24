@@ -1,6 +1,5 @@
 package com.develhope.spring.features.rent;
 
-
 import com.develhope.spring.features.user.DTOs.UserResponse;
 import com.develhope.spring.features.vehicle.DTOs.VehicleResponse;
 import lombok.AllArgsConstructor;
