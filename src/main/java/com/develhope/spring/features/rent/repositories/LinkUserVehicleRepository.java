@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
+@EnableJpaRepositories
 public interface LinkUserVehicleRepository extends JpaRepository<LinkRentUserVehicleEntity, Long> {
     List<LinkRentUserVehicleEntity> findUserEntitiesByRentEntity_Id(Long rentId);
 

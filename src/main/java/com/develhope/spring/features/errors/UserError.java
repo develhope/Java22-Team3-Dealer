@@ -13,4 +13,10 @@ public class UserError {
             super(434, "No user for the id "+ userId+ ". Caught exception: " + e.getMessage());
         }
     }
+
+    public static class ImpossibleToCreateUser extends GenericErrors {
+        public ImpossibleToCreateUser(Exception e) {
+            super(435, "Failed to create user: " + e.getMessage());
+        }
+    }
 }

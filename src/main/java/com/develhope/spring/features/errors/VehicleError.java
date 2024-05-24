@@ -18,4 +18,9 @@ public class VehicleError {
             super(435, "The vehicle with the id: " + vehicleId + " is empty");
         }
     }
+    public static class ImpossibleToCreateVehicle extends GenericErrors {
+        public ImpossibleToCreateVehicle() {
+            super(436, "Impossible to create a new vehicle");
+        }
+    }
 }

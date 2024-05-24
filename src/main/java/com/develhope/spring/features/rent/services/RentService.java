@@ -57,7 +57,6 @@ public class RentService {
             RentModel savedModel = RentModel.entityToModel(savedEntity);
             logger.info("Creation of new rental finished{}", baseEntityData.getCreatedAt());
             return Either.right(RentModel.modelToDTO(savedModel));
-
         } catch (Exception e) {
             return Either.left(new GenericErrors(435, "Impossible to save " + e.getMessage()));
         }
@@ -148,7 +147,7 @@ public class RentService {
     }
 
     //TODO: non per Id ma per entity
-    public List<RentalResponseDTO> getAllByUserRole(UserEntity user) {
+    public List<RentalResponseDTO> getAllByUserRole(UserModel user) {
         if (user != null) {
             try {
                 if (user.getRole() == Role.ADMIN || user.getRole() == Role.SALESMAN) {
