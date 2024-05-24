@@ -1,6 +1,7 @@
 package com.develhope.spring.features.user.service;
 
 import com.develhope.spring.features.errors.GenericErrors;
+import com.develhope.spring.features.errors.UserError;
 import com.develhope.spring.features.user.DTOs.UserRequest;
 import com.develhope.spring.features.user.entity.UserEntity;
 import com.develhope.spring.features.user.model.UserModel;
@@ -30,7 +31,7 @@ public class UserServiceImpl implements UserService {
             UserResponse savedUser = UserModel.modelToDto(savedModel);
             return Either.right(savedUser);
         } catch (Exception e) {
-            return Either.left(new GenericErrors(435, "Failed to create user: " + e.getMessage()));
+            return Either.left(new UserError.ImpossibleToCreateUser(e));
         }
     }
 

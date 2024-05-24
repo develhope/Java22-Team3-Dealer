@@ -57,7 +57,6 @@ public class RentService {
             RentModel savedModel = RentModel.entityToModel(savedEntity);
             logger.info("Creation of new rental finished{}", baseEntityData.getCreatedAt());
             return Either.right(RentModel.modelToDTO(savedModel));
-
         } catch (Exception e) {
             return Either.left(new GenericErrors(435, "Impossible to save " + e.getMessage()));
         }
