@@ -4,11 +4,7 @@ package com.develhope.spring.features.vehicle.service;
 import com.develhope.spring.features.errors.GenericErrors;
 import com.develhope.spring.features.errors.UserError;
 import com.develhope.spring.features.errors.VehicleError;
-import com.develhope.spring.features.rent.services.RentService;
-import com.develhope.spring.features.user.DTOs.UserRequest;
-import com.develhope.spring.features.user.DTOs.UserResponse;
 import com.develhope.spring.features.user.entity.Role;
-import com.develhope.spring.features.user.entity.UserEntity;
 import com.develhope.spring.features.user.model.UserModel;
 import com.develhope.spring.features.vehicle.DTOs.VehicleRequest;
 import com.develhope.spring.features.vehicle.DTOs.VehicleResponse;
@@ -55,39 +51,58 @@ public class VehicleService {
                     toDelete.ifPresent(vehicleEntity -> repository.delete(vehicleEntity));
                 }
             } catch (Exception e) {
-                return Either.left(new VehicleError.VehicleIdNotFoundExc(vehicleId, e));
+                return Either.left(new VehicleError.VehicleIdNotFoundExc(vehicleId));
             }
         }
         return Either.right(true);
     }
 
-    public VehicleResponse findById(Long vehicleId) {
-        VehicleEntity entity = repository.findById(vehicleId).orElse(null);
-        if (entity == null) {
-            throw new IllegalArgumentException("No vehicles found for the id: " + vehicleId);
+    public Either<GenericErrors, VehicleResponse> findById(Long vehicleId) {
+        try {
+            VehicleEntity entity = repository.findById(vehicleId).orElse(null);
+            if (entity == null) {
+                return Either.left(new VehicleError.VehicleIdNotFoundExc(vehicleId));
+            }
+            VehicleModel model = VehicleModel.entityToModel(entity);
+            VehicleResponse response = VehicleModel.modelToDto(model);
+            return Either.right(response);
+        } catch (Exception e) {
+            return Either.left(new VehicleError.UnexpectedErrorOccurred(e));
         }
-        VehicleModel model = VehicleModel.entityToModel(entity);
-        return VehicleModel.modelToDto(model);
     }
 
-    public VehicleResponse updateVehicle(Long vehicleId, VehicleRequest request) {
-        VehicleEntity toUpdate = repository.findById(vehicleId).orElse(null);
-        if (toUpdate == null) {
-            throw new IllegalArgumentException("No vehicles found for the id: " + vehicleId);
+    public Either<GenericErrors, VehicleResponse> updateVehicle(Long vehicleId, VehicleRequest request) {
+        try {
+            VehicleEntity toUpdate = repository.findById(vehicleId).orElse(null);
+            if (toUpdate == null) {
+                return Either.left(new VehicleError.VehicleIdNotFoundExc(vehicleId));
+            }
+
+
+            VehicleModel model = VehicleModel.dtoToModel(request);
+            VehicleEntity entityToSave = VehicleModel.modelToEntity(model);
+            entityToSave.setVehicleId(vehicleId);
+
+            VehicleEntity savedEntity = repository.saveAndFlush(entityToSave);
+            VehicleModel savedModel = VehicleModel.entityToModel(savedEntity);
+            VehicleResponse response = VehicleModel.modelToDto(savedModel);
+
+            return Either.right(response);
+        } catch (Exception e) {
+            return Either.left(new VehicleError.UnexpectedErrorOccurred(e));
         }
-        VehicleModel model = VehicleModel.dtoToModel(request);
-        VehicleEntity entity = VehicleModel.modelToEntity(model);
-        VehicleEntity savedEntity = repository.saveAndFlush(entity);
-        VehicleModel savedModel = VehicleModel.entityToModel(savedEntity);
-        return VehicleModel.modelToDto(savedModel);
     }
 
-    public List<VehicleEntity> getAll() throws Exception {
-        List<VehicleEntity> vehicleEntities = repository.findAll();
-        if (vehicleEntities.isEmpty()) {
-            throw new Exception("Your list of vehicleEntities is empty");
+    public Either<GenericErrors, List<VehicleEntity>> getAll() {
+        try {
+            List<VehicleEntity> vehicleEntities = repository.findAll();
+            if (vehicleEntities.isEmpty()) {
+                return Either.left(new VehicleError.VehicleListEmpty());
+            }
+            return Either.right(vehicleEntities);
+        } catch (Exception e) {
+            return Either.left(new VehicleError.UnexpectedErrorOccurred(e));
         }
-        return vehicleEntities;
     }
 }
 
