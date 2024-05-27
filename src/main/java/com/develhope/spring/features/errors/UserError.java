@@ -19,4 +19,15 @@ public class UserError {
             super(435, "Failed to create user: " + e.getMessage());
         }
     }
+
+    public static class UserIsEmpty extends GenericErrors {
+        public UserIsEmpty() {
+            super(435, "User is empty");
+        }
+    }
+    public static class DefaultUser extends GenericErrors {
+        public DefaultUser() {
+            super(435, "User is default, impossible to execute any action");
+        }
+    }
 }
