@@ -51,7 +51,7 @@ public class VehicleService {
                     toDelete.ifPresent(vehicleEntity -> repository.delete(vehicleEntity));
                 }
             } catch (Exception e) {
-                return Either.left(new VehicleError.VehicleIdNotFoundExc(vehicleId));
+                return Either.left(new VehicleError.VehicleIdNotFoundExc(vehicleId, e));
             }
         }
         return Either.right(true);
@@ -61,7 +61,7 @@ public class VehicleService {
         try {
             VehicleEntity entity = repository.findById(vehicleId).orElse(null);
             if (entity == null) {
-                return Either.left(new VehicleError.VehicleIdNotFoundExc(vehicleId));
+                return Either.left(new VehicleError.VehicleNotFound());
             }
             VehicleModel model = VehicleModel.entityToModel(entity);
             VehicleResponse response = VehicleModel.modelToDto(model);
@@ -75,7 +75,7 @@ public class VehicleService {
         try {
             VehicleEntity toUpdate = repository.findById(vehicleId).orElse(null);
             if (toUpdate == null) {
-                return Either.left(new VehicleError.VehicleIdNotFoundExc(vehicleId));
+                return Either.left(new VehicleError.VehicleNotFound());
             }
 
 

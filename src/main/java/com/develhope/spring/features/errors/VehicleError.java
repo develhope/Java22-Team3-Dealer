@@ -9,7 +9,7 @@ public class VehicleError {
     }
 
     public static class VehicleIdNotFoundExc extends GenericErrors {
-        public VehicleIdNotFoundExc(Long vehicleId) {
+        public VehicleIdNotFoundExc(Long vehicleId, Exception e) {
             super(434, "No vehicle found for the id " + vehicleId);
         }
     }
