@@ -2,6 +2,7 @@ package com.develhope.spring.features.purchase.service;
 
 import com.develhope.spring.BaseEntityData;
 import com.develhope.spring.features.purchase.DTO.PurchaseRequestDTO;
+import com.develhope.spring.features.purchase.DTO.PurchaseResponse;
 import com.develhope.spring.features.purchase.DTO.PurchaseResponseDTO;
 import com.develhope.spring.features.purchase.entity.LinkPurchaseUserVehicleEntity;
 import com.develhope.spring.features.purchase.entity.PurchaseEntity;
@@ -22,6 +23,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
