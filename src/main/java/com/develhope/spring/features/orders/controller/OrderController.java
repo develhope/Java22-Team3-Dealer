@@ -3,12 +3,12 @@ package com.develhope.spring.features.orders.controller;
 import com.develhope.spring.features.errors.GenericErrors;
 import com.develhope.spring.features.orders.model.OrderModel;
 import com.develhope.spring.features.orders.service.OrderService;
+import com.develhope.spring.features.user.entity.UserEntity;
 import io.vavr.control.Either;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,8 +21,8 @@ public class OrderController {
     private OrderService orderService;
 
     @GetMapping
-    public ResponseEntity<?> getAllOrders(@AuthenticationPrincipal UserDetails userDetails) {
-        String role = userDetails.getAuthorities().iterator().next().getAuthority();
+    public ResponseEntity<?> getAllOrders(@AuthenticationPrincipal UserEntity user) {
+        String role = user.getRole().toString();
         Either<GenericErrors, List<OrderModel>> result = orderService.getAllOrders(role);
         return result.fold(
                 error -> new ResponseEntity<>(new GenericErrors(error.getCode(), "Access denied"), HttpStatus.valueOf(error.getCode())),
@@ -31,9 +31,9 @@ public class OrderController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getOrderById(@PathVariable Long id, @AuthenticationPrincipal UserDetails userDetails) {
-        String role = userDetails.getAuthorities().iterator().next().getAuthority();
-        Either<GenericErrors, OrderModel> result = orderService.getOrderById(id, role, Long.parseLong(userDetails.getUsername()));
+    public ResponseEntity<?> getOrderById(@PathVariable Long id, @AuthenticationPrincipal UserEntity user) {
+        String role = user.getRole().toString();
+        Either<GenericErrors, OrderModel> result = orderService.getOrderById(id, role, user.getUserId());
         return result.fold(
                 error -> new ResponseEntity<>(new GenericErrors(error.getCode(), "Order not found"), HttpStatus.valueOf(error.getCode())),
                 order -> new ResponseEntity<>(order, HttpStatus.OK)
@@ -41,8 +41,8 @@ public class OrderController {
     }
 
     @PostMapping
-    public ResponseEntity<?> createOrder(@RequestBody OrderModel orderModel, @AuthenticationPrincipal UserDetails userDetails) {
-        String role = userDetails.getAuthorities().iterator().next().getAuthority();
+    public ResponseEntity<?> createOrder(@RequestBody OrderModel orderModel, @AuthenticationPrincipal UserEntity user) {
+        String role = user.getRole().toString();
         Either<GenericErrors, OrderModel> result = orderService.createOrder(orderModel, role);
         return result.fold(
                 error -> new ResponseEntity<>(new GenericErrors(error.getCode(), "Error creating order"), HttpStatus.valueOf(error.getCode())),
@@ -51,9 +51,9 @@ public class OrderController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateOrder(@PathVariable Long id, @RequestBody OrderModel orderModel, @AuthenticationPrincipal UserDetails userDetails) {
-        String role = userDetails.getAuthorities().iterator().next().getAuthority();
-        Either<GenericErrors, OrderModel> result = orderService.updateOrder(orderModel, role, Long.parseLong(userDetails.getUsername()));
+    public ResponseEntity<?> updateOrder(@PathVariable Long id, @RequestBody OrderModel orderModel, @AuthenticationPrincipal UserEntity user) {
+        String role = user.getRole().toString();
+        Either<GenericErrors, OrderModel> result = orderService.updateOrder(orderModel, role, user.getUserId());
         return result.fold(
                 error -> new ResponseEntity<>(new GenericErrors(error.getCode(), "Error updating order"), HttpStatus.valueOf(error.getCode())),
                 updatedOrder -> new ResponseEntity<>(updatedOrder, HttpStatus.OK)
@@ -61,9 +61,9 @@ public class OrderController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteOrder(@PathVariable Long id, @AuthenticationPrincipal UserDetails userDetails) {
-        String role = userDetails.getAuthorities().iterator().next().getAuthority();
-        Either<GenericErrors, Void> result = orderService.deleteOrder(id, role, Long.parseLong(userDetails.getUsername()));
+    public ResponseEntity<?> deleteOrder(@PathVariable Long id, @AuthenticationPrincipal UserEntity user) {
+        String role = user.getRole().toString();
+        Either<GenericErrors, Void> result = orderService.deleteOrder(id, role, user.getUserId());
         return result.fold(
                 error -> new ResponseEntity<>(new GenericErrors(error.getCode(), "Error deleting order"), HttpStatus.valueOf(error.getCode())),
                 deleted -> new ResponseEntity<>(new GenericErrors(200, "Order deleted successfully"), HttpStatus.OK)
