@@ -20,7 +20,8 @@ public class OrderVehicleLinkModel {
         return new OrderVehicleLinkModel(entity.getId(), entity.getOrderEntity().getId(), entity.getVehicleEntity().getVehicleId());
     }
 
-
     }
+
+
 
 

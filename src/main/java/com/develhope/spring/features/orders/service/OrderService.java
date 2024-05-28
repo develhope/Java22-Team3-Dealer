@@ -22,7 +22,7 @@ public class OrderService {
             List<OrderEntity> orderEntities = orderRepository.findAll();
             return Either.right(OrderModel.entityListToModelList(orderEntities));
         } else {
-            return Either.left(new GenericErrors(403, "Accesso vietato"));
+            return Either.left(new GenericErrors(403, "Access denied"));
         }
     }
 
@@ -33,10 +33,10 @@ public class OrderService {
             if (role.equals("ROLE_ADMIN") || role.equals("ROLE_SALESMAN") || (role.equals("ROLE_CUSTOMER") && orderEntity.getCustomerId().equals(userId))) {
                 return Either.right(OrderModel.entityToModel(orderEntity));
             } else {
-                return Either.left(new GenericErrors(403, "Accesso vietato"));
+                return Either.left(new GenericErrors(403, "Access denied"));
             }
         } else {
-            return Either.left(new GenericErrors(404, "Ordine non trovato"));
+            return Either.left(new GenericErrors(404, "Order not found"));
         }
     }
 
@@ -70,7 +70,7 @@ public class OrderService {
                 return Either.left(new GenericErrors(403, "Access denied"));
             }
         } else {
-            return Either.left(new GenericErrors(404, "Ordine non trovato"));
+            return Either.left(new GenericErrors(404, "Order not found"));
         }
     }
 
