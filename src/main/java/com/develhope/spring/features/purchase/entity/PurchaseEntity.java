@@ -30,4 +30,7 @@ public class PurchaseEntity {
 
     @Column(nullable = false, name = "vehicle_id")
     private Long vehicleId;
+
+    @Column(nullable = false, name = "vehicle_id")
+    private Long userId;
 }

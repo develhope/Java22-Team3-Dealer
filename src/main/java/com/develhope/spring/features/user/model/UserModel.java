@@ -19,29 +19,15 @@ public class UserModel {
     private String name;
     private String surname;
     private String email;
-    private String password;
     private Role role;
     private String phoneNumber;
     private String creditCard;
     private String address;
 
-    public UserModel(String name, String surname, String phoneNumber, String email, String password, Role role, String creditCard, String address) {
+    public UserModel(String name, String surname, String phoneNumber, String email, Role role, String creditCard, String address) {
         this.name = name;
         this.surname = surname;
         this.email = email;
-        this.password = password;
-        this.role = role;
-        this.phoneNumber = phoneNumber;
-        this.creditCard = creditCard;
-        this.address = address;
-    }
-
-    public UserModel(Long id, String name, String surname, String phoneNumber, String email, String password, Role role, String creditCard, String address) {
-        this.id = id;
-        this.name = name;
-        this.surname = surname;
-        this.email = email;
-        this.password = password;
         this.role = role;
         this.phoneNumber = phoneNumber;
         this.creditCard = creditCard;
@@ -49,18 +35,18 @@ public class UserModel {
     }
 
     public static UserResponse modelToDto(UserModel userModel) {
-        return new UserResponse(userModel.getId(), userModel.getName(), userModel.getSurname(), userModel.getPhoneNumber(), userModel.getEmail(), userModel.getPassword(), userModel.getRole());
+        return new UserResponse(userModel.getId(), userModel.getName(), userModel.getSurname(), userModel.getPhoneNumber(), userModel.getEmail(), userModel.getRole());
     }
 
     public static UserModel dtoToModel(UserRequest request) {
-        return new UserModel(request.getName(), request.getSurname(), request.getPhoneNumber(), request.getEmail(), request.getPassword(), request.getRole(), request.getCreditCard(), request.getAddress());
+        return new UserModel(request.getName(), request.getSurname(), request.getPhoneNumber(), request.getEmail(), request.getRole(), request.getCreditCard(), request.getAddress());
     }
 
     public static UserEntity modelToEntity(UserModel userModel) {
-        return new UserEntity(userModel.getId(), userModel.getName(), userModel.getSurname(), userModel.getPhoneNumber(), userModel.getEmail(), userModel.getPassword(), userModel.getRole(), userModel.getCreditCard(), userModel.getAddress());
+        return new UserEntity(userModel.getId(), userModel.getName(), userModel.getSurname(), userModel.getPhoneNumber(), userModel.getEmail(), userModel.getRole(), userModel.getCreditCard(), userModel.getAddress());
     }
 
     public static UserModel entityToModel(UserEntity userEntity) {
-        return new UserModel(userEntity.getUserId(), userEntity.getName(), userEntity.getSurname(), userEntity.getEmail(), userEntity.getPassword(), userEntity.getRole(), userEntity.getPhoneNumber(), userEntity.getCreditCard(), userEntity.getAddress());
+        return new UserModel(userEntity.getUserId(), userEntity.getName(), userEntity.getSurname(), userEntity.getEmail(), userEntity.getRole(), userEntity.getPhoneNumber(), userEntity.getCreditCard(), userEntity.getAddress());
     }
 }

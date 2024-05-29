@@ -13,7 +13,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class LinkPurchaseUserVehicleResponseDTO {
     private Long id;
-    private VehicleResponse vehicleDTO;
-    private UserResponse userDTO;
-    private PurchaseResponseDTO purchaseResponseDTO;
+    private VehicleResponse vehicleResponseDTO;
+    private UserResponse userResponseDTO;
+    private PurchaseResponseDTO purchaseDTO;
 }
