@@ -10,8 +10,10 @@ import lombok.*;
 public class UserRequest {
         private String name;
         private String surname;
-        private String telephoneNumber;
+        private String phoneNumber;
         private String email;
         private String password;
         private Role role;
+        private String creditCard;
+        private String address;
 }
