@@ -73,7 +73,7 @@ public class UserServiceImpl implements UserService {
                 userEntity.setSurname(request.getSurname() == null ? userEntity.getSurname() : request.getSurname());
                 userEntity.setEmail(request.getEmail() == null ? userEntity.getEmail() : request.getEmail());
                 userEntity.setPassword(request.getPassword() == null ? userEntity.getPassword() : request.getPassword());
-                userEntity.setTelephoneNumber(request.getTelephoneNumber() == null ? userEntity.getTelephoneNumber() : request.getTelephoneNumber());
+                userEntity.setPhoneNumber(request.getPhoneNumber() == null ? userEntity.getPhoneNumber() : request.getPhoneNumber());
                 userEntity.setRole(request.getRole() == null ? userEntity.getRole() : request.getRole());
 
                 UserEntity savedUserEntity = usersRepository.saveAndFlush(userEntity);
