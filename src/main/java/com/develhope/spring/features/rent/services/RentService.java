@@ -4,7 +4,6 @@ import com.develhope.spring.BaseEntityData;
 import com.develhope.spring.features.errors.GenericErrors;
 import com.develhope.spring.features.errors.UserError;
 import com.develhope.spring.features.errors.VehicleError;
-import com.develhope.spring.features.rent.CompleteRentalResponse;
 import com.develhope.spring.features.rent.DTOs.RentalRequestDTO;
 import com.develhope.spring.features.rent.DTOs.RentalResponseDTO;
 import com.develhope.spring.features.rent.entities.LinkRentUserVehicleEntity;
@@ -12,7 +11,6 @@ import com.develhope.spring.features.rent.repositories.LinkUserVehicleRepository
 import com.develhope.spring.features.rent.entities.RentEntity;
 import com.develhope.spring.features.rent.repositories.RentRepository;
 import com.develhope.spring.features.rent.model.RentModel;
-
 import com.develhope.spring.features.user.entity.Role;
 import com.develhope.spring.features.user.entity.UserEntity;
 import com.develhope.spring.features.user.model.UserModel;
@@ -43,7 +41,6 @@ public class RentService {
     private BaseEntityData baseEntityData;
 
     public Either<GenericErrors, RentalResponseDTO> createRental(UserModel user, RentalRequestDTO request, Long vehicleId) {
-
         if (user == null) return Either.left(new UserError.UserNotFound());
         if (vehicleId == null) return Either.left(new VehicleError.VehicleNotFound());
         Optional<VehicleEntity> vehicle = vehicleRepository.findById(vehicleId);
@@ -183,9 +180,4 @@ public class RentService {
     }
 }
 //TODO:
-// 1_add a method to retrieve all rentals for one user that works for only two roles
-// 2_ add a method for all rentals by costumer accessible from all roles
-// 3_add a method for most rented vehicle/most active profile of sellers
-// 4_add query in repo
-// 5_change boolean in payed with enum?
-// 6_either
+// 1_add a method for most rented vehicle/most active profile of sellers

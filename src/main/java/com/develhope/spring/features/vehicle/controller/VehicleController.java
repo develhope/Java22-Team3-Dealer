@@ -1,24 +1,17 @@
 package com.develhope.spring.features.vehicle.controller;
 
 import com.develhope.spring.features.errors.GenericErrors;
-import com.develhope.spring.features.errors.VehicleError;
-import com.develhope.spring.features.rent.DTOs.RentalRequestDTO;
-import com.develhope.spring.features.rent.DTOs.RentalResponseDTO;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import com.develhope.spring.features.user.entity.UserEntity;
 import com.develhope.spring.features.user.model.UserModel;
 import com.develhope.spring.features.vehicle.DTOs.VehicleRequest;
 import com.develhope.spring.features.vehicle.DTOs.VehicleResponse;
 import com.develhope.spring.features.vehicle.entity.VehicleEntity;
 import com.develhope.spring.features.vehicle.service.VehicleService;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.vavr.control.Either;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
