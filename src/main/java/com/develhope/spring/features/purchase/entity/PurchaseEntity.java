@@ -28,6 +28,6 @@ public class PurchaseEntity {
     @Column(nullable = false, name = "purchaseDate")
     private OffsetDateTime purchaseDate;
 
-    @Column(nullable = false, name = "vehicle_id")
+    @Column(nullable = false, name = "user_id")
     private Long vehicleId;
 }
