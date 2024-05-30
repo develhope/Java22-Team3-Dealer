@@ -1,5 +1,6 @@
 package com.develhope.spring.features.vehicle.DTOs;
 
+import com.develhope.spring.features.vehicle.entity.VehicleStatus;
 import com.develhope.spring.features.vehicle.entity.VehicleType;
 
 import lombok.*;
@@ -23,6 +24,6 @@ public class VehicleResponse {
     private BigDecimal discount;
     private String accessories;
     private Boolean isNew;
-    private com.develhope.spring.vehicle.entity.VehicleStatus vehicleStatus;
+    private VehicleStatus vehicleStatus;
     private VehicleType vehicleType;
 }

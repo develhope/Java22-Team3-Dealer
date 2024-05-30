@@ -2,6 +2,7 @@ package com.develhope.spring.features.vehicle.model;
 
 import com.develhope.spring.features.vehicle.DTOs.VehicleRequest;
 import com.develhope.spring.features.vehicle.DTOs.VehicleResponse;
+import com.develhope.spring.features.vehicle.entity.VehicleStatus;
 import com.develhope.spring.features.vehicle.entity.VehicleType;
 
 import com.develhope.spring.features.vehicle.entity.VehicleEntity;
@@ -27,12 +28,12 @@ public class VehicleModel {
     private BigDecimal discount;
     private String accessories;
     private Boolean isNew;
-    private com.develhope.spring.vehicle.entity.VehicleStatus vehicleStatus;
+    private VehicleStatus vehicleStatus;
     private VehicleType vehicleType;
 
 
 
-    public VehicleModel(String brand, String model, int displacement, String color, int power, String transmission, Integer registrationYear, String fullType, BigDecimal price, BigDecimal discount, String accessories, Boolean isNew, com.develhope.spring.vehicle.entity.VehicleStatus vehicleStatus, VehicleType vehicleType) {
+    public VehicleModel(String brand, String model, int displacement, String color, int power, String transmission, Integer registrationYear, String fullType, BigDecimal price, BigDecimal discount, String accessories, Boolean isNew, VehicleStatus vehicleStatus, VehicleType vehicleType) {
     }
 
     public static VehicleResponse modelToDto(VehicleModel model){

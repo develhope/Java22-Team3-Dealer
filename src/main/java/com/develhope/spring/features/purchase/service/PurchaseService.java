@@ -9,7 +9,7 @@ import com.develhope.spring.features.purchase.DTO.PurchaseResponseDTO;
 import com.develhope.spring.features.purchase.entity.LinkPurchaseUserVehicleEntity;
 import com.develhope.spring.features.purchase.entity.PurchaseEntity;
 import com.develhope.spring.features.purchase.model.PurchaseModel;
-import com.develhope.spring.features.purchase.repository.LinkUserVehiclePurchRepository;
+import com.develhope.spring.features.purchase.repository.LinkUserVehiclePurchaseRepository;
 import com.develhope.spring.features.purchase.repository.PurchaseRepository;
 import com.develhope.spring.features.user.entity.Role;
 import com.develhope.spring.features.user.entity.UserEntity;
@@ -34,7 +34,7 @@ public class PurchaseService {
     @Autowired
     VehicleRepository vehicleRepository;
     @Autowired
-    LinkUserVehiclePurchRepository linkUserVehiclePurchRepository;
+    LinkUserVehiclePurchaseRepository linkUserVehiclePurchaseRepository;
     @Autowired
     UsersRepository usersRepository;
     Logger logger = LoggerFactory.getLogger(PurchaseService.class);
@@ -52,7 +52,7 @@ public class PurchaseService {
             PurchaseModel model = PurchaseModel.dtoToModel(request);
             PurchaseEntity entity = PurchaseModel.modelToEntity(model);
             PurchaseEntity savedEntity = purchaseRepository.saveAndFlush(entity);
-            linkUserVehiclePurchRepository.save(new LinkPurchaseUserVehicleEntity(UserModel.modelToEntity(user), vehicle.get(), savedEntity));
+            linkUserVehiclePurchaseRepository.save(new LinkPurchaseUserVehicleEntity(UserModel.modelToEntity(user), vehicle.get(), savedEntity));
             PurchaseModel savedModel = PurchaseModel.entityToModel(savedEntity);
             logger.info("Creation of new purchase finished{}", baseEntityData.getCreatedAt());
             return Either.right(PurchaseModel.modelToDTO(savedModel));
@@ -69,8 +69,8 @@ public class PurchaseService {
                     if (purchaseToDelete.isPresent()) {
                         logger.info("Purchase deleting started at: {}", baseEntityData.getDeletedAt());
                         purchaseRepository.delete(purchaseToDelete.get());
-//                        Optional<LinkPurchaseUserVehicleEntity> link = linkUserVehiclePurchRepository.findByPurchase_Id(purchaseId);
-//                        link.ifPresent(linkRentUserVehicleEntity -> linkUserVehiclePurchRepository.delete(linkRentUserVehicleEntity));
+//                        Optional<LinkPurchaseUserVehicleEntity> link = linkUserVehiclePurchaseRepository.findByPurchase_Id(purchaseId);
+//                        link.ifPresent(linkRentUserVehicleEntity -> linkUserVehiclePurchaseRepository.delete(linkRentUserVehicleEntity));
                     }
                 }
             } catch (Exception e) {
@@ -108,19 +108,19 @@ public class PurchaseService {
 
     public Either<GenericErrors, LinkPurchaseUserVehicleEntity> updateLinkVehicleById(UserModel user, Long purchaseId, VehicleRequest vehicleRequest) {
         if (purchaseId == null || vehicleRequest == null) return Either.left(new GenericErrors());
-        Optional<LinkPurchaseUserVehicleEntity> purchaseLink = linkUserVehiclePurchRepository.findByPurchase_Id(purchaseId);
+        Optional<LinkPurchaseUserVehicleEntity> purchaseLink = linkUserVehiclePurchaseRepository.findByPurchase_Id(purchaseId);
         if (purchaseLink.isEmpty()) return null;
         Optional<VehicleEntity> vehicleEntity = vehicleRepository.findById(user.getId());
         if (vehicleEntity.isEmpty()) return null;
 
         LinkPurchaseUserVehicleEntity newLink = purchaseLink.get();
         newLink.setVehicleEntity(vehicleEntity.get());
-        return Either.right(linkUserVehiclePurchRepository.saveAndFlush(newLink));
+        return Either.right(linkUserVehiclePurchaseRepository.saveAndFlush(newLink));
     }
 
     public Either<GenericErrors, LinkPurchaseUserVehicleEntity> updateLinkUserById(UserModel user, Long purchaseId) {
         if (purchaseId == null || user == null) return Either.left(new GenericErrors(432, "Not found"));
-        Optional<LinkPurchaseUserVehicleEntity> purchaseLink = linkUserVehiclePurchRepository.findByPurchase_Id(purchaseId);
+        Optional<LinkPurchaseUserVehicleEntity> purchaseLink = linkUserVehiclePurchaseRepository.findByPurchase_Id(purchaseId);
         if (purchaseLink.isEmpty())
             return Either.left(new GenericErrors(433, "Impossible to retrieve purchase for the id: " + purchaseId));
         Optional<UserEntity> userEntity = usersRepository.findById(user.getId());
@@ -128,7 +128,7 @@ public class PurchaseService {
 
         LinkPurchaseUserVehicleEntity newLink = purchaseLink.get();
         newLink.setUserEntity(userEntity.get());
-        return Either.right(linkUserVehiclePurchRepository.saveAndFlush(newLink));
+        return Either.right(linkUserVehiclePurchaseRepository.saveAndFlush(newLink));
     }
 
     public Either<GenericErrors, PurchaseResponseDTO> getSinglePurchase(UserModel user, Long purchaseId) {
@@ -153,7 +153,7 @@ public class PurchaseService {
 //                    List<PurchaseEntity> purchase = purchaseRepository.findAll();
 //                    return extractPurchaseResponse(purchase);
 //                } else if(user.getRole() == Role.CUSTOMER) {
-//                    List<LinkPurchaseUserVehicleEntity> customerPurchase = linkUserVehiclePurchRepository.findByUser_Id(user.getId()).stream().toList();
+//                    List<LinkPurchaseUserVehicleEntity> customerPurchase = linkUserVehiclePurchaseRepository.findByUser_Id(user.getId()).stream().toList();
 //                    List<PurchaseEntity> purchases = customerPurchase.stream().map(LinkPurchaseUserVehicleEntity::getPurchaseEntity).toList();
 //                    return extractPurchaseResponse(purchases);
 //                } else {

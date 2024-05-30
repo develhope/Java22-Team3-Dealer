@@ -2,6 +2,7 @@ package com.develhope.spring.features.orders.repository;
 
 
 import com.develhope.spring.features.orders.entity.LinkOrderUserVehicleEntity;
+import com.develhope.spring.features.vehicle.entity.VehicleEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -22,4 +23,7 @@ public interface OrderVehicleLinkRepository extends JpaRepository<LinkOrderUserV
 
     @Query(value = "SELECT l FROM LinkOrderUserVehicleEntity l INNER JOIN l.vehicleEntity v WHERE v.id = :vehicleId")
     Optional<LinkOrderUserVehicleEntity> findByVehicle_Id(Long vehicleId);
+
+    @Query("SELECT v FROM Order o JOIN o.vehicle v GROUP BY v ORDER BY COUNT(v) DESC")
+    List<VehicleEntity> findMostOrderedVehicle();
 }
