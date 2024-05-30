@@ -6,10 +6,12 @@ import com.develhope.spring.features.purchase.entity.PurchaseEntity;
 import com.develhope.spring.features.purchase.repository.LinkUserVehiclePurchaseRepository;
 import com.develhope.spring.features.purchase.repository.PurchaseRepository;
 import com.develhope.spring.features.vehicle.entity.VehicleEntity;
+import com.develhope.spring.features.vehicle.entity.VehicleStatus;
 import com.develhope.spring.features.vehicle.repository.VehicleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -53,9 +55,21 @@ public class StatisticService {
         return purchaseRepository.findTotalRevenueInPeriod(startDate, endDate);
     }
 
-    // Verificare i veicoli attualmente ordinabili/acquistabili/non disponibili/nuovi/usati
+    // Verificare i veicoli attualmente ordinabili/acquistabili
     public List<VehicleEntity> getAvailableVehicles() {
-        return vehicleRepository.findAll().stream().filter(VehicleEntity::getVehicleStatus).collect(Collectors.toList());
+        List<VehicleEntity> vehicles = vehicleRepository.findAll();
+        List<VehicleEntity> available = new ArrayList<>();
+        List<VehicleEntity> notAvailable = new ArrayList<>();
+        for(VehicleEntity vehicle : vehicles){
+            if(vehicle.getVehicleStatus() == VehicleStatus.AVAILABLE){
+                available.add(vehicle);
+                return available;
+            } else {
+                notAvailable.add(vehicle);
+                return notAvailable;
+            }
+        }
+        return available;
     }
 
     public List<VehicleEntity> getNewVehicles() {
