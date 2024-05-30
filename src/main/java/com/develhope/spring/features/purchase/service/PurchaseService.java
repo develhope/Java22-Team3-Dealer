@@ -69,8 +69,8 @@ public class PurchaseService {
                     if (purchaseToDelete.isPresent()) {
                         logger.info("Purchase deleting started at: {}", baseEntityData.getDeletedAt());
                         purchaseRepository.delete(purchaseToDelete.get());
-                        Optional<LinkPurchaseUserVehicleEntity> link = linkUserVehiclePurchRepository.findByPurchase_Id(purchaseId);
-                        link.ifPresent(linkRentUserVehicleEntity -> linkUserVehiclePurchRepository.delete(linkRentUserVehicleEntity));
+//                        Optional<LinkPurchaseUserVehicleEntity> link = linkUserVehiclePurchRepository.findByPurchase_Id(purchaseId);
+//                        link.ifPresent(linkRentUserVehicleEntity -> linkUserVehiclePurchRepository.delete(linkRentUserVehicleEntity));
                     }
                 }
             } catch (Exception e) {
