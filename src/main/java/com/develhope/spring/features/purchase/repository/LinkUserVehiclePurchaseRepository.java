@@ -18,20 +18,20 @@ import java.util.Optional;
 @Repository
 public interface LinkUserVehiclePurchaseRepository extends JpaRepository<LinkPurchaseUserVehicleEntity,Long> {
     List<LinkPurchaseUserVehicleEntity> findUserEntitiesByPurchaseEntity_Id(Long purchaseId);
-    @Query("SELECT v FROM Purchase p JOIN p.vehicle v WHERE p.purchaseDate BETWEEN :startDate AND :endDate GROUP BY v ORDER BY COUNT(v) DESC")
-    List<VehicleEntity> findTopSoldVehicleInPeriod(@Param("startDate") LocalDateTime startDate, @Param("endDate") LocalDateTime endDate);
+    @Query(value = "SELECT v FROM Purchase p JOIN p.vehicle v WHERE p.purchaseDate BETWEEN :startDate AND :endDate GROUP BY v ORDER BY COUNT(v) DESC",nativeQuery = true)
+    List<VehicleEntity> findTopSoldVehicleInPeriod( LocalDateTime startDate, LocalDateTime endDate);
 
-    @Query("SELECT v FROM Purchase p JOIN p.vehicle v ORDER BY v.price DESC")
+    @Query(value = "SELECT v FROM Purchase p JOIN p.vehicle v ORDER BY v.price DESC", nativeQuery = true)
     List<VehicleEntity> findMostValuableSoldVehicle();
 
-    @Query("SELECT p FROM Purchase p WHERE p.user.id = :sellerId AND p.purchaseDate BETWEEN :startDate AND :endDate")
-    List<PurchaseEntity> findSalesBySellerInPeriod(@Param("sellerId") Long sellerId, @Param("startDate") LocalDateTime startDate, @Param("endDate") LocalDateTime endDate);
+    @Query(value = "SELECT p FROM Purchase p WHERE p.user.id = :sellerId AND p.purchaseDate BETWEEN :startDate AND :endDate",nativeQuery = true)
+    List<PurchaseEntity> findSalesBySellerInPeriod( Long sellerId,  LocalDateTime startDate, LocalDateTime endDate);
 
-    @Query("SELECT SUM(p.amount) FROM Purchase p WHERE p.user.id = :sellerId AND p.purchaseDate BETWEEN :startDate AND :endDate")
-    Double findRevenueBySellerInPeriod(@Param("sellerId") Long sellerId, @Param("startDate") LocalDateTime startDate, @Param("endDate") LocalDateTime endDate);
+    @Query(value = "SELECT SUM(p.amount) FROM Purchase p WHERE p.user.id = :sellerId AND p.purchaseDate BETWEEN :startDate AND :endDate",nativeQuery = true)
+    Double findRevenueBySellerInPeriod( Long sellerId, LocalDateTime startDate, LocalDateTime endDate);
 
-    @Query("SELECT SUM(p.amount) FROM Purchase p WHERE p.purchaseDate BETWEEN :startDate AND :endDate")
-    Double findTotalRevenueInPeriod(@Param("startDate") LocalDateTime startDate, @Param("endDate") LocalDateTime endDate);
+    @Query(value = "SELECT SUM(p.amount) FROM Purchase p WHERE p.purchaseDate BETWEEN :startDate AND :endDate",nativeQuery = true)
+    Double findTotalRevenueInPeriod( LocalDateTime startDate,  LocalDateTime endDate);
 
     @Query(value = "SELECT * FROM `link user vehicles on purchase details` luvord Join purchase p on p.id = luvord.purchase_id ", nativeQuery = true)
     Optional<LinkPurchaseUserVehicleEntity> findByPurchase_Id(Long purchaseId);
