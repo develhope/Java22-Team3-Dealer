@@ -15,12 +15,12 @@ import java.util.Optional;
 public interface LinkUserVehiclePurchRepository extends JpaRepository<LinkPurchaseUserVehicleEntity,Long> {
     List<LinkPurchaseUserVehicleEntity> findUserEntitiesByPurchaseEntity_Id(Long purchaseId);
 
-    @Query(value = "SELECT * FROM `link user vehicles on purchase details` luvord Join rental r on r.id = luvord.purchase_id ", nativeQuery = true)
-    Optional<LinkPurchaseUserVehicleEntity> findByPurchase_Id(Long purchaseId);
-
-    @Query(value = "SELECT * FROM `link user vehicles on purchase details` luvord Join vehicle_entity ve on ve.vehicle_id = luvord.vehicle_id ", nativeQuery = true)
-    Optional<LinkPurchaseUserVehicleEntity> findByVehicle_Id(Long vehicleId);
-
-    @Query(value = "SELECT * FROM `link user vehicles on purchases details` luvord Join user_entity ue on ue.user_id = luvord.user_id ", nativeQuery = true)
-    Collection<LinkPurchaseUserVehicleEntity> findByUser_Id(Long UserId);
+//    @Query(value = "SELECT * FROM `link user vehicles on purchase details` luvord Join rental r on r.id = luvord.purchase_id ", nativeQuery = true)
+//    Optional<LinkPurchaseUserVehicleEntity> findByPurchase_Id(Long purchaseId);
+//
+//    @Query(value = "SELECT * FROM `link user vehicles on purchase details` luvord Join vehicle_entity ve on ve.vehicle_id = luvord.vehicle_id ", nativeQuery = true)
+//    Optional<LinkPurchaseUserVehicleEntity> findByVehicle_Id(Long vehicleId);
+//
+//    @Query(value = "SELECT * FROM `link user vehicles on purchases details` luvord Join user_entity ue on ue.user_id = luvord.user_id ", nativeQuery = true)
+//    Collection<LinkPurchaseUserVehicleEntity> findByUser_Id(Long UserId);
 }
