@@ -6,6 +6,7 @@ import com.develhope.spring.features.purchase.entity.PurchaseEntity;
 import lombok.*;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 
 @Getter
@@ -16,12 +17,12 @@ public class PurchaseModel {
     private Long id;
     private BigDecimal purchaseDeposit;
     private Boolean isPayed;
-    private OffsetDateTime purchaseDate;
+    private LocalDateTime purchaseDate;
     private Long costumerId;
     private Long sellerId;
     private Long vehicleId;
 
-    public PurchaseModel(BigDecimal purchaseDeposit, Boolean isPayed, OffsetDateTime purchaseDate, Long costumerId, Long sellerId, Long vehicleId) {
+    public PurchaseModel(BigDecimal purchaseDeposit, Boolean isPayed, LocalDateTime purchaseDate, Long costumerId, Long sellerId, Long vehicleId) {
         this.purchaseDeposit = purchaseDeposit;
         this.isPayed = isPayed;
         this.purchaseDate = purchaseDate;

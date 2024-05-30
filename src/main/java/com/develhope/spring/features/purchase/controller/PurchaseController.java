@@ -6,6 +6,7 @@ import com.develhope.spring.features.purchase.DTO.PurchaseResponseDTO;
 import com.develhope.spring.features.purchase.service.PurchaseService;
 import com.develhope.spring.features.user.entity.UserEntity;
 import com.develhope.spring.features.user.model.UserModel;
+import com.develhope.spring.features.vehicle.entity.VehicleEntity;
 import io.vavr.control.Either;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,8 +24,8 @@ public class PurchaseController {
     private PurchaseService purchaseService;
 
     @PostMapping("/create")
-    public ResponseEntity<?> createPurchase(@AuthenticationPrincipal UserEntity userEntity, @RequestBody PurchaseRequestDTO request) {
-        Either<GenericErrors, PurchaseResponseDTO> result = purchaseService.createPurchase(UserModel.entityToModel(userEntity), request);
+    public ResponseEntity<?> createPurchase(@AuthenticationPrincipal UserEntity userEntity, @RequestBody PurchaseRequestDTO request, @RequestBody Long vehicleId) {
+        Either<GenericErrors, PurchaseResponseDTO> result = purchaseService.createPurchase(UserModel.entityToModel(userEntity), request, vehicleId);
         return result.fold(
                 error -> new ResponseEntity<>(new GenericErrors(error.getCode(), "Error creating new purchase"), HttpStatus.valueOf(error.getCode())),
                 created -> new ResponseEntity<>(created, HttpStatus.CREATED)
@@ -42,7 +43,7 @@ public class PurchaseController {
 
     @PutMapping("/update/{purchaseId}")
     public ResponseEntity<?> updatePurchase(@AuthenticationPrincipal UserEntity userEntity, @PathVariable Long purchaseId, @RequestBody PurchaseRequestDTO request) {
-        Either<GenericErrors, PurchaseResponseDTO> result = purchaseService.updatePurchaseById(UserModel.entityToModel(userEntity), purchaseId, request);
+        Either<GenericErrors, PurchaseResponseDTO> result = purchaseService.updateLinkPurchaseById(UserModel.entityToModel(userEntity), purchaseId, request);
         return result.fold(
                 error -> new ResponseEntity<>(new GenericErrors(error.getCode(), error.getMessage()), HttpStatus.valueOf(error.getCode())),
                 updated -> new ResponseEntity<>(updated, HttpStatus.OK)
@@ -51,7 +52,7 @@ public class PurchaseController {
 
     @GetMapping("/getSingle/{purchaseId}")
     public ResponseEntity<?> getSinglePurchase(@AuthenticationPrincipal UserEntity userEntity, @PathVariable Long purchaseId) {
-        Either<GenericErrors, PurchaseResponseDTO> result = purchaseService.getPurchaseById(UserModel.entityToModel(userEntity), purchaseId);
+        Either<GenericErrors, PurchaseResponseDTO> result = purchaseService.getSinglePurchase(UserModel.entityToModel(userEntity), purchaseId);
         return result.fold(
                 error -> new ResponseEntity<>(new GenericErrors(error.getCode(), error.getMessage()), HttpStatus.valueOf(error.getCode())),
                 single -> new ResponseEntity<>(single, HttpStatus.OK)
@@ -60,7 +61,7 @@ public class PurchaseController {
 
     @GetMapping("/getAll")
     public ResponseEntity<?> getAllPurchases(@AuthenticationPrincipal UserEntity userEntity) {
-        Either<GenericErrors, List<PurchaseResponseDTO>> result = purchaseService.getAllPurchases(UserModel.entityToModel(userEntity));
+        Either<GenericErrors, List<PurchaseResponseDTO>> result = purchaseService.getAllByUserRole(UserModel.entityToModel(userEntity));
         return result.fold(
                 error -> new ResponseEntity<>(new GenericErrors(error.getCode(), error.getMessage()), HttpStatus.valueOf(error.getCode())),
                 purchases -> new ResponseEntity<>(purchases, HttpStatus.OK)
