@@ -23,17 +23,17 @@ public class UserEntity implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;
-    @Column(nullable = false, name = "Name")
+    @Column(nullable = false, name = "name")
     private String name;
-    @Column(nullable = false, name = "Surname")
+    @Column(nullable = false, name = "surname")
     private String surname;
-    @Column(nullable = false, name = "telephone number")
+    @Column(nullable = false, name = "telephoneNumber")
     private String phoneNumber;
-    @Column(unique = true, name = "Email")
+    @Column(unique = true, name = "email")
     private String email;
     @Column(nullable = false)
     private String password;
-    @Column
+    @Column(nullable = false, name = "role")
     @Enumerated(EnumType.STRING)
     private Role role;
     @Column(name = "credit_card")
