@@ -1,17 +1,21 @@
 package com.develhope.spring.features.purchase.DTO;
 
-import lombok.*;
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@NoArgsConstructor
-@AllArgsConstructor
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class PurchaseRequestDTO {
     private BigDecimal purchaseDeposit;
     private Boolean isPayed;
-    private Long vehicleID;
-    private Long userId;
-    private OffsetDateTime orderDate;
+    private OffsetDateTime purchaseDate;
+    private Long costumerId;
+    private Long sellerId;
+    private Long vehicleId;
 }
