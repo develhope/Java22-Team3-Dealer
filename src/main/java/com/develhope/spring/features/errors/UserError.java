@@ -22,12 +22,18 @@ public class UserError {
 
     public static class UserIsEmpty extends GenericErrors {
         public UserIsEmpty() {
-            super(435, "User is empty");
+            super(436, "User is empty");
         }
     }
     public static class DefaultUser extends GenericErrors {
         public DefaultUser() {
-            super(435, "User is default, impossible to execute any action");
+            super(437, "User is default, impossible to execute any action");
+        }
+    }
+
+    public static class InvalidUser extends GenericErrors {
+        public InvalidUser() {
+            super(438, "Access denied, action executable only by admins");
         }
     }
 }

@@ -14,5 +14,5 @@ import lombok.Setter;
 public class LinkPurchaseUserVehicleRequestDTO {
     private VehicleRequest vehicleRequestDTO;
     private UserRequest userRequestDTO;
-    private PurchaseResponseDTO purchaseDTO;
+    private PurchaseRequestDTO purchaseDTO;
 }

@@ -10,7 +10,6 @@ import java.time.OffsetDateTime;
 @Table(name = "purchases")
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
 @Getter
 @Setter
 public class PurchaseEntity {

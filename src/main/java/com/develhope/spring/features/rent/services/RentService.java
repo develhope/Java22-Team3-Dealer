@@ -48,18 +48,21 @@ public class RentService {
         if (vehicleId == null) return Either.left(new VehicleError.VehicleNotFound());
         Optional<VehicleEntity> vehicle = vehicleRepository.findById(vehicleId);
         if (vehicle.isEmpty()) return Either.left(new GenericErrors(434, "This vehicle is empty"));
-        if (user.getRole() == Role.SALESMAN || user.getRole() == Role.ADMIN || user.getRole() == Role.CUSTOMER) ;
-        try {
-            logger.info("Creation of new rental started");
-            RentModel model = RentModel.dtoToModel(request);
-            RentEntity entity = RentModel.modelToEntity(model);
-            RentEntity savedEntity = rentRepository.saveAndFlush(entity);
-            linkUserVehicleRepository.save(new LinkRentUserVehicleEntity(UserModel.modelToEntity(user), vehicle.get(), savedEntity));
-            RentModel savedModel = RentModel.entityToModel(savedEntity);
-            logger.info("Creation of new rental finished{}", baseEntityData.getCreatedAt());
-            return Either.right(RentModel.modelToDTO(savedModel));
-        } catch (Exception e) {
-            return Either.left(new GenericErrors(435, "Impossible to save " + e.getMessage()));
+        if (user.getRole() == Role.SALESMAN || user.getRole() == Role.ADMIN || user.getRole() == Role.CUSTOMER){
+            try {
+                logger.info("Creation of new rental started");
+                RentModel model = RentModel.dtoToModel(request);
+                RentEntity entity = RentModel.modelToEntity(model);
+                RentEntity savedEntity = rentRepository.saveAndFlush(entity);
+                linkUserVehicleRepository.save(new LinkRentUserVehicleEntity(UserModel.modelToEntity(user), vehicle.get(), savedEntity));
+                RentModel savedModel = RentModel.entityToModel(savedEntity);
+                logger.info("Creation of new rental finished{}", baseEntityData.getCreatedAt());
+                return Either.right(RentModel.modelToDTO(savedModel));
+            } catch (Exception e) {
+                return Either.left(new GenericErrors(435, "Impossible to save " + e.getMessage()));
+            }
+        }else {
+            return Either.left(new UserError.InvalidUser());
         }
     }
 
@@ -184,8 +187,3 @@ public class RentService {
 }
 //TODO:
 // 1_add a method to retrieve all rentals for one user that works for only two roles
-// 2_ add a method for all rentals by costumer accessible from all roles
-// 3_add a method for most rented vehicle/most active profile of sellers
-// 4_add query in repo
-// 5_change boolean in payed with enum?
-// 6_either
