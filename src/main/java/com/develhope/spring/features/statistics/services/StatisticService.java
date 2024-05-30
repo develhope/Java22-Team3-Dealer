@@ -1,4 +1,4 @@
-package com.develhope.spring.features.statistics;
+package com.develhope.spring.features.statistics.services;
 
 import com.develhope.spring.features.errors.GenericErrors;
 import com.develhope.spring.features.errors.UserError;
