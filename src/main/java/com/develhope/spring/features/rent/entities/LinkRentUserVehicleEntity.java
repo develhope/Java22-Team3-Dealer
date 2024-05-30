@@ -16,11 +16,11 @@ public class LinkRentUserVehicleEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "user_id")
     private UserEntity userEntity;
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "vehicle_id")
     private VehicleEntity vehicleEntity;
 
