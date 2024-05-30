@@ -145,27 +145,27 @@ public class PurchaseService {
             }
         return null;
     }
-
-    public Either<GenericErrors, List<PurchaseResponseDTO>> getAllByUserRole(UserModel user) {
-        if (user != null) {
-            try {
-                if (user.getRole() == Role.ADMIN || user.getRole() == Role.SALESMAN) {
-                    List<PurchaseEntity> purchase = purchaseRepository.findAll();
-                    return extractPurchaseResponse(purchase);
-                } else if(user.getRole() == Role.CUSTOMER) {
-                    List<LinkPurchaseUserVehicleEntity> customerPurchase = linkUserVehiclePurchRepository.findByUser_Id(user.getId()).stream().toList();
-                    List<PurchaseEntity> purchases = customerPurchase.stream().map(LinkPurchaseUserVehicleEntity::getPurchaseEntity).toList();
-                    return extractPurchaseResponse(purchases);
-                } else {
-                    return Either.left(new UserError.DefaultUser());
-                }
-            } catch (Exception e) {
-                return Either.left(new GenericErrors(433, "Error during all rentals retrieving"));
-            }
-        }else{
-            return Either.left(new UserError.UserIsEmpty());
-        }
-    }
+//
+//    public Either<GenericErrors, List<PurchaseResponseDTO>> getAllByUserRole(UserModel user) {
+//        if (user != null) {
+//            try {
+//                if (user.getRole() == Role.ADMIN || user.getRole() == Role.SALESMAN) {
+//                    List<PurchaseEntity> purchase = purchaseRepository.findAll();
+//                    return extractPurchaseResponse(purchase);
+//                } else if(user.getRole() == Role.CUSTOMER) {
+//                    List<LinkPurchaseUserVehicleEntity> customerPurchase = linkUserVehiclePurchRepository.findByUser_Id(user.getId()).stream().toList();
+//                    List<PurchaseEntity> purchases = customerPurchase.stream().map(LinkPurchaseUserVehicleEntity::getPurchaseEntity).toList();
+//                    return extractPurchaseResponse(purchases);
+//                } else {
+//                    return Either.left(new UserError.DefaultUser());
+//                }
+//            } catch (Exception e) {
+//                return Either.left(new GenericErrors(433, "Error during all rentals retrieving"));
+//            }
+//        }else{
+//            return Either.left(new UserError.UserIsEmpty());
+//        }
+//    }
 
     private Either<GenericErrors, List<PurchaseResponseDTO>> extractPurchaseResponse(List<PurchaseEntity> purchase) {
         if (purchase.isEmpty()) {
