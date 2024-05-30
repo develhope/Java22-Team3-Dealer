@@ -89,7 +89,7 @@ public class PurchaseService {
                 if (user.getRole() == Role.SALESMAN || user.getRole() == Role.ADMIN || user.getRole() == Role.CUSTOMER) {
                     Optional<PurchaseEntity> purchase = purchaseRepository.findById(purchaseId);
                     if (purchase.isPresent()) {
-                        logger.info("The purcase updating process started at:{}", baseEntityData.getUpdatedAt());
+                        logger.info("The purchase updating process started at:{}", baseEntityData.getUpdatedAt());
                         purchase.get().setPurchaseDeposit(request.getPurchaseDeposit() == null ? purchase.get().getPurchaseDeposit() : request.getPurchaseDeposit());
                         purchase.get().setPurchaseDate(request.getOrderDate() == null ? purchase.get().getPurchaseDate() : request.getOrderDate());
                         purchase.get().setIsPayed(request.getIsPayed() == null ? purchase.get().getIsPayed() : request.getIsPayed());

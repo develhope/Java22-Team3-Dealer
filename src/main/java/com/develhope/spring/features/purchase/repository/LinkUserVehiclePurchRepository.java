@@ -12,7 +12,6 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-@EnableJpaRepositories
 public interface LinkUserVehiclePurchRepository extends JpaRepository<LinkPurchaseUserVehicleEntity,Long> {
     List<LinkPurchaseUserVehicleEntity> findUserEntitiesByPurchaseEntity_Id(Long purchaseId);
 

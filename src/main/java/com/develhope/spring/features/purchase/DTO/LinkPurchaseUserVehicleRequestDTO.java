@@ -1,8 +1,7 @@
 package com.develhope.spring.features.purchase.DTO;
 
-import com.develhope.spring.features.rent.DTOs.RentalResponseDTO;
-import com.develhope.spring.features.user.DTOs.UserResponse;
-import com.develhope.spring.features.vehicle.DTOs.VehicleResponse;
+import com.develhope.spring.features.user.DTOs.UserRequest;
+import com.develhope.spring.features.vehicle.DTOs.VehicleRequest;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,7 +12,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class LinkPurchaseUserVehicleRequestDTO {
-    private VehicleResponse vehicleDTO;
-    private UserResponse userDTO;
-    private PurchaseResponseDTO purchaseResponseDTO;
+    private VehicleRequest vehicleRequestDTO;
+    private UserRequest userRequestDTO;
+    private PurchaseResponseDTO purchaseDTO;
 }

@@ -3,10 +3,6 @@ package com.develhope.spring.features.purchase.model;
 import com.develhope.spring.features.purchase.DTO.LinkPurchaseUserVehicleRequestDTO;
 import com.develhope.spring.features.purchase.DTO.LinkPurchaseUserVehicleResponseDTO;
 import com.develhope.spring.features.purchase.entity.LinkPurchaseUserVehicleEntity;
-import com.develhope.spring.features.rent.DTOs.LinkRentUserVehicleRequestDTO;
-import com.develhope.spring.features.rent.DTOs.LinkRentUserVehicleResponseDTO;
-import com.develhope.spring.features.rent.entities.LinkRentUserVehicleEntity;
-import com.develhope.spring.features.rent.model.LinkRentUserVehicleModel;
 import com.develhope.spring.features.user.model.UserModel;
 import com.develhope.spring.features.vehicle.model.VehicleModel;
 import lombok.AllArgsConstructor;
@@ -31,17 +27,17 @@ public class LinkPurchaseUserVehicleModel {
     }
 
     public LinkPurchaseUserVehicleResponseDTO modelToDto(LinkPurchaseUserVehicleModel model) {
-        return new LinkPurchaseUserVehicleResponseDTO();
+        return new LinkPurchaseUserVehicleResponseDTO(model.getId(),VehicleModel.modelToDto(model.getVehicle()),UserModel.modelToDto(model.getUser()), PurchaseModel.modelToDTO(model.getPurchaseModel()));
     }
 
-    public LinkPurchaseUserVehicleModel modelToDTO(LinkPurchaseUserVehicleRequestDTO request){
-        return new LinkPurchaseUserVehicleModel();
+    public LinkPurchaseUserVehicleModel dtoToModel(LinkPurchaseUserVehicleRequestDTO request){
+        return new LinkPurchaseUserVehicleModel(VehicleModel.dtoToModel(request.getVehicleRequestDTO()),UserModel.dtoToModel(request.getUserRequestDTO()),PurchaseModel.dtoToModel(request.getPurchaseDTO()));
     }
 
     public LinkPurchaseUserVehicleEntity modelToEntity(LinkPurchaseUserVehicleModel model) {
-        return new LinkPurchaseUserVehicleEntity();
+        return new LinkPurchaseUserVehicleEntity(model.getId(), UserModel.modelToEntity(model.getUser()),VehicleModel.modelToEntity(model.getVehicle()),PurchaseModel.modelToEntity(model.getPurchaseModel()));
     }
     public LinkPurchaseUserVehicleModel entityToModel(LinkPurchaseUserVehicleEntity entity){
-        return new LinkPurchaseUserVehicleModel();
+        return new LinkPurchaseUserVehicleModel(entity.getId(), VehicleModel.entityToModel(entity.getVehicleEntity()),UserModel.entityToModel(entity.getUserEntity()),PurchaseModel.entityToModel(entity.getPurchaseEntity()));
     }
 }

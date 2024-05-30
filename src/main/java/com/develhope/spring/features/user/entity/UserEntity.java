@@ -41,6 +41,10 @@ public class UserEntity implements UserDetails {
     @Column(name = "address")
     private String address;
 
+    public UserEntity(Long id, String name, String surname, String phoneNumber, String email, Role role, String creditCard, String address) {
+
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(role.name()));

@@ -13,5 +13,9 @@ public class PurchaseResponseDTO {
     private BigDecimal purchaseDeposit;
     private boolean isPayed;
     private Long vehicleId;
+    private Long userId;
     private OffsetDateTime purchaseDate;
+
+    public PurchaseResponseDTO(Long id, BigDecimal purchaseDeposit, Boolean isPayed, Long vehicleId, OffsetDateTime purchaseDate, Long userId) {
+    }
 }
