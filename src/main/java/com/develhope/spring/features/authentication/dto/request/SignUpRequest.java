@@ -17,5 +17,5 @@ public class SignUpRequest {
     private String role;
     private String phoneNumber;
     private String address;
-    private String creditCard;
+    private Long creditCard;
 }

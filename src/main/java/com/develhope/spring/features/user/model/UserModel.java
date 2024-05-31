@@ -14,17 +14,16 @@ import lombok.Setter;
 @Getter
 @Setter
 public class UserModel {
-
     private Long id;
     private String name;
     private String surname;
     private String email;
     private Role role;
     private String phoneNumber;
-    private String creditCard;
+    private Long creditCard;
     private String address;
 
-    public UserModel(String name, String surname, String phoneNumber, String email, Role role, String creditCard, String address) {
+    public UserModel(String name, String surname, String phoneNumber, String email, Role role, Long creditCard, String address) {
         this.name = name;
         this.surname = surname;
         this.email = email;
@@ -35,7 +34,7 @@ public class UserModel {
     }
 
     public static UserResponse modelToDto(UserModel userModel) {
-        return new UserResponse(userModel.getId(), userModel.getName(), userModel.getSurname(), userModel.getPhoneNumber(), userModel.getEmail(), userModel.getRole());
+        return new UserResponse(userModel.getId(), userModel.getName(), userModel.getSurname(), userModel.getPhoneNumber(), userModel.getEmail(), userModel.getRole(), userModel.getCreditCard(),userModel.getAddress());
     }
 
     public static UserModel dtoToModel(UserRequest request) {
