@@ -14,6 +14,6 @@ public class UserRequest {
         private String email;
         private String password;
         private Role role;
-        private String creditCard;
+        private Long creditCard;
         private String address;
 }

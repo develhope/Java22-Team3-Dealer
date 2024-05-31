@@ -37,11 +37,11 @@ public class UserEntity implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Role role;
     @Column(name = "credit_card")
-    private String creditCard;
+    private Long creditCard;
     @Column(name = "address")
     private String address;
 
-    public UserEntity(Long id, String name, String surname, String phoneNumber, String email, Role role, String creditCard, String address) {
+    public UserEntity(Long id, String name, String surname, String phoneNumber, String email, Role role, Long creditCard, String address) {
 
     }
 
@@ -85,7 +85,8 @@ public class UserEntity implements UserDetails {
                 ", telephoneNumber='" + phoneNumber + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
-                ", role=" + role +
+                ", role=" + role + '\'' +
+                ", credit card="+creditCard+
                 '}';
     }
 

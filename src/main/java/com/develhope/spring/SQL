@@ -1,12 +1,6 @@
-INSERT INTO users (email, first_name, last_name, password, role)
-VALUES ('admin1@motorw.com', 'Admin1', 'Viola', 'admin123', 'ADMIN'),
-('admin2@motorw.com', 'Admin2', 'Verdi', 'admin456', 'ADMIN')
+INSERT INTO `_user` (address,credit_card,email,name,password,telephone_number,`role`,surname)
+VALUES ('via dei platani 2','1234567890','customer1@gmail.com','Mario','123456','3459607968','SALESMAN','Rossi')
 
-INSERT INTO users (credit_card, email, first_name, last_name, password, phone, address, role)
-VALUES ('1234567890', 'customer1@gmail.com', 'Mario', 'Rossi', 'qualcosa123'', '3456473829', 'via dei don giulio 2, timbuctu', 'CUSTOMER'),
-('1357924680', 'customer2@gmail.com', 'Giovanna', 'Bianchi', 'qualcosa456',, '33364758659', 'via dei poco di buono 17, qualcheposto', 'CUSTOMER'),
-('4567890123', 'customer3@gmail.com', 'Ciro', 'Gialli', 'qualcosa123789',  '3214253648', 'via molto bella 7, moltobello', 'CUSTOMER')
-
-INSERT INTO users (phone,sales_number,address,email,first_name,last_name,password, role)
-VALUES ('3657687960', 0, 'via dei fiorellini 2, Nonunbelposto', 'salesman1@motorw.com', 'Salesman1', 'Viola', 'salesman123', 'SALESMAN'),
-('3459607968', 0, 'via dei platani 2, Riposto', 'salesman2@motorw.com', 'Salesman2', 'Giallino', 'salesman456', 'SALESMAN')
+INSERT INTO vehicle_entity (accessories,brand,color,discount,displacement,full_type,is_new,model,power,price,registration_year,transmission,vehicle_status,vehicle_type)
+values
+('none','BMW','red','1000','500','gasoline',1,'coupe','8000','1200000','2023','none','AVAILABLE','CAR')
